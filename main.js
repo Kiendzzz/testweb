@@ -1124,6 +1124,8 @@ document.addEventListener('DOMContentLoaded', function() {
 // ================== TKB FUNCTIONS ==================
 let tkbFiles = [];
 let tkbCurrentFilter = 'all';
+let tkbCurrentPage = 1;
+const TKB_ITEMS_PER_PAGE = 6;
 
 async function loadTKBFiles() {
     try {
@@ -1149,6 +1151,7 @@ async function loadTKBFiles() {
 
 function filterTKBByClass(classNum) {
     tkbCurrentFilter = classNum;
+    tkbCurrentPage = 1; // reset to first page on filter change
     
     // Update button styles
     document.querySelectorAll('.filter-tkb-btn').forEach(btn => {
@@ -1167,6 +1170,7 @@ function filterTKBByClass(classNum) {
 
 function renderTKBFiles() {
     const container = document.getElementById('tkbFilesList');
+    const paginationContainer = document.getElementById('tkbPagination');
     if (!container) return;
 
     // Filter files
@@ -1182,10 +1186,20 @@ function renderTKBFiles() {
                 <p class="text-gray-200">Chưa có file TKB nào cho khối này. Hãy quay lại sau!</p>
             </div>
         `;
+        if (paginationContainer) paginationContainer.innerHTML = '';
         return;
     }
 
-    container.innerHTML = filteredFiles.map((file, idx) => `
+    // Pagination
+    const totalItems = filteredFiles.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / TKB_ITEMS_PER_PAGE));
+    if (tkbCurrentPage < 1) tkbCurrentPage = 1;
+    if (tkbCurrentPage > totalPages) tkbCurrentPage = totalPages;
+    const start = (tkbCurrentPage - 1) * TKB_ITEMS_PER_PAGE;
+    const end = start + TKB_ITEMS_PER_PAGE;
+    const paginated = filteredFiles.slice(start, end);
+
+    container.innerHTML = paginated.map((file, idx) => `
         <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20 tkb-card" data-aos="zoom-in" data-aos-delay="${idx * 150}">
             <div class="flex items-start gap-4">
                 <div class="flex-shrink-0">
@@ -1217,7 +1231,46 @@ function renderTKBFiles() {
         </div>
     `).join('');
 
+    // Render pagination controls
+    if (paginationContainer) renderTKBPagination(totalPages);
+
     if (typeof feather !== 'undefined') feather.replace();
+}
+
+function renderTKBPagination(totalPages) {
+    const paginationContainer = document.getElementById('tkbPagination');
+    if (!paginationContainer) return;
+    paginationContainer.innerHTML = '';
+
+    // Prev button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = `px-3 py-1 rounded ${tkbCurrentPage === 1 ? 'bg-gray-300 text-gray-700 cursor-not-allowed' : 'bg-white text-blue-600 hover:bg-gray-100'}`;
+    prevBtn.textContent = '«';
+    prevBtn.disabled = tkbCurrentPage === 1;
+    prevBtn.onclick = () => { if (tkbCurrentPage > 1) { tkbCurrentPage--; renderTKBFiles(); } };
+    paginationContainer.appendChild(prevBtn);
+
+    // Page numbers (limit to reasonable range)
+    const maxPageButtons = 7;
+    let startPage = Math.max(1, tkbCurrentPage - Math.floor(maxPageButtons / 2));
+    let endPage = startPage + maxPageButtons - 1;
+    if (endPage > totalPages) { endPage = totalPages; startPage = Math.max(1, endPage - maxPageButtons + 1); }
+
+    for (let p = startPage; p <= endPage; p++) {
+        const btn = document.createElement('button');
+        btn.className = `px-3 py-1 rounded ${p === tkbCurrentPage ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 hover:bg-gray-100'}`;
+        btn.textContent = p;
+        btn.onclick = (() => { const page = p; return () => { if (tkbCurrentPage !== page) { tkbCurrentPage = page; renderTKBFiles(); } }; })();
+        paginationContainer.appendChild(btn);
+    }
+
+    // Next button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = `px-3 py-1 rounded ${tkbCurrentPage === totalPages ? 'bg-gray-300 text-gray-700 cursor-not-allowed' : 'bg-white text-blue-600 hover:bg-gray-100'}`;
+    nextBtn.textContent = '»';
+    nextBtn.disabled = tkbCurrentPage === totalPages;
+    nextBtn.onclick = () => { if (tkbCurrentPage < totalPages) { tkbCurrentPage++; renderTKBFiles(); } };
+    paginationContainer.appendChild(nextBtn);
 }
 
 function openTKBUploadModal() {
