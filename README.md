@@ -1,9 +1,5 @@
 # A2K26
 
-<p align="center">
-  <img src="https://github.com/Kiendzzz/testweb/blob/main/anhlop.png" alt="Ảnh tập thể lớp A2K26" width="800"/>
-</p>
-
 **Website Lớp 10A2‑K26 THPT Quế Lâm** — Nơi lưu giữ kỷ niệm tuổi học trò.
 
 ## 🌟 Giới thiệu dự án
@@ -88,3 +84,7 @@ Website: A2K26
 ## 📄 License
 
 © 2025 A2K26 - Lớp 10A2 THPT Quế Lâm. All rights reserved.
+
+<p align="center">
+  <img src="https://github.com/Kiendzzz/testweb/blob/main/anhlop.png" alt="Ảnh tập thể lớp A2K26" width="800"/>
+</p>
