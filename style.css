@@ -511,12 +511,12 @@ body.dark .assistant-badge {
     opacity: 1;
     transform: scale(1);
 }
-#uploadBtn, #logoutBtn, #darkModeBtn, #mobileUploadBtn, #mobileLogoutBtn {
-    transition: transform 0.2s, box-shadow 0.2s;
+#uploadBtn, #darkModeBtn, #mobileUploadBtn {
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-#uploadBtn:hover, #logoutBtn:hover, #darkModeBtn:hover, #mobileUploadBtn:hover, #mobileLogoutBtn:hover {
-    transform: scale(1.08) translateY(-2px);
-    box-shadow: 0 6px 18px rgba(123,47,247,0.18);
+#uploadBtn:hover, #darkModeBtn:hover, #mobileUploadBtn:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 6px 18px rgba(123,47,247,0.18);
 }
 
 body { 

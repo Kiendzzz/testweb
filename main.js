@@ -3,6 +3,7 @@
 // Authentication state
 let isAuthenticated = false;
 let classPassword = null; // populated after server-side auth
+let pendingUploadAction = null; // 'image' or 'tkb' when awaiting password
 
 // Rate limiting for uploads
 let lastUploadTime = 0;
@@ -341,38 +342,26 @@ async function loadMemories() {
 
 function updateUploadButtonUI() {
     const uploadBtn = document.getElementById('uploadBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
     const mobileUploadBtn = document.getElementById('mobileUploadBtn');
-    const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
     const uploadTKBBtn = document.getElementById('uploadTKBBtn');
 
-    if (isAuthenticated) {
-        // Desktop
-        uploadBtn.onclick = openUploadModal;
-        uploadBtn.innerHTML = '<i data-feather="upload" class="mr-2"></i> Upload ảnh';
-        logoutBtn.classList.remove('hidden');
-
-        // Mobile
-        mobileUploadBtn.onclick = openUploadModal;
-        mobileUploadBtn.innerHTML = '<i data-feather="upload" class="mr-2"></i> Upload ảnh';
-        mobileLogoutBtn.classList.remove('hidden');
-
-        // TKB Upload
-        if (uploadTKBBtn) uploadTKBBtn.style.display = 'inline-block';
-    } else {
-        // Desktop
-        uploadBtn.onclick = openPasswordModal;
-        uploadBtn.innerHTML = '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
-        logoutBtn.classList.add('hidden');
-
-        // Mobile
-        mobileUploadBtn.onclick = openPasswordModal;
-        mobileUploadBtn.innerHTML = '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
-        mobileLogoutBtn.classList.add('hidden');
-
-        // TKB Upload
-        if (uploadTKBBtn) uploadTKBBtn.style.display = 'none';
+    // Desktop
+    if (uploadBtn) {
+        uploadBtn.onclick = isAuthenticated ? openUploadModal : openPasswordModal;
+        uploadBtn.innerHTML = isAuthenticated ? '<i data-feather="upload" class="mr-2"></i> Upload ảnh' : '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
+        uploadBtn.style.display = 'inline-flex';
     }
+
+    // Mobile
+    if (mobileUploadBtn) {
+        mobileUploadBtn.onclick = isAuthenticated ? openUploadModal : openPasswordModal;
+        mobileUploadBtn.innerHTML = isAuthenticated ? '<i data-feather="upload" class="mr-2"></i> Upload ảnh' : '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
+        mobileUploadBtn.style.display = 'inline-flex';
+    }
+
+    // TKB Upload: visible but will prompt for password when needed
+    if (uploadTKBBtn) uploadTKBBtn.style.display = 'inline-block';
+
     feather.replace();
 }
 
@@ -408,14 +397,24 @@ async function checkPassword() {
         }
         isAuthenticated = true;
         classPassword = enteredPassword;
+        // Persist auth permanently (one-time entry)
         localStorage.setItem('isAuthenticated', 'true');
         localStorage.setItem('classPassword', classPassword);
         closePasswordModal();
-        openUploadModal();
         showMemoryActions();
         updateUploadButtonUI();
         loadMemories();
         showSuccessToast('Đăng nhập thành công!');
+
+        // If user attempted an action before auth, execute it now
+        if (pendingUploadAction === 'image') {
+            // openUploadModal checks isAuthenticated and will open
+            openUploadModal();
+        } else if (pendingUploadAction === 'tkb') {
+            // openTKBUploadModal will respect auth
+            openTKBUploadModal();
+        }
+        pendingUploadAction = null;
     } catch (e) {
         errorElement.textContent = e.message || 'Mật khẩu không đúng. Vui lòng thử lại.';
         errorElement.classList.remove('hidden');
@@ -427,6 +426,12 @@ async function checkPassword() {
 
 // Upload modal functions
 function openUploadModal() {
+    // If not authenticated, request password first and remember intent
+    if (!isAuthenticated) {
+        pendingUploadAction = 'image';
+        openPasswordModal();
+        return;
+    }
     document.getElementById('uploadModal').classList.remove('hidden');
 }
 
@@ -1216,7 +1221,9 @@ function renderTKBFiles() {
 }
 
 function openTKBUploadModal() {
+    // If not authenticated, remember intent then ask for password
     if (!isAuthenticated) {
+        pendingUploadAction = 'tkb';
         openPasswordModal();
         return;
     }
