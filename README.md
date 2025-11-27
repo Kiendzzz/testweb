@@ -1,101 +1,90 @@
-# Website Lớp 10A2-K26 THPT Quế Lâm
+# A2K26
 
-Website chính thức của lớp 10A2-K26, Trường THPT Quế Lâm - Nơi lưu giữ kỷ niệm tuổi học trò.
+<p align="center">
+  <img src="https://github.com/Kiendzzz/testweb/blob/main/anhlop.png" alt="Ảnh tập thể lớp A2K26" width="800"/>
+</p>
 
-## 🚀 Tính Năng
+**Website Lớp 10A2‑K26 THPT Quế Lâm** — Nơi lưu giữ kỷ niệm tuổi học trò.
 
-- **Gallery Ảnh Kỷ Niệm**: Upload, xem, tìm kiếm và sắp xếp ảnh
-- **Quản Lý Học Sinh**: Danh sách 45 học sinh với vai trò
-- **Authentication**: Bảo mật với mật khẩu lớp
-- **Responsive Design**: Tối ưu cho mọi thiết bị
-- **Dark Mode**: Chế độ tối thân thiện
-- **Real-time Upload**: Upload ảnh với progress bar
+## 🌟 Giới thiệu dự án
 
-## 🛠️ Công Nghệ
+A2K26 là website kỷ niệm dành riêng cho tập thể lớp 10A2‑K26 (THPT Quế Lâm), nơi lưu giữ hình ảnh, thông tin và những khoảnh khắc đáng nhớ của thời học sinh. Website được xây dựng với giao diện hiện đại, thân thiện và tối ưu cho mọi thiết bị.
 
-- **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
-- **Styling**: Tailwind CSS
-- **Backend**: Netlify Functions
-- **Storage**: GitHub Repository
-- **Hosting**: Netlify
+## ✅ Tính năng nổi bật
 
-## 📋 Yêu Cầu Deploy
+* 🖼️ **Thư viện ảnh kỷ niệm**: Upload, xem và sắp xếp ảnh theo bộ nhớ / sự kiện.
+* 👥 **Danh sách học sinh**: Hiển thị đầy đủ 45 thành viên cùng vai trò (lớp trưởng, bí thư,...).
+* 🔐 **Bảo vệ bằng mật khẩu lớp**: Kiểm soát quyền truy cập và upload.
+* 📱 **Responsive Design**: Tối ưu trải nghiệm trên mobile & desktop.
+* 🌙 **Dark Mode**: Chế độ tối thân thiện với mắt.
+* ⚡ **Upload ảnh kèm progress bar**: Phản hồi theo thời gian thực.
 
-### Environment Variables (Netlify)
+## 🛠️ Công nghệ sử dụng
+
+* **Frontend**: HTML5, CSS3, JavaScript (Vanilla)
+* **Styling**: Tailwind CSS
+* **Backend**: Netlify Functions
+* **Storage**: GitHub Repository
+* **Hosting**: Netlify
+
+## 🚀 Hướng dẫn cài đặt & Deploy
+
+### Biến môi trường cần thiết
+
 ```
-GITHUB_USER=your-github-username
-GITHUB_REPO=your-repo-name
-GITHUB_TOKEN=your-github-token
-GITHUB_BRANCH=main
+CLASS_PASSWORD=your-password
+GITHUB_USER=your-github-username  
+GITHUB_REPO=your-repo-name  
+GITHUB_TOKEN=your-github-token  
+GITHUB_BRANCH=main  
 ```
 
-### GitHub Token Permissions
-- `repo` (Full control of private repositories)
-- `public_repo` (Access public repositories)
+> Lưu ý: Token cần có quyền `repo` hoặc `public_repo` nếu repository là public.
 
-## 🚀 Hướng Dẫn Deploy
+### Các bước deploy
 
-1. **Fork/Clone repository**
-2. **Tạo GitHub token** với quyền repo
-3. **Deploy lên Netlify**:
-   - Connect GitHub repository
-   - Set environment variables
-   - Deploy automatically
+1. Clone hoặc fork repository
+2. Tạo GitHub Personal Access Token
+3. Kết nối repo với Netlify
+4. Thiết lập biến môi trường
+5. Deploy & sử dụng
 
-## 📱 Tính Năng Mobile
+## 📁 Cấu trúc thư mục
 
-- Responsive design cho mọi screen size
-- Touch-friendly interactions
-- Optimized images loading
-- Mobile-first navigation
+```
+/img             ← Ảnh kỷ niệm
+/functions       ← Backend (Netlify Functions)
+index.html       ← Trang chính
+style.css        ← File CSS chính
+main.js          ← Logic JavaScript
+manifest.json    ← Cấu hình PWA (nếu có)
+netlify.toml     ← Cấu hình Netlify
+```
 
-## 🔒 Bảo Mật
+## 🐞 Xử lý lỗi thường gặp
 
-- Password protection cho upload
-- Input sanitization
-- File type validation
-- Rate limiting (5s cooldown)
-- XSS protection
+### Không upload được ảnh
 
-## 🎨 UI/UX Features
+* Kiểm tra GitHub Token
+* Đảm bảo biến môi trường đã cấu hình đúng
+* Dung lượng ảnh không vượt quá 5MB
 
-- Smooth animations với AOS
-- Loading states
-- Progress bars
-- Toast notifications
-- Dark mode toggle
-- Search & filter
+### Không hiển thị ảnh
 
-## 📊 Performance
+* Kiểm tra kết nối mạng
+* Kiểm tra quyền truy cập repo ảnh
 
-- Lazy loading images
-- Debounced search (300ms)
-- Optimized animations
-- Minimal bundle size
-- Fast loading times
+## 💡 Định hướng phát triển
 
-## 🐛 Troubleshooting
+* Thêm timeline kỷ niệm theo năm học
+* Tạo trang hồ sơ cho từng thành viên
+* Hệ thống bình luận & like ảnh
 
-### Lỗi Upload
-- Kiểm tra environment variables
-- Verify GitHub token permissions
-- Check file size (max 5MB)
+## 📞 Liên hệ
 
-### Lỗi Load Memories
-- Kiểm tra kết nối mạng
-- Verify GitHub repository access
-- Check memories.json format
-
-## 📞 Support
-
-Nếu gặp vấn đề, vui lòng liên hệ:
-- **Developer**: Lê Trung Kiên
-- **Facebook**: [Lê Trung Kiên](https://www.facebook.com/le.trung.kien.2k10/)
+Developer: **Lê Trung Kiên**
+Website: A2K26
 
 ## 📄 License
 
-© 2025 Lớp 10A2-K26, Trường THPT Quế Lâm. Made with 💖 by Kiên.
-
-### Lỗi Filter/Search
-- Tìm kiếm chỉ áp dụng trên trang hiện tại: Đã fix bằng client-side pagination.
-- Không có kết quả: Hiển thị message "Không tìm thấy".
+© 2025 A2K26 - Lớp 10A2 THPT Quế Lâm. All rights reserved.
