@@ -1,0 +1,815 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Lớp 10A2-K26 THPT Quế Lâm - Website chính thức</title>
+    <link rel="icon" href="logo.png" type="image/png">
+    <meta name="description" content="Trang web chính thức của lớp 10A2-K26, Trường THPT Quế Lâm. Cập nhật thông tin, hình ảnh, hoạt động và kết nối với thành viên lớp.">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        @import url(https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap);body{font-family:'Be Vietnam Pro',sans-serif;background-color:#f8f9fa}html{scroll-behavior:smooth}.gradient-bg{background:linear-gradient(135deg,#7b2ff7 0%,#f107a3 100%)}.student-card{transition:transform 0.3s,box-shadow 0.3s;border-radius:1.25rem!important;box-shadow:0 6px 24px rgb(123 47 247 / .1),0 1.5px 8px rgb(0 0 0 / .07);background:#fff;transition:box-shadow 0.3s,transform 0.3s,border 0.3s;overflow:hidden;position:relative;padding:0;display:flex;flex-direction:column;min-height:340px;flex:1 1 calc(20% - 1.2rem)!important;max-width:calc(20% - 1.2rem)!important}.student-card:hover{transform:translateY(-8px) scale(1.04);box-shadow:0 16px 32px rgb(123 47 247 / .15),0 4px 16px rgb(0 0 0 / .1)}.marquee-wrapper{display:flex;width:max-content;animation:marquee 25s linear infinite}.marquee{display:flex}@keyframes marquee{from{transform:translateX(0)}to{transform:translateX(-50%)}}.filter-btn{transition:background 0.3s,color 0.3s,box-shadow 0.3s,transform 0.2s}.filter-btn:hover{transform:translateY(-2px) scale(1.05);box-shadow:0 4px 16px rgb(123 47 247 / .15)}.filter-btn.active{background-color:#7b2ff7;color:#fff;box-shadow:0 4px 12px rgb(123 47 247 / .3)}.bg-memory{background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%)}.upload-btn{transition:all 0.3s ease}.upload-btn:hover{transform:translateY(-2px)}#scrollTopBtn{position:fixed;bottom:30px;right:30px;width:40px;height:40px;background:linear-gradient(135deg,#9b5de5,#f15bb5);color:#fff;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 4px 8px rgb(0 0 0 / .3);cursor:pointer;z-index:999;opacity:0;pointer-events:none;transition:opacity 0.3s ease,transform 0.3s ease}#scrollTopBtn.show{opacity:1;pointer-events:auto;transform:scale(1)}#scrollTopBtn:hover{transform:scale(1.1)}.gallery-item{position:relative;overflow:hidden}.gallery-item img{transition:transform 0.4s}.gallery-item:hover img{transform:scale(1.08)}.gallery-caption{position:absolute;bottom:0;left:0;right:0;background:rgb(123 47 247 / .85);color:#fff;padding:8px 12px;font-size:1rem;opacity:0;transition:opacity 0.3s}.gallery-item:hover .gallery-caption{opacity:1}body.dark{background:#18181b!important;color:#e5e7eb!important}body.dark .bg-white,body.dark .bg-gray-50{background:#23232a!important;color:#e5e7eb!important}body.dark .text-gray-800,body.dark .text-gray-600{color:#e5e7eb!important}body.dark .gradient-bg{background:linear-gradient(135deg,#23232a 0%,#7b2ff7 100%)!important}body.dark .bg-purple-600{background:#7b2ff7!important}body.dark .shadow-md,body.dark .shadow-lg{box-shadow:0 4px 24px rgb(123 47 247 / .2)!important}.memory-grid,.student-grid{display:flex;flex-direction:column;gap:1.5rem}.memory-card{position:relative;border-radius:.5rem;overflow:hidden;box-shadow:0 4px 6px rgb(0 0 0 / .1);transition:all 0.3s ease}.memory-card:hover{transform:translateY(-8px) scale(1.04);box-shadow:0 16px 32px rgb(123 47 247 / .15),0 4px 16px rgb(0 0 0 / .1)}.memory-img{width:100%;height:200px;object-fit:cover}.memory-overlay{position:absolute;bottom:0;left:0;right:0;background:linear-gradient(to top,rgb(0 0 0 / .8),transparent);padding:1rem;color:#fff;transform:translateY(100%);transition:transform 0.3s ease}.memory-card:hover .memory-overlay{transform:translateY(0)}.memory-title{font-weight:600;margin-bottom:.25rem}.memory-date{font-size:.875rem;opacity:.8}.memory-actions{position:absolute;top:.5rem;right:.5rem;display:flex;gap:.5rem;opacity:0;transition:opacity 0.3s ease}.memory-card:hover .memory-actions{opacity:1}.memory-action-btn{width:2rem;height:2rem;border-radius:50%;display:flex;align-items:center;justify-content:center;background-color:rgb(255 255 255 / .9);color:#333;cursor:pointer;transition:all 0.2s ease}.memory-action-btn:hover{transform:scale(1.1)}.edit-btn{background-color:#3b82f6;color:#fff}.delete-btn{background-color:#ef4444;color:#fff}@media (max-width:768px){#scrollTopBtn,#darkModeBtn{display:none!important}}@media (max-width:768px){.filter-btn[data-filter="member"]{display:none!important}}#searchMemory,#sortMemory{transition:all 0.2s ease}#searchMemory:focus,#sortMemory:focus{border-color:#7b2ff7;box-shadow:0 0 0 3px rgb(123 47 247 / .2)}.memory-card{animation:fadeInUp 0.6s ease-out;will-change:transform,opacity}@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}.fade-in{animation:fadeIn 0.5s ease-in-out}@keyframes fadeIn{from{opacity:0}to{opacity:1}}*{transition:opacity 0.3s ease,transform 0.3s ease}#scrollProgressContainer{position:fixed;top:0;left:0;width:100%;height:4px;background:rgb(0 0 0 / .05);z-index:10000}#scrollProgressBar{width:0%;height:100%;background:linear-gradient(90deg,#7b2ff7,#ec4899,#38bdf8);background-size:300% 100%;animation:progressGlow 6s linear infinite}@keyframes progressGlow{0%{background-position:0% 50%}50%{background-position:100% 50%}100%{background-position:0% 50%}}body.dark #scrollProgressContainer{background:rgb(255 255 255 / .06)}.memory-card,.student-card{transform:translateZ(0);backface-visibility:hidden;perspective:1000px}.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}@keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}.btn-hover{transition:all 0.3s cubic-bezier(.4,0,.2,1)}.btn-hover:hover{transform:translateY(-2px);box-shadow:0 10px 25px rgb(0 0 0 / .15)}.toast-enter{animation:slideInRight 0.3s ease-out}.toast-exit{animation:slideOutRight 0.3s ease-in}@keyframes slideInRight{from{transform:translateX(100%);opacity:0}to{transform:translateX(0);opacity:1}}@keyframes slideOutRight{from{transform:translateX(0);opacity:1}to{transform:translateX(100%);opacity:0}}#pagination button{min-width:36px;min-height:36px;border-radius:8px;font-weight:500;transition:all 0.2s ease}#pagination button:hover:not(:disabled){transform:translateY(-2px);box-shadow:0 4px 10px rgb(123 47 247 / .2)}#pagination button:disabled{opacity:.5;cursor:not-allowed}body.dark{background-color:#1a1a1a;color:#e5e5e5}body.dark #memories .bg-white{background-color:#2a2a2a!important;border-color:#444!important}body.dark #memories input,body.dark #memories select{background-color:#333;color:#e5e5e5;border-color:#555}body.dark #memories input::placeholder{color:#aaa}body.dark #pagination button{background-color:#333;color:#e5e5e5;border:1px solid #555}body.dark #pagination button:hover:not(:disabled){background-color:#555}body.dark #pagination button.bg-purple-600{background-color:#7c3aed!important}body.dark .memory-overlay{background:linear-gradient(to top,rgb(0 0 0 / .8),transparent);color:#f3f3f3}.role-badge{display:inline-block;padding:3px 10px;border-radius:12px;font-size:.8rem;font-weight:600;margin-right:6px;margin-bottom:6px;box-shadow:0 2px 4px rgb(0 0 0 / .1);transition:all 0.2s ease}.role-badge:hover{transform:scale(1.08) translateY(-2px);box-shadow:0 4px 12px rgb(123 47 247 / .18)}.monitor-badge{background:linear-gradient(135deg,#8b5cf6 0%,#a855f7 100%);color:#fff}.secretary-badge{background:linear-gradient(135deg,#f59e0b 0%,#fbbf24 100%);color:#fff}.group-leader-badge{background:linear-gradient(135deg,#3b82f6 0%,#60a5fa 100%);color:#fff}.member-badge{background:linear-gradient(135deg,#d1fae5 0%,#a7f3d0 100%);color:#059616;border-radius:9999px;padding:2px 12px;font-size:.95em;font-weight:500;margin-right:4px;margin-bottom:4px;display:inline-block}.assistant-badge{background:linear-gradient(135deg,#ec4899 0%,#f472b6 100%);color:#fff}body.dark .role-badge{box-shadow:0 2px 4px rgb(0 0 0 / .3)}body.dark .monitor-badge{background:linear-gradient(135deg,#8b5cf6 0%,#a855f7 100%)}body.dark .secretary-badge{background:linear-gradient(135deg,#f59e0b 0%,#fbbf24 100%)}body.dark .group-leader-badge{background:linear-gradient(135deg,#3b82f6 0%,#60a5fa 100%)}body.dark .member-badge{background:linear-gradient(135deg,#d1fae5 0%,#a7f3d0 100%);color:#059616}body.dark .assistant-badge{background:linear-gradient(135deg,#ec4899 0%,#f472b6 100%)}.fade-in-up{opacity:0;transform:translateY(30px);animation:fadeInUp 0.6s cubic-bezier(.4,0,.2,1) forwards}@keyframes fadeInUp{from{opacity:0;transform:translateY(30px)}to{opacity:1;transform:translateY(0)}}#studentModal,#imageModal{opacity:0;transform:scale(.95);transition:opacity 0.3s,transform 0.3s}#studentModal.show,#imageModal.show{opacity:1;transform:scale(1)}#uploadBtn,#logoutBtn,#darkModeBtn,#mobileUploadBtn,#mobileLogoutBtn{transition:transform 0.2s,box-shadow 0.2s}#uploadBtn:hover,#logoutBtn:hover,#darkModeBtn:hover,#mobileUploadBtn:hover,#mobileLogoutBtn:hover{transform:scale(1.08) translateY(-2px);box-shadow:0 6px 18px rgb(123 47 247 / .18)}body{font-family:'Be Vietnam Pro',sans-serif;background:linear-gradient(135deg,#f5f7fa 0%,#c3cfe2 100%);margin:0;padding:0}.gradient-bg{background:linear-gradient(135deg,#7b2ff7 0%,#f107a3 100%)}.memory-grid{display:grid!important;gap:1.5rem;grid-template-columns:repeat(2,minmax(0,1fr))}@media (min-width:480px){.memory-grid{grid-template-columns:repeat(3,minmax(0,1fr))}}@media (min-width:768px){.memory-grid{grid-template-columns:repeat(4,minmax(0,1fr))}}@media (min-width:1024px){.memory-grid{grid-template-columns:repeat(5,minmax(0,1fr))}}.student-card{width:100%!important;max-width:none!important}@media (max-width:380px){.memory-grid{gap:1rem}}.skeleton{background:linear-gradient(90deg,#f0f0f0 25%,#e0e0e0 50%,#f0f0f0 75%);background-size:200% 100%;animation:loading 1.5s infinite}@keyframes loading{0%{background-position:200% 0}100%{background-position:-200% 0}}.parallax-bg{background-attachment:fixed;background-position:center;background-size:cover}@media (max-width:768px){.parallax-bg{background-attachment:scroll}}.loader{display:flex;align-items:center;position:relative}.loader svg{margin:0 5px;width:64px;height:64px}.absolute{position:absolute}.inline-block{display:inline-block}.w-2{width:.5em}.dash{animation:dashArray 2s ease-in-out infinite,dashOffset 2s linear infinite}.spin{animation:spinDashArray 2s ease-in-out infinite,spin 8s ease-in-out infinite,dashOffset 2s linear infinite;transform-origin:center}@keyframes dashArray{0%{stroke-dasharray:0 1 359 0}50%{stroke-dasharray:0 359 1 0}100%{stroke-dasharray:359 1 0 0}}@keyframes spinDashArray{0%{stroke-dasharray:270 90}50%{stroke-dasharray:0 360}100%{stroke-dasharray:270 90}}@keyframes dashOffset{0%{stroke-dashoffset:365}100%{stroke-dashoffset:5}}@keyframes spin{0%{transform:rotate(0deg)}12.5%,25%{transform:rotate(270deg)}37.5%,50%{transform:rotate(540deg)}62.5%,75%{transform:rotate(810deg)}87.5%,100%{transform:rotate(1080deg)}}.gradient-b{stroke:url(#b)}.gradient-c{stroke:url(#c)}.gradient-d{stroke:url(#d)}#globalLoader{animation:loaderBgMove 3s linear infinite;background-size:200% 200%}@keyframes gradientShift{0%{background-position:0% 50%}25%{background-position:100% 50%}50%{background-position:100% 100%}75%{background-position:0% 100%}100%{background-position:0% 50%}}@keyframes shadowPulse{0%{box-shadow:0 0 80px 0 rgb(123 47 247 / .2),0 0 120px 0 rgb(236 72 153 / .15),inset 0 0 100px rgb(255 255 255 / .1)}100%{box-shadow:0 0 100px 0 rgb(123 47 247 / .3),0 0 150px 0 rgb(236 72 153 / .25),inset 0 0 120px rgb(255 255 255 / .15)}}body.dark #globalLoader{background:linear-gradient(135deg,#4f46e5 0%,#7c3aed 25%,#be185d 50%,#db2777 75%,#06b6d4 100%)}
+    </style>
+
+    <!-- Preload critical resources -->
+    <link rel="preload" href="logo.png" as="image">
+    <link rel="preload" href="anhlop.png" as="image">
+    <link rel="preload" href="style.css" as="style">
+    
+    <!-- PWA Manifest -->
+    <link rel="manifest" href="manifest.json">
+    <link rel="browserconfig" href="browserconfig.xml">
+    
+    <!-- Preconnect to external domains -->
+    <link rel="preconnect" href="https://cdn.tailwindcss.com">
+    <link rel="preconnect" href="https://unpkg.com">
+    <link rel="preconnect" href="https://cdnjs.cloudflare.com">
+    <!-- Universal Meta Tags -->
+    <meta name="robots" content="index, follow">
+    <meta name="author" content="Lớp 10A2-K26 THPT Quế Lâm">
+    <meta name="keywords" content="10A2, K26, THPT Quế Lâm, lớp học, học sinh, kỷ niệm">
+    <meta name="theme-color" content="#7b2ff7">
+    
+    <!-- Open Graph - Universal (Facebook, Zalo, WhatsApp, LinkedIn) -->
+    <meta property="og:title" content="Lớp 10A2-K26 THPT Quế Lâm - Website chính thức">
+    <meta property="og:description" content="Trang web chính thức của lớp 10A2-K26, Trường THPT Quế Lâm. Cập nhật thông tin, hình ảnh, hoạt động và kết nối với thành viên lớp.">
+    <meta property="og:url" content="https://10a2k26thptquelam.netlify.app">
+    <meta property="og:type" content="website">
+    <meta property="og:site_name" content="10A2-K26 THPT Quế Lâm">
+    <meta property="og:locale" content="vi_VN">
+    
+    <!-- Open Graph Images - Multiple formats for compatibility -->
+    <meta property="og:image" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta property="og:image:url" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta property="og:image:secure_url" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    <meta property="og:image:alt" content="Ảnh tập thể lớp 10A2-K26 THPT Quế Lâm">
+
+    <!-- Twitter Card -->
+    <meta name="twitter:card" content="summary_large_image">
+    <meta name="twitter:site" content="@10a2k26thptquelam">
+    <meta name="twitter:creator" content="@10a2k26thptquelam">
+    <meta name="twitter:title" content="Lớp 10A2-K26 THPT Quế Lâm - Website chính thức">
+    <meta name="twitter:description" content="Trang web chính thức của lớp 10A2-K26. Nơi lưu giữ kỷ niệm và kết nối bạn bè.">
+    <meta name="twitter:image" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta name="twitter:image:src" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta name="twitter:image:alt" content="Ảnh tập thể lớp 10A2-K26 THPT Quế Lâm">
+    
+    <!-- WhatsApp specific -->
+    <meta property="og:image:type" content="image/png">
+    <meta property="og:image:secure_url" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    
+    <!-- Zalo specific -->
+    <meta name="image" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta name="thumbnail" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta property="article:author" content="Lớp 10A2-K26 THPT Quế Lâm">
+    <meta property="article:section" content="Education">
+    <meta property="article:tag" content="10A2,K26,THPT Quế Lâm,lớp học">
+    
+    <!-- LinkedIn specific -->
+    <meta property="og:image:width" content="1200">
+    <meta property="og:image:height" content="630">
+    
+    <!-- Telegram specific -->
+    <meta name="telegram:channel" content="@10a2k26thptquelam">
+    
+    <!-- Discord specific -->
+    <meta property="og:image:type" content="image/png">
+    
+    <!-- Microsoft specific -->
+    <meta name="msapplication-TileColor" content="#7b2ff7">
+    <meta name="msapplication-TileImage" content="https://10a2k26thptquelam.netlify.app/logo.png">
+    <meta name="msapplication-config" content="browserconfig.xml">
+    
+    <!-- Apple specific -->
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+    <meta name="apple-mobile-web-app-title" content="10A2-K26">
+    <link rel="apple-touch-icon" href="https://10a2k26thptquelam.netlify.app/logo.png">
+    
+    <!-- Android specific -->
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="application-name" content="10A2-K26">
+    
+    <!-- Additional fallbacks -->
+    <meta name="image" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta name="thumbnail" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+    <meta name="photo" content="https://10a2k26thptquelam.netlify.app/anhlop.png">
+</head>
+<body class="bg-memory min-h-screen">
+    <!-- Loader Overlay -->
+    <div id="globalLoader" style="
+    position: fixed;
+    top: 0; left: 0;
+    width: 100vw; height: 100vh;
+    z-index: 9999;
+    background: linear-gradient(135deg, #7b2ff7 0%, #a855f7 25%, #ec4899 50%, #f472b6 75%, #38bdf8 100%);
+    background-size: 400% 400%;
+    box-shadow: 
+        0 0 80px 0 rgba(123, 47, 247, 0.2), 
+        0 0 120px 0 rgba(236, 72, 153, 0.15), 
+        inset 0 0 100px rgba(255, 255, 255, 0.1);
+    backdrop-filter: blur(12px) saturate(1.2);
+    display: flex; align-items: center; justify-content: center;
+    animation: gradientShift 4s ease-in-out infinite, shadowPulse 2s ease-in-out infinite alternate;
+    ">
+        <!-- From Uiverse.io by JeremGamingYT --> 
+      <div class="loader">
+        <svg class="absolute" width="0" height="0">
+          <defs>
+            <linearGradient id="b" x1="0" y1="62" x2="0" y2="2" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#973BED"></stop>
+              <stop offset="1" stop-color="#007CFF"></stop>
+            </linearGradient>
+            <linearGradient id="c" x1="0" y1="64" x2="0" y2="0" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#FFC800"></stop>
+              <stop offset="1" stop-color="#F0F"></stop>
+              <animateTransform attributeName="gradientTransform" type="rotate" values="0 32 32;-270 32 32;-540 32 32;-810 32 32;-1080 32 32" dur="8s" keyTimes="0;0.125;0.25;0.375;0.5;0.625;0.75;0.875;1" repeatCount="indefinite"></animateTransform>
+            </linearGradient>
+            <linearGradient id="d" x1="0" y1="62" x2="0" y2="2" gradientUnits="userSpaceOnUse">
+              <stop stop-color="#00E0ED"></stop>
+              <stop offset="1" stop-color="#00DA72"></stop>
+            </linearGradient>
+          </defs>
+        </svg>
+        <svg viewBox="0 0 44 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path pathLength="360" d="M15.75 11.40Q13.60 11.40 12.58 12.65Q11.55 13.90 11.55 17.10L11.55 23L19.85 23L19.85 17Q19.85 14.90 19.35 13.63Q18.85 12.35 17.98 11.88Q17.10 11.40 15.75 11.40M19.85 29.90L11.55 29.90L11.55 32.55Q11.55 35.10 10.20 36.30Q8.85 37.50 5.55 37.50Q4.15 37.50 3.25 37.10Q2.35 36.70 1.68 35.75Q1.00 34.80 0.68 32.98Q0.35 31.15 0.18 28.57Q0 26 0 22.05Q0 18.60 0.73 15.72Q1.45 12.85 2.68 10.85Q3.90 8.85 5.45 7.32Q7 5.80 8.83 4.95Q10.65 4.10 12.38 3.67Q14.10 3.25 15.85 3.25Q17.95 3.25 20.00 3.82Q22.05 4.40 24.15 5.80Q26.25 7.20 27.83 9.27Q29.40 11.35 30.40 14.65Q31.40 17.95 31.40 22.05Q31.40 28.65 30.93 31.82Q30.45 35 29.33 36.25Q28.20 37.50 25.85 37.50Q22.55 37.50 21.20 36.30Q19.85 35.10 19.85 32.55L19.85 29.90Z" class="dash gradient-b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <svg viewBox="0 0 44 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path pathLength="360" d="M30.80 9.25L30.80 24.15Q30.80 31.45 27.27 34.63Q23.75 37.80 15.40 37.80Q7.45 37.80 3.72 34.40Q0 31 0 24.15L0 9.25Q0 6.60 1.58 4.92Q3.15 3.25 5.55 3.25Q8.50 3.25 10.03 4.35Q11.55 5.45 11.55 8.80L11.55 25.10Q11.60 26.70 12.08 27.65Q12.55 28.60 13.35 28.98Q14.15 29.35 15.40 29.35Q16.65 29.35 17.45 29.05Q18.25 28.75 18.63 28.10Q19 27.45 19.13 26.80Q19.25 26.15 19.25 25.10L19.25 8.75Q19.25 7.05 19.68 5.90Q20.10 4.75 20.98 4.20Q21.85 3.65 22.77 3.45Q23.70 3.25 25 3.25Q27.90 3.25 29.35 4.65Q30.80 6.05 30.80 9.25Z" class="dash gradient-c" stroke-width="5" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <svg viewBox="0 0 44 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path pathLength="360" d="M19.20 13.20Q19.20 10.80 17.45 9.90Q15.70 9 11.55 9L11.55 17.65Q15.45 17.65 17.33 16.67Q19.20 15.70 19.20 13.20M11.55 30Q11.55 37.50 5.70 37.50Q2.75 37.50 1.38 35.92Q0 34.35 0 30.35L0 9.25Q0 6.35 1.58 4.82Q3.15 3.30 5.70 3.30L16.20 3.30Q22.35 3.30 26.15 6.17Q29.95 9.05 29.95 13.55Q29.95 16.95 28.53 18.88Q27.10 20.80 23.95 21.70Q26.35 21.85 28.40 24.02Q30.45 26.20 30.45 29.45Q30.45 32.75 29.83 34.52Q29.20 36.30 28.05 36.90Q26.90 37.50 24.80 37.50Q21.85 37.50 20.48 36.27Q19.10 35.05 19.10 32.55Q19.10 29.45 18.50 27.77Q17.90 26.10 16.95 25.60Q16 25.10 14.30 25.10L11.55 25.15L11.55 30Z" class="dash gradient-d" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <svg viewBox="0 0 44 54" fill="none" xmlns="http://www.w3.org/2000/svg">
+          <path pathLength="360" d="M15.75 11.40Q13.60 11.40 12.58 12.65Q11.55 13.90 11.55 17.10L11.55 23L19.85 23L19.85 17Q19.85 14.90 19.35 13.63Q18.85 12.35 17.98 11.88Q17.10 11.40 15.75 11.40M19.85 29.90L11.55 29.90L11.55 32.55Q11.55 35.10 10.20 36.30Q8.85 37.50 5.55 37.50Q4.15 37.50 3.25 37.10Q2.35 36.70 1.68 35.75Q1.00 34.80 0.68 32.98Q0.35 31.15 0.18 28.57Q0 26 0 22.05Q0 18.60 0.73 15.72Q1.45 12.85 2.68 10.85Q3.90 8.85 5.45 7.32Q7 5.80 8.83 4.95Q10.65 4.10 12.38 3.67Q14.10 3.25 15.85 3.25Q17.95 3.25 20.00 3.82Q22.05 4.40 24.15 5.80Q26.25 7.20 27.83 9.27Q29.40 11.35 30.40 14.65Q31.40 17.95 31.40 22.05Q31.40 28.65 30.93 31.82Q30.45 35 29.33 36.25Q28.20 37.50 25.85 37.50Q22.55 37.50 21.20 36.30Q19.85 35.10 19.85 32.55L19.85 29.90Z" class="dash gradient-b" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"></path>
+        </svg>
+        <div class="w-2"></div>
+      </div>
+    </div>
+
+    <!-- Thêm dòng này -->
+    <div id="mainContent" style="display:none;">
+      <!-- Scroll Progress Bar -->
+      <div id="scrollProgressContainer"><div id="scrollProgressBar"></div></div>
+      <!-- Scroll to Top Button -->
+      <div id="scrollTopBtn">
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="3" stroke-linecap="round" stroke-linejoin="round">
+            <polyline points="18 15 12 9 6 15"></polyline>
+        </svg>
+    </div>
+
+    <!-- Navigation -->
+    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex justify-between items-center py-3">
+                <div class="flex items-center space-x-2">
+                    <img src="logo.png" alt="Logo lớp" class="w-10 h-10 rounded-full">
+                    <div>
+                        <span class="font-bold text-xl">10A2 K26</span>
+                        <span class="text-white">THPT Quế Lâm</span>
+                    </div>
+                </div>
+                <div class="hidden md:flex items-center space-x-6">
+                    <a href="#" class="py-2 px-3 font-medium">Trang chủ</a>
+                    <a href="#memories" class="py-2 px-3 hover:text-purple-200 transition">Kỷ niệm</a>
+                    <a href="#teacher" class="py-2 px-3 hover:text-purple-200 transition">Giáo viên</a>
+                    <a href="#students" class="py-2 px-3 hover:text-purple-200 transition">Học sinh</a>
+                    <a href="#social" class="py-2 px-3 hover:text-purple-200 transition">Mạng xã hội</a>
+                    <div class="relative group">
+                        <button id="uploadBtn" onclick="isAuthenticated ? openUploadModal() : openPasswordModal()" 
+                            class="py-2 px-4 bg-white text-purple-600 rounded-lg hover:bg-purple-100 transition duration-300 flex items-center">
+                            <i data-feather="upload" class="mr-2"></i> Upload ảnh
+                        </button>
+
+                        <button id="logoutBtn" onclick="logout()" 
+                            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition hidden">
+                            <i data-feather="x"></i>
+                        </button>              
+                    </div>
+                <div class="md:hidden flex items-center">
+                    <button class="outline-none mobile-menu-button p-2 hover:bg-white/10 rounded-lg transition">
+                        <i data-feather="menu" class="w-6 h-6"></i>
+                    </button>
+                </div>
+            </div>
+            <div id="mobileMenu" class="hidden transition-all duration-300 ease-in-out transform -translate-y-5 opacity-0 pb-4">
+                <div class="flex flex-col space-y-3">
+                    <a href="#" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Trang chủ</a>
+                    <a href="#memories" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Kỷ niệm</a>
+                    <a href="#teacher" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Giáo viên</a>
+                    <a href="#students" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Học sinh</a>
+                    <a href="#social" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Mạng xã hội</a>
+                    <div class="mt-4 pt-4 border-t border-white/20">
+                        <button id="mobileUploadBtn" 
+                            class="w-full py-2 px-4 bg-white text-purple-600 rounded-lg hover:bg-purple-100 transition duration-300 flex items-center justify-center">
+                            <i data-feather="upload" class="mr-2"></i> Upload ảnh
+                        </button>
+                        <button id="mobileLogoutBtn" onclick="logout()" 
+                            class="hidden w-full py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center mt-2">
+                            <i data-feather="log-out" class="mr-2"></i> Logout
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <section id="hero" class="relative py-24 flex items-center justify-center text-center md:text-left parallax-bg" style="background-image: url('anhlop.png');" data-aos="fade-up">
+    <!-- Background ảnh + gradient overlay -->
+    <div id="heroParallax" class="absolute inset-0">
+        <img src="anhlop.png" alt="Background lớp 10A2" class="w-full h-full object-cover opacity-30 dark:opacity-20">
+        <div class="absolute inset-0 bg-gradient-to-r from-purple-700/70 via-purple-500/60 to-transparent"></div>
+    </div>
+
+    <!-- Nội dung -->
+    <div class="relative max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+        <!-- Left -->
+        <div class="md:w-1/2" data-aos="fade-right">
+        <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight drop-shadow-lg">
+            Lớp 10A2-K26 <br> Trường THPT Quế Lâm
+        </h1>
+        <p class="mt-6 text-lg text-gray-100 max-w-lg">
+            Trang web chính thức của lớp 10A2-K26 — nơi lưu giữ <b>kỷ niệm tuổi học trò</b> và kết nối bạn bè.
+        </p>
+        <a href="#memories" class="inline-block mt-8 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition transform hover:-translate-y-1 hover:shadow-2xl">
+            Xem Bộ Sưu Tập
+        </a>
+        </div>
+
+        <!-- Right -->
+        <div class="md:w-1/2 relative" data-aos="fade-left">
+        <img src="anhlop.png" alt="Ảnh tập thể lớp 10A2-K26" 
+            class="rounded-2xl shadow-2xl max-w-full h-auto transform hover:scale-105 transition duration-500 border-4 border-white/70 dark:border-gray-700">
+        </div>
+    </div>
+    </section>
+
+    <!-- Class Stats -->
+    <div class="bg-white py-8 shadow-md" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-wrap justify-center text-center">
+                <div class="w-full sm:w-1/2 md:w-1/4 px-4 py-4">
+                    <div class="text-4xl font-bold text-purple-600 counter" data-target="45">0</div>
+                    <div class="text-gray-600">Học sinh</div>
+                </div>
+                <div class="w-full sm:w-1/2 md:w-1/4 px-4 py-4">
+                    <div class="text-4xl font-bold text-purple-600 counter" data-target="11">0</div>
+                    <div class="text-gray-600">Môn học</div>
+                </div>
+                <div class="w-full sm:w-1/2 md:w-1/4 px-4 py-4">
+                    <div class="text-4xl font-bold text-purple-600 counter" data-target="1">0</div>
+                    <div class="text-gray-600">Giáo viên Chủ Nhiệm</div>
+                </div>
+                <div class="w-full sm:w-1/2 md:w-1/4 px-4 py-4">
+                    <div class="text-4xl font-bold text-purple-600 counter" data-target="11">0</div>
+                    <div class="text-gray-600">Giáo viên Bộ Môn</div>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Memories Gallery with Search and Sort -->
+    <section id="memories" class="py-16 px-4" data-aos="fade-up">
+    <div class="max-w-6xl mx-auto">
+        <!-- Tiêu đề -->
+        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8" data-aos="fade-down">
+            Bộ Sưu Tập Kỷ Niệm
+        </h2>
+
+        <!-- 🔍 Thanh tìm kiếm + sắp xếp (ngay dưới tiêu đề) -->
+        <div class="bg-white shadow-md rounded-xl p-4 mb-8 flex flex-col md:flex-row items-center gap-4">
+            <div class="flex-1 w-full">
+            <input type="text" id="searchMemory" placeholder="🔍 Tìm ảnh theo tiêu đề..." 
+                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+            </div>
+            <div>
+            <select id="sortMemory" 
+                    class="px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
+                <option value="newest">📅 Mới nhất trước</option>
+                <option value="oldest">📅 Cũ nhất trước</option>
+                <option value="title">🔠 Theo tiêu đề (A→Z)</option>
+            </select>
+            </div>
+        </div>
+
+        <!-- Grid ảnh -->
+        <div class="memory-grid" id="memoryGrid">
+            <!-- Skeleton loading -->
+            <div id="memorySkeleton" class="hidden">
+                <div class="memory-card skeleton">
+                    <div class="h-48 bg-gray-200 rounded"></div>
+                    <div class="p-4">
+                        <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+                    </div>
+                </div>
+                <div class="memory-card skeleton">
+                    <div class="h-48 bg-gray-200 rounded"></div>
+                    <div class="p-4">
+                        <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+                    </div>
+                </div>
+                <div class="memory-card skeleton">
+                    <div class="h-48 bg-gray-200 rounded"></div>
+                    <div class="p-4">
+                        <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+                    </div>
+                </div>
+                <div class="memory-card skeleton">
+                    <div class="h-48 bg-gray-200 rounded"></div>
+                    <div class="p-4">
+                        <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                        <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- Các .memory-card sẽ được thêm ở đây bằng JS khi upload -->
+            <div class="memory-card" data-aos="fade-up" data-aos-delay="100" data-aos-duration="1200">
+                <div class="h-48 bg-gray-200 rounded"></div>
+                <div class="p-4">
+                    <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+                </div>
+            </div>
+            <div class="memory-card" data-aos="fade-up" data-aos-delay="200" data-aos-duration="1200">
+                <div class="h-48 bg-gray-200 rounded"></div>
+                <div class="p-4">
+                    <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+                </div>
+            </div>
+            <div class="memory-card" data-aos="fade-up" data-aos-delay="300" data-aos-duration="1200">
+                <div class="h-48 bg-gray-200 rounded"></div>
+                <div class="p-4">
+                    <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+                </div>
+            </div>
+            <div class="memory-card" data-aos="fade-up" data-aos-delay="400" data-aos-duration="1200">
+                <div class="h-48 bg-gray-200 rounded"></div>
+                <div class="p-4">
+                    <div class="h-4 bg-gray-200 rounded mb-2"></div>
+                    <div class="h-3 bg-gray-200 rounded w-2/3"></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Pagination -->
+        <div id="pagination" class="flex justify-center items-center space-x-2 mt-8"></div>
+    </div>
+    </section>
+
+    <!-- How to upload photos? Section -->
+    <section id="how-to-upload" class="py-16 px-4 bg-white dark:bg-gray-900" data-aos="fade-up">
+    <div class="max-w-5xl mx-auto">
+        <h2 class="text-3xl font-bold text-center text-purple-700 dark:text-purple-400 mb-12" data-aos="fade-down">
+        Cách Upload Ảnh
+        </h2>
+
+        <!-- Ảnh minh hoạ -->
+        <div class="flex justify-center mb-10" data-aos="zoom-in">
+        <img src="How to Upload.png" alt="Hướng dẫn Upload" 
+            class="rounded-lg shadow-lg max-w-lg w-full" loading="lazy">
+        </div>
+
+        <!-- Step-by-Step Cards -->
+        <div class="grid md:grid-cols-3 gap-8">
+        <!-- Step 1 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center hover:shadow-xl transition" data-aos="zoom-in">
+            <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 text-2xl font-bold">1</div>
+            <h3 class="font-semibold text-lg mb-2">Bấm nút Upload</h3>
+            <p class="text-gray-600 dark:text-gray-300">Chọn nút <b>Upload ảnh</b> ở menu để bắt đầu.</p>
+        </div>
+
+        <!-- Step 2 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center hover:shadow-xl transition" data-aos="zoom-in" data-aos-delay="150">
+            <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 text-2xl font-bold">2</div>
+            <h3 class="font-semibold text-lg mb-2">Nhập thông tin</h3>
+            <p class="text-gray-600 dark:text-gray-300">Điền <b>tiêu đề</b>, <b>ngày chụp</b> và chọn ảnh (tối đa 5MB).</p>
+        </div>
+
+        <!-- Step 3 -->
+        <div class="bg-white dark:bg-gray-800 rounded-xl shadow-md p-6 text-center hover:shadow-xl transition" data-aos="zoom-in" data-aos-delay="300">
+            <div class="w-16 h-16 mx-auto mb-4 flex items-center justify-center rounded-full bg-purple-100 text-purple-600 text-2xl font-bold">3</div>
+            <h3 class="font-semibold text-lg mb-2">Xác nhận Upload</h3>
+            <p class="text-gray-600 dark:text-gray-300">Ấn nút <b>Upload ảnh</b> để lưu kỷ niệm vào bộ sưu tập lớp.</p>
+        </div>
+        </div>
+
+        <!-- Video hướng dẫn -->
+        <div class="mt-12 flex justify-center" data-aos="fade-up">
+        <video controls class="rounded-lg shadow-lg w-full max-w-3xl aspect-video bg-black">
+            <source src="video.mp4" type="video/mp4">
+            Trình duyệt của bạn không hỗ trợ video.
+        </video>
+        </div>
+    </div>
+    </section>
+
+
+    <!-- Image Modal -->
+    <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[1000] hidden">
+        <span class="absolute top-4 right-6 text-white text-4xl cursor-pointer" onclick="closeImageModal()">&times;</span>
+        <img id="modalImage" src="" alt="Ảnh phóng to" class="max-h-[90%] max-w-[90%] rounded-lg shadow-2xl">
+    </div>
+
+    <!-- Homeroom Teacher -->
+    <section id="teacher" class="py-16 bg-gray-50" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Giáo viên chủ nhiệm</h2>
+            <div class="flex flex-col md:flex-row items-center bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto">
+                <div class="md:w-1/3">
+                    <img src="gvcn.jpg" alt="Giáo viên" class="w-full h-full object-cover">
+                </div>
+                <div class="md:w-2/3 p-8">
+                    <h3 class="text-2xl font-bold text-purple-600 mb-2">Cô Nguyễn Thị Thu Hà</h3>
+                    <p class="text-gray-500 mb-4">Giáo viên Vật lý</p>
+                    <div class="flex mb-4">
+                        <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm mr-2">Kiên nhẫn</span>
+                        <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm mr-2">Hỗ trợ</span>
+                        <span class="bg-purple-100 text-purple-600 px-3 py-1 rounded-full text-sm">Truyền cảm hứng</span>
+                    </div>
+                    <p class="text-gray-700 mb-6">Với hơn 15 năm kinh nghiệm giảng dạy, cô Hà luôn đồng hành cùng học sinh để không chỉ giúp các em giỏi kiến thức mà còn tự tin, nhân ái và sáng tạo.</p>
+                    <div class="border-t pt-4">
+                        <h4 class="font-semibold mb-2">Triết lý giảng dạy:</h4>
+                        <p class="text-gray-600 italic">"Mỗi học sinh đều là một hạt giống tiềm năng, chỉ cần được gieo trồng và chăm sóc đúng cách sẽ nở rộ."</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Students Section -->
+    <section id="students" class="py-16 bg-white" data-aos="fade-up">
+    <div class="max-w-6xl mx-auto px-4 text-center">
+        <h2 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white">Danh sách học sinh lớp 10A2-K26</h2>
+        <p class="mb-8 text-gray-600 dark:text-gray-300">45 thành viên - <span id="studentCount">0</span> Học sinh</p>
+
+        <!-- Filter Buttons -->
+        <div class="flex justify-center mb-10">
+        <div class="bg-purple-100 rounded-full p-1 inline-flex">
+            <button class="filter-btn active bg-white text-purple-600 px-4 py-1 rounded-full font-medium" data-filter="all">Tất cả</button>
+            <button class="filter-btn px-4 py-1 rounded-full hover:bg-purple-200" data-filter="monitor">Lớp trưởng</button>
+            <button class="filter-btn px-4 py-1 rounded-full hover:bg-purple-200" data-filter="studying deputy-labor">Lớp phó</button>
+            <button class="filter-btn px-4 py-1 rounded-full hover:bg-purple-200" data-filter="secretary">Thư ký</button>
+            <button class="filter-btn px-4 py-1 rounded-full hover:bg-purple-200" data-filter="group-leader-1 group-leader-2 group-leader-3">Tổ trưởng</button>
+            <button class="filter-btn px-4 py-1 rounded-full hover:bg-purple-200" data-filter="member">Thành viên</button>
+        </div>
+        </div>
+
+        <!-- Student Grid -->
+        <div id="student-container" class="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-5 gap-6">
+        <!-- JS will load students here -->
+        </div>
+    </div>
+    </section>
+
+    <!-- Class Activities Marquee -->
+    <div class="bg-purple-600 text-white py-4 overflow-hidden relative">
+    <div class="marquee-wrapper">
+        <div class="marquee text-xl font-medium">
+        <span class="mx-8">💖 10A2 K26 •</span>
+        <span class="mx-8">✨ THPT Quế Lâm •</span>
+        <span class="mx-8">🔥 Maths •</span>
+        <span class="mx-8">📚 Physics •</span>
+        <span class="mx-8">🎓 Chemistry •</span>
+        <span class="mx-8">👑 Website Made By Kiên •</span>
+        </div>
+        <!-- Clone để chạy loop mượt -->
+        <div class="marquee text-xl font-medium">
+        <span class="mx-8">💖 10A2 K26 •</span>
+        <span class="mx-8">✨ THPT Quế Lâm •</span>
+        <span class="mx-8">🔥 Maths •</span>
+        <span class="mx-8">📚 Physics •</span>
+        <span class="mx-8">🎓 Chemistry •</span>
+        <span class="mx-8">👑 Website Made By Kiên •</span>
+        </div>
+    </div>
+    </div>
+
+    <!-- Social Media Section -->
+    <section id="social" class="py-16 bg-white" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Kết nối với lớp</h2>
+            <div class="flex flex-wrap justify-center gap-8">
+                <a href="https://www.tiktok.com/@10a2k26thptquelam" target="_blank" 
+                rel="noopener noreferrer"
+                class="social-card bg-white rounded-2xl p-6 text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 
+                        shadow-md hover:shadow-xl transition transform hover:-translate-y-2 duration-300 block">
+                    <div class="bg-gradient-to-tr from-purple-500 to-pink-500 w-20 h-20 rounded-full 
+                                flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fab fa-tiktok text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">TikTok</h3>
+                    <p class="text-gray-600 mb-4">Xem các video vui nhộn</p>
+                    <span class="text-purple-600 font-medium hover:underline">10A2-K26 THPT Quế Lâm</span>
+                </a>
+                <a href="https://www.facebook.com/profile.php?id=61578651402864" target="_blank" 
+                rel="noopener noreferrer"
+                class="social-card bg-white rounded-2xl p-6 text-center w-full sm:w-1/2 md:w-1/3 lg:w-1/4 
+                        shadow-md hover:shadow-xl transition transform hover:-translate-y-2 duration-300 block">
+                    <div class="bg-gradient-to-tr from-blue-500 to-cyan-400 w-20 h-20 rounded-full 
+                                flex items-center justify-center mx-auto mb-4 shadow-lg">
+                        <i class="fab fa-facebook-f text-3xl text-white"></i>
+                    </div>
+                    <h3 class="text-xl font-semibold mb-2">Facebook</h3>
+                    <p class="text-gray-600 mb-4">Fanpage chính thức</p>
+                    <span class="text-blue-600 font-medium hover:underline">10A2-K26 THPT Quế Lâm</span>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- Class Achievements -->
+    <section class="py-16 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 text-white" data-aos="fade-up">
+    <div class="max-w-6xl mx-auto px-4">
+        <h2 class="text-3xl font-bold text-center mb-12">Thành tích lớp 10A2-K26</h2>
+        <div class="grid md:grid-cols-3 gap-8">
+
+        <!-- Achievement 1 -->
+        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
+            <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-trophy text-white text-xl"></i>
+            </div>
+            <div>
+                <h4 class="font-semibold text-lg">Thể Thao & E-Sports</h4>
+                <p class="text-purple-200 text-sm">Bùng cháy đam mê!</p>
+            </div>
+            </div>
+            <p class="text-gray-100"><p class="text-gray-100">Tinh thần chiến đấu luôn bùng cháy – học tập hết mình, thi đấu hết sức!</p>
+        </div>
+
+        <!-- Achievement 2 -->
+        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
+            <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-users text-white text-xl"></i>
+            </div>
+            <div>
+                <h4 class="font-semibold text-lg">Đoàn kết lớp</h4>
+                <p class="text-purple-200 text-sm">Tinh thần tập thể</p>
+            </div>
+            </div>
+            <p class="text-gray-100">Lớp luôn đoàn kết, hỗ trợ lẫn nhau trong học tập và các hoạt động tập thể.</p>
+        </div>
+
+        <!-- Achievement 3 -->
+        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
+            <div class="flex items-center mb-4">
+            <div class="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center mr-4">
+                <i class="fas fa-star text-white text-xl"></i>
+            </div>
+            <div>
+                <h4 class="font-semibold text-lg">Hoạt động nổi bật</h4>
+                <p class="text-purple-200 text-sm">Tham gia tích cực</p>
+            </div>
+            </div>
+            <p class="text-gray-100">Tích cực tham gia các hoạt động của trường, đoàn và các cuộc thi học sinh.</p>
+        </div>
+
+        </div>
+        
+        <!-- Additional stats -->
+        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
+            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
+                <div class="text-2xl font-bold text-yellow-400">45</div>
+                <div class="text-sm text-gray-200">Học sinh</div>
+            </div>
+            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
+                <div class="text-2xl font-bold text-green-400">95%</div>
+                <div class="text-sm text-gray-200">Điểm TB</div>
+            </div>
+            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
+                <div class="text-2xl font-bold text-blue-400">100%</div>
+                <div class="text-sm text-gray-200">Tham gia</div>
+            </div>
+            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
+                <div class="text-2xl font-bold text-purple-400">A+</div>
+                <div class="text-sm text-gray-200">Đánh giá</div>
+            </div>
+        </div>
+    </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="bg-gray-900 text-white py-12" data-aos="fade-up">
+        <div class="max-w-6xl mx-auto px-4">
+            <div class="flex flex-col md:flex-row justify-between">
+                <div class="mb-8 md:mb-0">
+                    <h3 class="text-xl font-bold mb-4">10A2-K26</h3>
+                    <p class="mb-4 text-gray-400">Trường THPT Quế Lâm</p>
+                    <p class="text-gray-400">Năm học 2025-2026</p>
+                </div>
+                <div class="mb-8 md:mb-0">
+                    <h4 class="text-lg font-semibold mb-4">Liên kết nhanh</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#" class="text-gray-400 hover:text-white transition">Trang chủ</a></li>
+                        <li><a href="#memories" class="text-gray-400 hover:text-white transition">Kỷ niệm</a></li>
+                        <li><a href="#teacher" class="text-gray-400 hover:text-white transition">Giáo viên</a></li>
+                        <li><a href="#students" class="text-gray-400 hover:text-white transition">Học sinh</a></li>
+                        <li><a href="#social" class="text-gray-400 hover:text-white transition">Mạng xã hội</a></li>
+                    </ul>
+                </div>
+                <div class="mb-8 md:mb-0">
+                    <h4 class="text-lg font-semibold mb-4">Liên hệ</h4>
+                    <p class="text-gray-400 mb-2">Địa chỉ: <a href="https://maps.app.goo.gl/BAZCGSRj3Dj6uUu67" target="_blank" rel="noopener noreferrer" class="hover:underline text-blue-400">Trường THPT Quế Lâm</a></p>
+                    <p class="text-gray-400">Website trường: <a href="https://thptquelam.phutho.edu.vn/" target="_blank" rel="noopener noreferrer" class="hover:underline text-blue-400">THPT Quế Lâm</a></p>
+                    <p class="text-gray-400 mb-2">Email: a2k26thptquelam@gmail.com</p>
+                </div>
+                <div>
+                    <h4 class="text-lg font-semibold mb-4">Theo dõi</h4>
+                    <div class="flex space-x-4">
+                        <a href="https://www.facebook.com/profile.php?id=61578651402864" target="_blank" rel="noopener noreferrer" class="bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-facebook-f"></i>
+                        </a>
+                        <a href="https://www.tiktok.com/@10a2k26thptquelam" target="_blank" rel="noopener noreferrer" class="bg-gray-700 w-10 h-10 rounded-full flex items-center justify-center hover:bg-purple-600 transition">
+                            <i class="fab fa-tiktok"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="border-t border-gray-800 mt-8 pt-8 text-center">
+            <p class="text-gray-400 mb-2">© 2025 Lớp 10A2-K26, Trường THPT Quế Lâm.</p>
+            <p class="text-purple-400 font-medium flex items-center justify-center gap-2">
+                Made with 
+                <span class="animate-pulse text-pink-400">💖</span> 
+                by 
+                <a href="https://www.facebook.com/le.trung.kien.2k10/" 
+                target="_blank" 
+                rel="noopener noreferrer" 
+                class="hover:underline text-blue-400 font-semibold">
+                Lê Trung Kiên
+                </a>
+            </p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- Password Modal -->
+    <div id="passwordModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4" data-aos="zoom-in">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Nhập mật khẩu</h3>
+                <button onclick="closePasswordModal()" class="text-gray-500 hover:text-gray-700">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <p class="text-gray-600 mb-6">Vui lòng nhập mật khẩu lớp để tiếp tục upload ảnh.</p>
+            <div class="mb-6">
+                <input type="password" id="passwordInput" placeholder="Nhập mật khẩu" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                <p id="passwordError" class="text-red-500 text-sm mt-2 hidden">Mật khẩu không đúng. Vui lòng thử lại.</p>
+            </div>
+            <button onclick="checkPassword()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300">
+                Xác nhận
+            </button>
+        </div>
+    </div>
+
+    <!-- Upload Modal -->
+    <div id="uploadModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4" data-aos="zoom-in">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Upload ảnh</h3>
+                <button onclick="closeUploadModal()" class="text-gray-500 hover:text-gray-700">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <form id="uploadForm" class="space-y-4">
+                <div>
+                    <label for="imageTitle" class="block text-gray-700 mb-2">Tiêu đề ảnh</label>
+                    <input type="text" id="imageTitle" placeholder="Ví dụ: Lễ khai giảng 2025" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label for="imageDate" class="block text-gray-700 mb-2">Ngày chụp</label>
+                    <input type="date" id="imageDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label for="imageFile" class="block text-gray-700 mb-2">Chọn ảnh</label>
+                    <div class="flex items-center justify-center w-full">
+                        <label for="imageFile" class="flex flex-col items-center justify-center w-full h-32 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 hover:bg-gray-100">
+                            <div class="flex flex-col items-center justify-center pt-5 pb-6">
+                                <i data-feather="upload" class="w-8 h-8 text-gray-500 mb-2"></i>
+                                <p class="mb-2 text-sm text-gray-500"><span class="font-semibold">Click để upload</span> hoặc kéo thả</p>
+                                <p class="text-xs text-gray-500">PNG, JPG (Tối đa 5MB)</p>
+                            </div>
+                            <input id="imageFile" type="file" class="hidden" accept="image/*" />
+                        </label>
+                    </div>
+                    <div id="fileName" class="text-sm text-gray-500 mt-2 hidden"></div>
+                </div>
+                <div class="pt-4">
+                    <button type="button" onclick="uploadImage()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center btn-hover">
+                        <i data-feather="upload" class="mr-2"></i> Upload ảnh
+                    </button>
+                    <div id="uploadProgress" class="hidden mt-3">
+                        <div class="bg-gray-200 rounded-full h-2">
+                            <div id="progressBar" class="bg-indigo-600 h-2 rounded-full transition-all duration-300" style="width: 0%"></div>
+                        </div>
+                        <p id="progressText" class="text-sm text-gray-600 mt-2 text-center">Đang xử lý...</p>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Edit Image Modal -->
+    <div id="editModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white rounded-xl p-8 max-w-md w-full mx-4" data-aos="zoom-in">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800">Chỉnh sửa ảnh</h3>
+                <button onclick="document.getElementById('editModal').classList.add('hidden')" class="text-gray-500 hover:text-gray-700">
+                    <i data-feather="x"></i>
+                </button>
+            </div>
+            <form id="editForm" class="space-y-4">
+                <input type="hidden" id="editPath">
+                <div>
+                    <label for="editTitle" class="block text-gray-700 mb-2">Tiêu đề</label>
+                    <input type="text" id="editTitle" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div>
+                    <label for="editDate" class="block text-gray-700 mb-2">Ngày chụp</label>
+                    <input type="date" id="editDate" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500">
+                </div>
+                <div class="pt-2">
+                    <button type="button" onclick="saveEdit()" class="w-full bg-indigo-600 hover:bg-indigo-700 text-white font-bold py-3 px-4 rounded-lg transition duration-300 flex items-center justify-center btn-hover">
+                        <i data-feather="save" class="mr-2"></i> Lưu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Success Toast -->
+    <div id="successToast" class="fixed bottom-4 right-4 bg-green-500 text-white px-6 py-3 rounded-lg shadow-lg flex items-center hidden z-50" data-aos="fade-left">
+        <i data-feather="check-circle" class="mr-2"></i>
+        <span>Upload ảnh thành công!</span>
+    </div>
+
+    <!-- Student Modal -->
+    <div id="studentModal" class="fixed inset-0 bg-black bg-opacity-70 flex items-center justify-center z-[2000] hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-2xl shadow-xl p-6 max-w-md w-11/12 relative">
+            <button onclick="closeStudentModal()" class="absolute top-3 right-3 text-gray-600 dark:text-gray-300 hover:text-red-500">
+            <i data-feather="x"></i>
+            </button>
+            <div class="text-center">
+            <img id="studentModalImg" src="" alt="Học sinh" class="w-32 h-32 rounded-full mx-auto mb-4 object-cover border-4 border-purple-500">
+            <h3 id="studentModalName" class="text-2xl font-bold text-gray-800 dark:text-white mb-2"></h3>
+            <p id="studentModalRole" class="text-purple-600 dark:text-purple-300 font-medium flex flex-wrap justify-center gap-1"></p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Dark Mode Button - Luôn visible -->
+    <button id="darkModeBtn" class="fixed bottom-20 right-4 z-[1000] bg-purple-600 text-white w-12 h-12 flex items-center justify-center rounded-full shadow-lg hover:bg-purple-800 transition-all hover:scale-110 flex md:flex"> <!-- Thay "hidden md:flex" bằng "flex md:flex" -->
+        <i data-feather="moon"></i>
+    </button>
+    <!-- Scripts -->
+    <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
+    <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" defer></script>
+    <script src="https://identity.netlify.com/v1/netlify-identity.js" defer></script>
+    <script src="main.min.js" defer></script>
+
+    <!-- Removed duplicate logout buttons (IDs already exist in navbar) -->
+  
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'98deddbbdb68d4b4',t:'MTc2MDM1ODgxNC4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script>
+<script>
+  // Hiện loader khi vào web
+  document.getElementById('globalLoader').style.display = 'flex';
+  document.getElementById('mainContent').style.display = 'none';
+
+  // Hàm ẩn loader và hiện nội dung
+  function showMainContent() {
+    document.getElementById('globalLoader').style.display = 'none';
+    document.getElementById('mainContent').style.display = 'block';
+
+    // Khởi tạo hiệu ứng sau khi nội dung đã hiện
+    setTimeout(function() {
+      if (window.AOS) AOS.init({
+        duration: 1000,  // Tăng để mượt hơn
+        once: false,     // Fix lỗi mất hiệu ứng khi scroll lại
+        offset: 150,      // Trigger sớm hơn
+        easing: 'ease-in-out-sine',  // Mượt mà hơn
+        mirror: true     // Animate khi scroll ngược
+      });
+      if (window.feather) feather.replace();
+    }, 100); // Đợi DOM render xong
+  }
+
+  // Cho phép gọi từ main.js khi dữ liệu đã tải xong
+  window.showMainContent = showMainContent;
+
+  // Đề phòng lỗi hoặc quá lâu, vẫn hiện nội dung sau tối đa 5s
+  setTimeout(showMainContent, 5000);
+</script>
+<script>(function(){function c(){var b=a.contentDocument||a.contentWindow.document;if(b){var d=b.createElement('script');d.innerHTML="window.__CF$cv$params={r:'990018c33d6fdd5d',t:'MTc2MDcwNzI2Mi4wMDAwMDA='};var a=document.createElement('script');a.nonce='';a.src='/cdn-cgi/challenge-platform/scripts/jsd/main.js';document.getElementsByTagName('head')[0].appendChild(a);";b.getElementsByTagName('head')[0].appendChild(d)}}if(document.body){var a=document.createElement('iframe');a.height=1;a.width=1;a.style.position='absolute';a.style.top=0;a.style.left=0;a.style.border='none';a.style.visibility='hidden';document.body.appendChild(a);if('loading'!==document.readyState)c();else if(window.addEventListener)document.addEventListener('DOMContentLoaded',c);else{var e=document.onreadystatechange||function(){};document.onreadystatechange=function(b){e(b);'loading'!==document.readyState&&(document.onreadystatechange=e,c())}}}})();</script></body>
+</html>

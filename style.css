@@ -1,0 +1,679 @@
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
+body {
+    font-family: 'Be Vietnam Pro', sans-serif;
+    background-color: #f8f9fa;
+}
+html {
+    scroll-behavior: smooth;
+}
+/* Restore original motion intensity (still keep smooth scroll) */
+.gradient-bg {
+    background: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%);
+}
+/* */
+.student-card {
+    transition: transform 0.3s, box-shadow 0.3s;
+    border-radius: 1.25rem !important; /* Bo góc lớn */
+    box-shadow: 0 6px 24px rgba(123,47,247,0.10), 0 1.5px 8px rgba(0,0,0,0.07);
+    background: #fff;
+    transition: box-shadow 0.3s, transform 0.3s, border 0.3s;
+    overflow: hidden;
+    position: relative;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 340px;
+    flex: 1 1 calc(20% - 1.2rem) !important; /* Adjusted for 5 cards per row with gap */
+    max-width: calc(20% - 1.2rem) !important; /* Ensure max width fits 5 per row */
+}
+.student-card:hover {
+    transform: translateY(-8px) scale(1.04);
+    box-shadow: 0 16px 32px rgba(123,47,247,0.15), 0 4px 16px rgba(0,0,0,0.10);
+}
+.marquee-wrapper {
+    display: flex;
+    width: max-content;
+    animation: marquee 25s linear infinite;
+    }
+.marquee {
+    display: flex;
+    }
+@keyframes marquee {
+    from { transform: translateX(0); }
+    to { transform: translateX(-50%); }
+}
+.filter-btn {
+    transition: background 0.3s, color 0.3s, box-shadow 0.3s, transform 0.2s;
+}
+.filter-btn:hover {
+    transform: translateY(-2px) scale(1.05);
+    box-shadow: 0 4px 16px rgba(123,47,247,0.15);
+}
+.filter-btn.active {
+    background-color: #7b2ff7;
+    color: white;
+    box-shadow: 0 4px 12px rgba(123,47,247,0.3);
+}
+.bg-memory {
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+}
+.upload-btn {
+    transition: all 0.3s ease;
+}
+.upload-btn:hover {
+    transform: translateY(-2px);
+}
+#scrollTopBtn {
+    position: fixed;
+    bottom: 30px;
+    right: 30px;
+    width: 40px;
+    height: 40px;
+    background: linear-gradient(135deg, #9b5de5, #f15bb5);
+    color: white;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+    cursor: pointer;
+    z-index: 999;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+#scrollTopBtn.show {
+    opacity: 1;
+    pointer-events: auto;
+    transform: scale(1);
+}
+#scrollTopBtn:hover {
+    transform: scale(1.1);
+}
+.gallery-item {
+    position: relative;
+    overflow: hidden;
+}
+.gallery-item img {
+    transition: transform 0.4s;
+}
+.gallery-item:hover img {
+    transform: scale(1.08);
+}
+.gallery-caption {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: rgba(123,47,247,0.85);
+    color: #fff;
+    padding: 8px 12px;
+    font-size: 1rem;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+.gallery-item:hover .gallery-caption {
+    opacity: 1;
+}
+body.dark {
+    background: #18181b !important;
+    color: #e5e7eb !important;
+}
+body.dark .bg-white, body.dark .bg-gray-50 {
+    background: #23232a !important;
+    color: #e5e7eb !important;
+}
+/* */
+body.dark .text-gray-800, body.dark .text-gray-600 {
+    color: #e5e7eb !important;
+}
+body.dark .gradient-bg {
+    background: linear-gradient(135deg, #23232a 0%, #7b2ff7 100%) !important;
+}
+body.dark .bg-purple-600 {
+    background: #7b2ff7 !important;
+}
+body.dark .shadow-md, body.dark .shadow-lg {
+    box-shadow: 0 4px 24px rgba(123,47,247,0.2) !important;
+}
+.memory-grid, .student-grid {
+    display: flex;
+    flex-direction: column;
+    gap: 1.5rem;
+}
+.memory-card {
+    position: relative;
+    border-radius: 0.5rem;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+.memory-card:hover {
+    transform: translateY(-8px) scale(1.04);
+    box-shadow: 0 16px 32px rgba(123,47,247,0.15), 0 4px 16px rgba(0,0,0,0.10);
+}
+/* */
+.memory-img {
+    width: 100%;
+    height: 200px;
+    object-fit: cover;
+}
+.memory-overlay {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+    padding: 1rem;
+    color: white;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+}
+.memory-card:hover .memory-overlay {
+    transform: translateY(0);
+}
+.memory-title {
+    font-weight: 600;
+    margin-bottom: 0.25rem;
+}
+.memory-date {
+    font-size: 0.875rem;
+    opacity: 0.8;
+}
+.memory-actions {
+    position: absolute;
+    top: 0.5rem;
+    right: 0.5rem;
+    display: flex;
+    gap: 0.5rem;
+    opacity: 0;
+    transition: opacity 0.3s ease;
+}
+.memory-card:hover .memory-actions {
+    opacity: 1;
+}
+.memory-action-btn {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-color: rgba(255,255,255,0.9);
+    color: #333;
+    cursor: pointer;
+    transition: all 0.2s ease;
+}
+.memory-action-btn:hover {
+    transform: scale(1.1);
+}
+.edit-btn {
+    background-color: #3b82f6;
+    color: white;
+}
+.delete-btn {
+    background-color: #ef4444;
+    color: white;
+}
+        /* Ẩn nút scroll top + dark mode trên mobile */
+@media (max-width: 768px) {
+#scrollTopBtn,
+#darkModeBtn {
+    display: none !important;
+}
+}
+/* Ẩn mục Thành viên trên mobile */
+@media (max-width: 768px) {
+.filter-btn[data-filter="member"] {
+    display: none !important;
+}
+}
+/* Làm mượt hơn cho ô tìm kiếm và sắp xếp */
+#searchMemory, #sortMemory {
+  transition: all 0.2s ease;
+}
+#searchMemory:focus, #sortMemory:focus {
+  border-color: #7b2ff7;
+  box-shadow: 0 0 0 3px rgba(123, 47, 247, 0.2);
+}
+
+/* Enhanced animations */
+.memory-card {
+  animation: fadeInUp 0.6s ease-out;
+  will-change: transform, opacity;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Fade in animation for lazy loaded images */
+.fade-in {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+/* Smooth page transitions */
+* {
+  transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+/* Scroll progress bar */
+#scrollProgressContainer {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 4px;
+  background: rgba(0,0,0,0.05);
+  z-index: 10000;
+}
+#scrollProgressBar {
+  width: 0%;
+  height: 100%;
+  background: linear-gradient(90deg, #7b2ff7, #ec4899, #38bdf8);
+  background-size: 300% 100%;
+  animation: progressGlow 6s linear infinite;
+}
+/* */
+@keyframes progressGlow {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+/* Dark mode for progress bar */
+body.dark #scrollProgressContainer { background: rgba(255,255,255,0.06); }
+
+/* Optimize animations for performance */
+.memory-card, .student-card {
+  transform: translateZ(0);
+  backface-visibility: hidden;
+  perspective: 1000px;
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+
+@keyframes loading {
+  0% {
+    background-position: 200% 0;
+  }
+  100% {
+    background-position: -200% 0;
+  }
+}
+
+/* Enhanced button hover effects */
+.btn-hover {
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.btn-hover:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.15);
+}
+
+/* Toast animations */
+.toast-enter {
+  animation: slideInRight 0.3s ease-out;
+}
+
+.toast-exit {
+  animation: slideOutRight 0.3s ease-in;
+}
+
+@keyframes slideInRight {
+  from {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+@keyframes slideOutRight {
+  from {
+    transform: translateX(0);
+    opacity: 1;
+  }
+  to {
+    transform: translateX(100%);
+    opacity: 0;
+  }
+}
+/* Pagination */
+#pagination button {
+  min-width: 36px;
+  min-height: 36px;
+  border-radius: 8px;
+  font-weight: 500;
+  transition: all 0.2s ease;
+}
+
+#pagination button:hover:not(:disabled) {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(123,47,247,0.2);
+}
+
+#pagination button:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+/* ==== DARK MODE ==== */
+body.dark {
+  background-color: #1a1a1a;
+  color: #e5e5e5;
+}
+
+/* Memories Search + Sort box */
+body.dark #memories .bg-white {
+  background-color: #2a2a2a !important;
+  border-color: #444 !important;
+}
+body.dark #memories input,
+body.dark #memories select {
+  background-color: #333;
+  color: #e5e5e5;
+  border-color: #555;
+}
+body.dark #memories input::placeholder {
+  color: #aaa;
+}
+
+/* Pagination */
+body.dark #pagination button {
+  background-color: #333;
+  color: #e5e5e5;
+  border: 1px solid #555;
+}
+body.dark #pagination button:hover:not(:disabled) {
+  background-color: #555;
+}
+body.dark #pagination button.bg-purple-600 {
+  background-color: #7c3aed !important; /* nút đang active */
+}
+
+/* Memory Card Overlay */
+body.dark .memory-overlay {
+  background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+  color: #f3f3f3;
+}
+/* Gradient Badges - Thay thế màu solid cho đẹp hơn */
+.role-badge {
+    display: inline-block;
+    padding: 3px 10px;
+    border-radius: 12px;
+    font-size: 0.8rem;
+    font-weight: 600;
+    margin-right: 6px;
+    margin-bottom: 6px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+    transition: all 0.2s ease;
+    /* Gradient chung cho hover effect */
+}
+.role-badge:hover {
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 4px 12px rgba(123,47,247,0.18);
+}
+.monitor-badge {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%); /* Tím gradient */
+    color: white;
+}
+.secretary-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%); /* Vàng gradient */
+    color: white;
+}
+.group-leader-badge {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%); /* Xanh dương gradient */
+    color: white;
+}
+.member-badge {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%); /* Xanh lá nhạt gradient */
+    color: #059616;
+    border-radius: 9999px;
+    padding: 2px 12px;
+    font-size: 0.95em;
+    font-weight: 500;
+    margin-right: 4px;
+    margin-bottom: 4px;
+    display: inline-block;
+}
+.assistant-badge {
+    background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%); /* Hồng gradient */
+    color: white;
+}
+/* Dark mode cho gradient badges */
+body.dark .role-badge {
+    /* Điều chỉnh shadow cho dark mode */
+    box-shadow: 0 2px 4px rgba(0,0,0,0.3);
+}
+body.dark .monitor-badge {
+    background: linear-gradient(135deg, #8b5cf6 0%, #a855f7 100%);
+}
+body.dark .secretary-badge {
+    background: linear-gradient(135deg, #f59e0b 0%, #fbbf24 100%);
+}
+body.dark .group-leader-badge {
+    background: linear-gradient(135deg, #3b82f6 0%, #60a5fa 100%);
+}
+body.dark .member-badge {
+    background: linear-gradient(135deg, #d1fae5 0%, #a7f3d0 100%);
+    color: #059616;
+}
+body.dark .assistant-badge {
+    background: linear-gradient(135deg, #ec4899 0%, #f472b6 100%);
+}
+.fade-in-up {
+    opacity: 0;
+    transform: translateY(30px);
+    animation: fadeInUp 0.6s cubic-bezier(0.4,0,0.2,1) forwards;
+}
+
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(30px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+#studentModal, #imageModal {
+    opacity: 0;
+    transform: scale(0.95);
+    transition: opacity 0.3s, transform 0.3s;
+}
+#studentModal.show, #imageModal.show {
+    opacity: 1;
+    transform: scale(1);
+}
+#uploadBtn, #logoutBtn, #darkModeBtn, #mobileUploadBtn, #mobileLogoutBtn {
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+#uploadBtn:hover, #logoutBtn:hover, #darkModeBtn:hover, #mobileUploadBtn:hover, #mobileLogoutBtn:hover {
+    transform: scale(1.08) translateY(-2px);
+    box-shadow: 0 6px 18px rgba(123,47,247,0.18);
+}
+
+body { 
+  font-family: 'Be Vietnam Pro', sans-serif; 
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  margin: 0;
+  padding: 0;
+}
+.gradient-bg {
+  background: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%);
+}
+.memory-grid {
+  display: grid !important;
+  gap: 1.5rem;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+/* 2-3 cards per row on mobile/tablet; more on larger screens */
+@media (min-width: 480px) {
+  .memory-grid { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+}
+@media (min-width: 768px) {
+  .memory-grid { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+}
+@media (min-width: 1024px) {
+  .memory-grid { grid-template-columns: repeat(5, minmax(0, 1fr)); }
+}
+
+/* Ensure student cards occupy full grid cell width (avoid fixed 20% on mobile) */
+.student-card { width: 100% !important; max-width: none !important; }
+
+/* Tighter gaps on very small screens for better fit */
+@media (max-width: 380px) { .memory-grid { gap: 1rem; } }
+.skeleton {
+  background: linear-gradient(90deg, #f0f0f0 25%, #e0e0e0 50%, #f0f0f0 75%);
+  background-size: 200% 100%;
+  animation: loading 1.5s infinite;
+}
+@keyframes loading {
+  0% { background-position: 200% 0; }
+  100% { background-position: -200% 0; }
+}
+.parallax-bg {
+  background-attachment: fixed;
+  background-position: center;
+  background-size: cover;
+}
+/* Keep mobile parallax fallback (safe) */
+@media (max-width: 768px) { .parallax-bg { background-attachment: scroll; } }
+
+/* content-visibility to reduce initial rendering below fold */
+/* Remove deferred visibility to bring back all effects immediately */
+/* From Uiverse.io by JeremGamingYT */ 
+.loader {
+  display: flex;
+  align-items: center;
+  position: relative;
+}
+.loader svg {
+  margin: 0 5px;
+  width: 64px;
+  height: 64px;
+}
+.absolute {
+  position: absolute;
+}
+.inline-block {
+  display: inline-block;
+}
+.w-2 {
+  width: 0.5em;
+}
+/* Animations */
+.dash {
+  animation:
+    dashArray 2s ease-in-out infinite,
+    dashOffset 2s linear infinite;
+}
+.spin {
+  animation:
+    spinDashArray 2s ease-in-out infinite,
+    spin 8s ease-in-out infinite,
+    dashOffset 2s linear infinite;
+  transform-origin: center;
+}
+@keyframes dashArray {
+  0% { stroke-dasharray: 0 1 359 0; }
+  50% { stroke-dasharray: 0 359 1 0; }
+  100% { stroke-dasharray: 359 1 0 0; }
+}
+@keyframes spinDashArray {
+  0% { stroke-dasharray: 270 90; }
+  50% { stroke-dasharray: 0 360; }
+  100% { stroke-dasharray: 270 90; }
+}
+@keyframes dashOffset {
+  0% { stroke-dashoffset: 365; }
+  100% { stroke-dashoffset: 5; }
+}
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  12.5%, 25% { transform: rotate(270deg); }
+  37.5%, 50% { transform: rotate(540deg); }
+  62.5%, 75% { transform: rotate(810deg); }
+  87.5%, 100% { transform: rotate(1080deg); }
+}
+
+/* Dégradés */
+.gradient-b {
+  stroke: url(#b);
+}
+
+.gradient-c {
+  stroke: url(#c);
+}
+
+.gradient-d {
+  stroke: url(#d);
+}
+#globalLoader {
+  animation: loaderBgMove 3s linear infinite;
+  background-size: 200% 200%;
+}
+/* Nâng cấp animation cho loader background */
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  25% {
+    background-position: 100% 50%;
+  }
+  50% {
+    background-position: 100% 100%;
+  }
+  75% {
+    background-position: 0% 100%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+@keyframes shadowPulse {
+  0% {
+    box-shadow: 
+      0 0 80px 0 rgba(123, 47, 247, 0.2), 
+      0 0 120px 0 rgba(236, 72, 153, 0.15), 
+      inset 0 0 100px rgba(255, 255, 255, 0.1);
+  }
+  100% {
+    box-shadow: 
+      0 0 100px 0 rgba(123, 47, 247, 0.3), 
+      0 0 150px 0 rgba(236, 72, 153, 0.25), 
+      inset 0 0 120px rgba(255, 255, 255, 0.15);
+  }
+}
+
+/* Tối ưu cho dark mode (nếu có) */
+body.dark #globalLoader {
+  background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 25%, #be185d 50%, #db2777 75%, #06b6d4 100%);
+}
