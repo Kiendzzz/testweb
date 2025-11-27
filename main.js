@@ -344,6 +344,7 @@ function updateUploadButtonUI() {
     const logoutBtn = document.getElementById('logoutBtn');
     const mobileUploadBtn = document.getElementById('mobileUploadBtn');
     const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+    const uploadTKBBtn = document.getElementById('uploadTKBBtn');
 
     if (isAuthenticated) {
         // Desktop
@@ -355,6 +356,9 @@ function updateUploadButtonUI() {
         mobileUploadBtn.onclick = openUploadModal;
         mobileUploadBtn.innerHTML = '<i data-feather="upload" class="mr-2"></i> Upload ảnh';
         mobileLogoutBtn.classList.remove('hidden');
+
+        // TKB Upload
+        if (uploadTKBBtn) uploadTKBBtn.style.display = 'inline-block';
     } else {
         // Desktop
         uploadBtn.onclick = openPasswordModal;
@@ -365,6 +369,9 @@ function updateUploadButtonUI() {
         mobileUploadBtn.onclick = openPasswordModal;
         mobileUploadBtn.innerHTML = '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
         mobileLogoutBtn.classList.add('hidden');
+
+        // TKB Upload
+        if (uploadTKBBtn) uploadTKBBtn.style.display = 'none';
     }
     feather.replace();
 }
@@ -1101,4 +1108,237 @@ document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('studentModal');
         if (modal) modal.classList.add('hidden');
     };
+
+    // Load TKB files
+    loadTKBFiles();
+
+    // Update TKB upload button visibility
+    updateTKBUploadButtonUI();
 });
+
+// ================== TKB FUNCTIONS ==================
+let tkbFiles = [];
+let tkbCurrentFilter = 'all';
+
+async function loadTKBFiles() {
+    try {
+        showLoadingState(true);
+        const response = await fetch('/.netlify/functions/get-tkb-files');
+        if (response.ok) {
+            tkbFiles = await response.json();
+            // Sort by class (10, 11, 12) then by number descending (12, 11, 10...)
+            tkbFiles.sort((a, b) => {
+                if (a.class !== b.class) {
+                    return parseInt(a.class) - parseInt(b.class);
+                }
+                return parseInt(b.tkbNumber) - parseInt(a.tkbNumber);
+            });
+            renderTKBFiles();
+        }
+    } catch (err) {
+        console.error('Error loading TKB files:', err);
+    } finally {
+        showLoadingState(false);
+    }
+}
+
+function filterTKBByClass(classNum) {
+    tkbCurrentFilter = classNum;
+    
+    // Update button styles
+    document.querySelectorAll('.filter-tkb-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-white', 'bg-opacity-20');
+        btn.classList.add('bg-white', 'bg-opacity-10');
+    });
+    
+    const activeBtn = document.querySelector(`[data-class="${classNum}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderTKBFiles();
+}
+
+function renderTKBFiles() {
+    const container = document.getElementById('tkbFilesList');
+    if (!container) return;
+
+    // Filter files
+    let filteredFiles = tkbFiles;
+    if (tkbCurrentFilter !== 'all') {
+        filteredFiles = tkbFiles.filter(f => f.class === tkbCurrentFilter);
+    }
+
+    if (filteredFiles.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-calendar-alt text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có file TKB nào cho khối này. Hãy quay lại sau!</p>
+            </div>
+        `;
+        return;
+    }
+
+    container.innerHTML = filteredFiles.map((file, idx) => `
+        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20 tkb-card" data-aos="zoom-in" data-aos-delay="${idx * 150}">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                    ${file.type === 'docx' ? 
+                        `<i class="fas fa-file-word text-blue-300 text-3xl"></i>` :
+                        file.type === 'pdf' ? 
+                        `<i class="fas fa-file-pdf text-red-400 text-3xl"></i>` : 
+                        `<i class="fas fa-image text-cyan-400 text-3xl"></i>`
+                    }
+                </div>
+                <div class="flex-grow">
+                    <div class="flex items-center gap-2 mb-2">
+                        <h4 class="font-semibold text-lg text-white">TKB Số ${file.tkbNumber}</h4>
+                        <span class="px-2 py-1 bg-white bg-opacity-20 rounded text-xs font-semibold">Lớp ${file.class}</span>
+                    </div>
+                    <p class="text-sm text-gray-300 mb-4">${new Date(file.uploadedAt).toLocaleDateString('vi-VN')}</p>
+                    <div class="flex gap-2">
+                        <a href="${file.url}" target="_blank" download class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-semibold">
+                            <i class="fas fa-download mr-2"></i>Tải
+                        </a>
+                        ${isAuthenticated ? `
+                            <button onclick="deleteTKBFile('${file.id}')" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition text-sm font-semibold">
+                                <i class="fas fa-trash mr-2"></i>Xóa
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    if (typeof feather !== 'undefined') feather.replace();
+}
+
+function openTKBUploadModal() {
+    if (!isAuthenticated) {
+        openPasswordModal();
+        return;
+    }
+    document.getElementById('tkbUploadModal').classList.remove('hidden');
+}
+
+function closeTKBUploadModal() {
+    document.getElementById('tkbUploadModal').classList.add('hidden');
+    document.getElementById('tkbUploadForm').reset();
+    document.getElementById('tkbFileName').classList.add('hidden');
+}
+
+document.getElementById('tkbFile').addEventListener('change', function(e) {
+    const fileNameElement = document.getElementById('tkbFileName');
+    if (this.files.length > 0) {
+        const file = this.files[0];
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        document.getElementById('tkbFileNameText').textContent = `${file.name} (${fileSize} MB)`;
+        fileNameElement.classList.remove('hidden');
+    } else {
+        fileNameElement.classList.add('hidden');
+    }
+});
+
+async function uploadTKBFile() {
+    const tkbClass = document.getElementById('tkbClass').value;
+    const tkbNumber = document.getElementById('tkbNumber').value;
+    const file = document.getElementById('tkbFile').files[0];
+
+    if (!tkbClass) {
+        showErrorToast('Vui lòng chọn khối lớp');
+        return;
+    }
+
+    if (!tkbNumber || tkbNumber < 1) {
+        showErrorToast('Vui lòng nhập số TKB (>= 1)');
+        return;
+    }
+
+    if (!file) {
+        showErrorToast('Vui lòng chọn file');
+        return;
+    }
+
+    const allowedTypes = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+        showErrorToast('Chỉ hỗ trợ file DOCX, PDF, JPG, PNG, WebP');
+        return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+        showErrorToast('File tối đa 15MB');
+        return;
+    }
+
+    const uploadBtn = document.querySelector('#tkbUploadForm button[type="button"]:last-child');
+    uploadBtn.disabled = true;
+    uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang upload...';
+
+    try {
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            try {
+                const response = await fetch('/.netlify/functions/upload-tkb', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tkbClass,
+                        tkbNumber: parseInt(tkbNumber),
+                        file: reader.result,
+                        fileName: file.name,
+                        fileType: file.type
+                    })
+                });
+
+                if (response.ok) {
+                    showSuccessToast('Upload TKB thành công!');
+                    closeTKBUploadModal();
+                    loadTKBFiles();
+                } else {
+                    const err = await response.json();
+                    showErrorToast(err.message || 'Lỗi upload');
+                }
+            } catch (e) {
+                showErrorToast('Lỗi upload file: ' + e.message);
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload';
+            }
+        };
+        reader.readAsDataURL(file);
+    } catch (e) {
+        showErrorToast('Lỗi: ' + e.message);
+        uploadBtn.disabled = false;
+        uploadBtn.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload';
+    }
+}
+
+async function deleteTKBFile(fileId) {
+    if (!confirm('Bạn chắc chắn muốn xóa file này?')) return;
+
+    try {
+        const response = await fetch('/.netlify/functions/delete-tkb', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: fileId })
+        });
+
+        if (response.ok) {
+            showSuccessToast('Xóa file thành công!');
+            loadTKBFiles();
+        } else {
+            showErrorToast('Lỗi xóa file');
+        }
+    } catch (e) {
+        showErrorToast('Lỗi: ' + e.message);
+    }
+}
+
+function updateTKBUploadButtonUI() {
+    const uploadTKBBtn = document.getElementById('uploadTKBBtn');
+    if (uploadTKBBtn) {
+        uploadTKBBtn.style.display = isAuthenticated ? 'inline-block' : 'none';
+    }
+}

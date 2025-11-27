@@ -677,3 +677,26 @@ body {
 body.dark #globalLoader {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 25%, #be185d 50%, #db2777 75%, #06b6d4 100%);
 }
+
+/* TKB Filter Buttons */
+.filter-tkb-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-tkb-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.filter-tkb-btn.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.tkb-card {
+  animation: fadeInUp 0.6s ease-out;
+}

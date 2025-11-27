@@ -403,17 +403,8 @@
             <p class="text-gray-600 dark:text-gray-300">Ấn nút <b>Upload ảnh</b> để lưu kỷ niệm vào bộ sưu tập lớp.</p>
         </div>
         </div>
-
-        <!-- Video hướng dẫn -->
-        <div class="mt-12 flex justify-center" data-aos="fade-up">
-        <video controls class="rounded-lg shadow-lg w-full max-w-3xl aspect-video bg-black">
-            <source src="video.mp4" type="video/mp4">
-            Trình duyệt của bạn không hỗ trợ video.
-        </video>
-        </div>
     </div>
     </section>
-
 
     <!-- Image Modal -->
     <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[1000] hidden">
@@ -528,77 +519,84 @@
         </div>
     </section>
 
-    <!-- Class Achievements -->
-    <section class="py-16 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 text-white" data-aos="fade-up">
+    <!-- TKB Section -->
+    <section id="tkb" class="py-16 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 text-white" data-aos="fade-up">
     <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12">Thành tích lớp 10A2-K26</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-
-        <!-- Achievement 1 -->
-        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
-            <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-trophy text-white text-xl"></i>
-            </div>
-            <div>
-                <h4 class="font-semibold text-lg">Thể Thao & E-Sports</h4>
-                <p class="text-purple-200 text-sm">Bùng cháy đam mê!</p>
-            </div>
-            </div>
-            <p class="text-gray-100"><p class="text-gray-100">Tinh thần chiến đấu luôn bùng cháy – học tập hết mình, thi đấu hết sức!</p>
-        </div>
-
-        <!-- Achievement 2 -->
-        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
-            <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-users text-white text-xl"></i>
-            </div>
-            <div>
-                <h4 class="font-semibold text-lg">Đoàn kết lớp</h4>
-                <p class="text-purple-200 text-sm">Tinh thần tập thể</p>
-            </div>
-            </div>
-            <p class="text-gray-100">Lớp luôn đoàn kết, hỗ trợ lẫn nhau trong học tập và các hoạt động tập thể.</p>
-        </div>
-
-        <!-- Achievement 3 -->
-        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
-            <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-star text-white text-xl"></i>
-            </div>
-            <div>
-                <h4 class="font-semibold text-lg">Hoạt động nổi bật</h4>
-                <p class="text-purple-200 text-sm">Tham gia tích cực</p>
-            </div>
-            </div>
-            <p class="text-gray-100">Tích cực tham gia các hoạt động của trường, đoàn và các cuộc thi học sinh.</p>
-        </div>
-
+        <h2 class="text-3xl font-bold text-center mb-12">📅 TKB Các Tuần</h2>
+        
+        <!-- Filter by Class -->
+        <div class="mb-8 flex justify-center gap-3 flex-wrap">
+            <button onclick="filterTKBByClass('all')" class="px-6 py-2 rounded-lg font-semibold transition filter-tkb-btn active" data-class="all">
+                <i class="fas fa-th mr-2"></i>Tất Cả
+            </button>
+            <button onclick="filterTKBByClass('10')" class="px-6 py-2 rounded-lg font-semibold transition filter-tkb-btn bg-white bg-opacity-10" data-class="10">
+                <i class="fas fa-book mr-2"></i>Lớp 10
+            </button>
+            <button onclick="filterTKBByClass('11')" class="px-6 py-2 rounded-lg font-semibold transition filter-tkb-btn bg-white bg-opacity-10" data-class="11">
+                <i class="fas fa-book mr-2"></i>Lớp 11
+            </button>
+            <button onclick="filterTKBByClass('12')" class="px-6 py-2 rounded-lg font-semibold transition filter-tkb-btn bg-white bg-opacity-10" data-class="12">
+                <i class="fas fa-book mr-2"></i>Lớp 12
+            </button>
         </div>
         
-        <!-- Additional stats -->
-        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
-                <div class="text-2xl font-bold text-yellow-400">45</div>
-                <div class="text-sm text-gray-200">Học sinh</div>
-            </div>
-            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
-                <div class="text-2xl font-bold text-green-400">95%</div>
-                <div class="text-sm text-gray-200">Điểm TB</div>
-            </div>
-            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
-                <div class="text-2xl font-bold text-blue-400">100%</div>
-                <div class="text-sm text-gray-200">Tham gia</div>
-            </div>
-            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
-                <div class="text-2xl font-bold text-purple-400">A+</div>
-                <div class="text-sm text-gray-200">Đánh giá</div>
+        <!-- Upload TKB Section (Only for authenticated users) -->
+        <div class="mb-12 text-center">
+            <button onclick="openTKBUploadModal()" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg inline-flex items-center gap-2" id="uploadTKBBtn">
+                <i class="fas fa-plus"></i>Upload TKB
+            </button>
+        </div>
+
+        <!-- TKB Files List -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="tkbFilesList">
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-calendar-alt text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có file TKB nào. Hãy quay lại sau!</p>
             </div>
         </div>
     </div>
     </section>
+
+    <!-- TKB Upload Modal -->
+    <div id="tkbUploadModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full shadow-xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Upload TKB</h3>
+                <button onclick="closeTKBUploadModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            
+            <form id="tkbUploadForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn Khối Lớp</label>
+                    <select id="tkbClass" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="">-- Chọn khối lớp --</option>
+                        <option value="10">Lớp 10</option>
+                        <option value="11">Lớp 11</option>
+                        <option value="12">Lớp 12</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Số TKB (vd: 1, 2, 3...)</label>
+                    <input type="number" id="tkbNumber" placeholder="Nhập số TKB" min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
+                    <p class="text-xs text-gray-500 mt-1">TKB số cao sẽ hiển thị trước</p>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn file (.docx, PDF, ảnh)</label>
+                    <input type="file" id="tkbFile" accept=".docx,.pdf,.jpg,.jpeg,.png,.webp" class="w-full px-4 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+                    <p class="text-sm text-gray-500 mt-2">Tối đa 15MB (DOCX, PDF, JPG, PNG, WebP)</p>
+                </div>
+
+                <div id="tkbFileName" class="hidden text-sm text-green-600">File: <span id="tkbFileNameText"></span></div>
+
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeTKBUploadModal()" class="flex-1 px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">Hủy</button>
+                    <button type="button" onclick="uploadTKBFile()" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12" data-aos="fade-up">
@@ -777,7 +775,7 @@
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" defer></script>
     <script src="https://identity.netlify.com/v1/netlify-identity.js" defer></script>
-    <script src="main.min.js" defer></script>
+    <script src="main.js" defer></script>
 
     <!-- Removed duplicate logout buttons (IDs already exist in navbar) -->
   
