@@ -1171,6 +1171,7 @@ let scoreCurrentSemesterFilter = 'all';
 let scoreCurrentPage = 1;
 const SCORE_ITEMS_PER_PAGE = 6;
 const SEMESTER_LABELS = {
+    "survey":"Điểm khảo sát",
     'mid1': 'Giữa HK1',
     'final1': 'Cuối HK1',
     'mid2': 'Giữa HK2',
@@ -1185,7 +1186,7 @@ async function loadScores() {
             scoresData = await response.json();
             // Sort by year descending, then semester descending, then by upload time descending
             scoresData.sort((a, b) => {
-                const semesterOrder = { 'final2': 4, 'mid2': 3, 'final1': 2, 'mid1': 1 };
+                const semesterOrder = { 'survey': 5, 'final2': 4, 'mid2': 3, 'final1': 2, 'mid1': 1 };
                 if (a.year !== b.year) {
                     return b.year.localeCompare(a.year);
                 }
@@ -1430,7 +1431,7 @@ async function loadSurveyScores() {
             surveyScoresData = await response.json();
             // Sort by year descending, then semester descending, then by upload time descending
             surveyScoresData.sort((a, b) => {
-                const semesterOrder = { 'final2': 4, 'mid2': 3, 'final1': 2, 'mid1': 1 };
+                const semesterOrder = { 'survey': 5, 'final2': 4, 'mid2': 3, 'final1': 2, 'mid1': 1 };
                 if (a.year !== b.year) {
                     return b.year.localeCompare(a.year);
                 }

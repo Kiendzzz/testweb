@@ -680,8 +680,9 @@
                     <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn Năm Học</label>
                     <select id="scoreYear" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" required>
                         <option value="">-- Chọn năm học --</option>
-                        <option value="2024-2025">2024-2025</option>
                         <option value="2025-2026">2025-2026</option>
+                        <option value="2026-2027">2026-2027</option>
+                        <option value="2027-2028">2027-2028</option>
                     </select>
                 </div>
                 <div>
@@ -692,6 +693,7 @@
                         <option value="final1">Cuối HK1</option>
                         <option value="mid2">Giữa HK2</option>
                         <option value="final2">Cuối HK2</option>
+                        <option value="survey">Khảo Sát</option>
                     </select>
                 </div>
                 <div>
@@ -761,8 +763,9 @@
                     <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn Năm Học</label>
                     <select id="surveyScoreYear" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white" required>
                         <option value="">-- Chọn năm học --</option>
-                        <option value="2024-2025">2024-2025</option>
                         <option value="2025-2026">2025-2026</option>
+                        <option value="2026-2027">2026-2027</option>
+                        <option value="2027-2028">2027-2028</option>
                     </select>
                 </div>
                 <div>
@@ -773,6 +776,7 @@
                         <option value="final1">Cuối HK1</option>
                         <option value="mid2">Giữa HK2</option>
                         <option value="final2">Cuối HK2</option>
+                        <option value="survey">Khảo Sát</option>
                     </select>
                 </div>
                 <div>
@@ -803,11 +807,14 @@
         <div class="mb-4">
             <h4 class="font-semibold text-lg mb-2">Chọn Năm Học</h4>
             <div class="flex justify-center gap-3 flex-wrap">
-                <button onclick="filterScoresByYear('2024-2025')" class="px-6 py-2 rounded-lg font-semibold transition filter-score-btn active" data-year="2024-2025">
-                    <i class="fas fa-calendar mr-2"></i>2024-2025
-                </button>
                 <button onclick="filterScoresByYear('2025-2026')" class="px-6 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-year="2025-2026">
                     <i class="fas fa-calendar mr-2"></i>2025-2026
+                </button>
+                <button onclick="filterScoresByYear('2026-2027')" class="px-6 py-2 rounded-lg font-semibold transition filter-score-btn active" data-year="2026-2027">
+                    <i class="fas fa-calendar mr-2"></i>2026-2027
+                </button>
+                <button onclick="filterScoresByYear('2027-2028')" class="px-6 py-2 rounded-lg font-semibold transition filter-score-btn active" data-year="2027-2028">
+                    <i class="fas fa-calendar mr-2"></i>2027-2028
                 </button>
             </div>
         </div>
@@ -830,6 +837,9 @@
                 </button>
                 <button onclick="filterScoresBySemester('final2')" class="px-4 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-semester="final2">
                     <i class="fas fa-list mr-2"></i>Cuối HK2
+                </button>
+                <button onclick="filterScoresBySemester('survey')" class="px-4 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-semester="survey">
+                    <i class="fas fa-list mr-2"></i>Khảo Sát
                 </button>
             </div>
         </div>
