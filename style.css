@@ -700,3 +700,25 @@ body.dark #globalLoader {
 .tkb-card {
   animation: fadeInUp 0.6s ease-out;
 }
+
+/* TKB pagination styles */
+#tkbPagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.tkb-pagination-btn {
+  background: rgba(255,255,255,0.95);
+  color: #1e3a8a;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.tkb-pagination-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.tkb-pagination-btn.active { background: #1e40af; color: white; }
+.tkb-pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.tkb-page-info { font-weight: 600; }

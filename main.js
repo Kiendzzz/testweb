@@ -1193,6 +1193,7 @@ function renderTKBFiles() {
     // Pagination
     const totalItems = filteredFiles.length;
     const totalPages = Math.max(1, Math.ceil(totalItems / TKB_ITEMS_PER_PAGE));
+    console.debug('TKB pagination:', { totalItems, TKB_ITEMS_PER_PAGE, tkbCurrentPage, totalPages });
     if (tkbCurrentPage < 1) tkbCurrentPage = 1;
     if (tkbCurrentPage > totalPages) tkbCurrentPage = totalPages;
     const start = (tkbCurrentPage - 1) * TKB_ITEMS_PER_PAGE;
@@ -1242,9 +1243,15 @@ function renderTKBPagination(totalPages) {
     if (!paginationContainer) return;
     paginationContainer.innerHTML = '';
 
+    // Page info
+    const info = document.createElement('span');
+    info.className = 'text-white text-sm mr-4 tkb-page-info';
+    info.textContent = `Trang ${tkbCurrentPage} / ${totalPages}`;
+    paginationContainer.appendChild(info);
+
     // Prev button
     const prevBtn = document.createElement('button');
-    prevBtn.className = `px-3 py-1 rounded ${tkbCurrentPage === 1 ? 'bg-gray-300 text-gray-700 cursor-not-allowed' : 'bg-white text-blue-600 hover:bg-gray-100'}`;
+    prevBtn.className = `tkb-pagination-btn ${tkbCurrentPage === 1 ? 'disabled' : ''}`;
     prevBtn.textContent = '«';
     prevBtn.disabled = tkbCurrentPage === 1;
     prevBtn.onclick = () => { if (tkbCurrentPage > 1) { tkbCurrentPage--; renderTKBFiles(); } };
@@ -1258,7 +1265,7 @@ function renderTKBPagination(totalPages) {
 
     for (let p = startPage; p <= endPage; p++) {
         const btn = document.createElement('button');
-        btn.className = `px-3 py-1 rounded ${p === tkbCurrentPage ? 'bg-blue-600 text-white' : 'bg-white text-blue-600 hover:bg-gray-100'}`;
+        btn.className = `tkb-pagination-btn ${p === tkbCurrentPage ? 'active' : ''}`;
         btn.textContent = p;
         btn.onclick = (() => { const page = p; return () => { if (tkbCurrentPage !== page) { tkbCurrentPage = page; renderTKBFiles(); } }; })();
         paginationContainer.appendChild(btn);
@@ -1266,7 +1273,7 @@ function renderTKBPagination(totalPages) {
 
     // Next button
     const nextBtn = document.createElement('button');
-    nextBtn.className = `px-3 py-1 rounded ${tkbCurrentPage === totalPages ? 'bg-gray-300 text-gray-700 cursor-not-allowed' : 'bg-white text-blue-600 hover:bg-gray-100'}`;
+    nextBtn.className = `tkb-pagination-btn ${tkbCurrentPage === totalPages ? 'disabled' : ''}`;
     nextBtn.textContent = '»';
     nextBtn.disabled = tkbCurrentPage === totalPages;
     nextBtn.onclick = () => { if (tkbCurrentPage < totalPages) { tkbCurrentPage++; renderTKBFiles(); } };
