@@ -1,4 +1,4 @@
-export async function handler(event) {
+exports.handler = async function(event) {
     try {
         if (event.httpMethod !== 'POST') {
             return {
@@ -133,4 +133,4 @@ export async function handler(event) {
             body: JSON.stringify({ message: err.message || 'Upload failed' })
         };
     }
-}
+};

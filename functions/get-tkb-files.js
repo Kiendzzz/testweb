@@ -1,4 +1,4 @@
-export async function handler(event) {
+exports.handler = async function(event) {
     try {
         const user = process.env.GITHUB_USER;
         const repo = process.env.GITHUB_REPO;
@@ -44,4 +44,4 @@ export async function handler(event) {
             body: JSON.stringify({ error: err.message || "Server error" })
         };
     }
-}
+};
