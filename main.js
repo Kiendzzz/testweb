@@ -413,6 +413,12 @@ async function checkPassword() {
         } else if (pendingUploadAction === 'tkb') {
             // openTKBUploadModal will respect auth
             openTKBUploadModal();
+        } else if (pendingUploadAction === 'score') {
+            // openScoreUploadModal will respect auth
+            openScoreUploadModal();
+        } else if (pendingUploadAction === 'survey-score') {
+            // openSurveyScoreUploadModal will respect auth
+            openSurveyScoreUploadModal();
         }
         pendingUploadAction = null;
     } catch (e) {
@@ -1001,6 +1007,25 @@ window.closeStudentModal = function() {
 
 // Thêm vào DOMContentLoaded để init students với thứ tự order
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuBtn.classList.toggle('rotate-90', !mobileMenu.classList.contains('hidden'));
+            mobileMenuBtn.style.transition = 'transform 0.3s ease';
+        });
+
+        // Close menu when clicking on mobile menu links
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                if (mobileMenuBtn) mobileMenuBtn.classList.remove('rotate-90');
+            });
+        });
+    }
+
     // Render theo thứ tự order
     renderStudents(students);
 
@@ -1117,8 +1142,20 @@ document.addEventListener('DOMContentLoaded', function() {
     // Load TKB files
     loadTKBFiles();
 
+    // Load Scores
+    loadScores();
+
+    // Load Survey Scores
+    loadSurveyScores();
+
     // Update TKB upload button visibility
     updateTKBUploadButtonUI();
+    
+    // Update Score upload button visibility
+    updateScoreUploadButtonUI();
+    
+    // Update Survey Score upload button visibility
+    updateSurveyScoreUploadButtonUI();
 });
 
 // ================== TKB FUNCTIONS ==================
@@ -1126,6 +1163,507 @@ let tkbFiles = [];
 let tkbCurrentFilter = 'all';
 let tkbCurrentPage = 1;
 const TKB_ITEMS_PER_PAGE = 6;
+
+// ================== SCORES FUNCTIONS ==================
+let scoresData = [];
+let scoreCurrentYearFilter = '2024-2025';
+let scoreCurrentSemesterFilter = 'all';
+let scoreCurrentPage = 1;
+const SCORE_ITEMS_PER_PAGE = 6;
+const SEMESTER_LABELS = {
+    'mid1': 'Giữa HK1',
+    'final1': 'Cuối HK1',
+    'mid2': 'Giữa HK2',
+    'final2': 'Cuối HK2',
+    'all': 'Tất Cả'
+};
+
+async function loadScores() {
+    try {
+        const response = await fetch('/.netlify/functions/get-scores');
+        if (response.ok) {
+            scoresData = await response.json();
+            // Sort by year descending, then semester descending, then by upload time descending
+            scoresData.sort((a, b) => {
+                const semesterOrder = { 'final2': 4, 'mid2': 3, 'final1': 2, 'mid1': 1 };
+                if (a.year !== b.year) {
+                    return b.year.localeCompare(a.year);
+                }
+                const semA = semesterOrder[a.semester] || 0;
+                const semB = semesterOrder[b.semester] || 0;
+                if (semA !== semB) return semB - semA;
+                return new Date(b.uploadedAt) - new Date(a.uploadedAt);
+            });
+            renderScores();
+        }
+    } catch (err) {
+        console.error('Error loading scores:', err);
+    }
+}
+
+function filterScoresByYear(year) {
+    scoreCurrentYearFilter = year;
+    scoreCurrentPage = 1;
+    
+    // Update button styles
+    document.querySelectorAll('[data-year]').forEach(btn => {
+        btn.classList.remove('active', 'bg-opacity-20');
+        btn.classList.add('bg-white', 'bg-opacity-10');
+    });
+    
+    const activeBtn = document.querySelector(`[data-year="${year}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderScores();
+}
+
+function filterScoresBySemester(semester) {
+    scoreCurrentSemesterFilter = semester;
+    scoreCurrentPage = 1;
+    
+    // Update button styles
+    document.querySelectorAll('[data-semester]').forEach(btn => {
+        btn.classList.remove('active', 'bg-opacity-20');
+        btn.classList.add('bg-white', 'bg-opacity-10');
+    });
+    
+    const activeBtn = document.querySelector(`[data-semester="${semester}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderScores();
+}
+
+function renderScores() {
+    const container = document.getElementById('scoreCardsList');
+    if (!container) return;
+    
+    // Filter scores
+    let filteredScores = scoresData.filter(s => s.year === scoreCurrentYearFilter);
+    if (scoreCurrentSemesterFilter !== 'all') {
+        filteredScores = filteredScores.filter(s => s.semester === scoreCurrentSemesterFilter);
+    }
+    
+    // Empty state
+    if (filteredScores.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-chart-bar text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có bảng điểm nào. Hãy quay lại sau!</p>
+            </div>
+        `;
+        document.getElementById('scorePagination').innerHTML = '';
+        return;
+    }
+    
+    // Pagination
+    const totalItems = filteredScores.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / SCORE_ITEMS_PER_PAGE));
+    if (scoreCurrentPage > totalPages) scoreCurrentPage = 1;
+    
+    const start = (scoreCurrentPage - 1) * SCORE_ITEMS_PER_PAGE;
+    const end = start + SCORE_ITEMS_PER_PAGE;
+    const paginatedScores = filteredScores.slice(start, end);
+    
+    // Render cards
+    container.innerHTML = paginatedScores.map(score => {
+        const uploadDate = new Date(score.uploadedAt).toLocaleDateString('vi-VN');
+        return `
+            <div class="bg-white bg-opacity-10 rounded-lg p-6 hover:bg-opacity-20 transition transform hover:scale-105" data-aos="fade-up">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-sm text-gray-300">Năm học: ${score.year}</p>
+                        <p class="text-sm font-semibold text-yellow-300">${SEMESTER_LABELS[score.semester] || score.semester}</p>
+                    </div>
+                    ${isAuthenticated ? `<button onclick="deleteScore('${score.id}')" class="text-red-300 hover:text-red-100 transition" title="Xóa"><i class="fas fa-trash text-xl"></i></button>` : ''}
+                </div>
+                <p class="text-lg font-bold mb-4">${escapeHtml(score.fileName)}</p>
+                <p class="text-xs text-gray-400 mb-4">Tải lên: ${uploadDate}</p>
+                <a href="${score.url}" target="_blank" rel="noopener noreferrer" class="inline-block bg-yellow-400 text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">
+                    <i class="fas fa-download mr-2"></i>Tải xuống
+                </a>
+            </div>
+        `;
+    }).join('');
+    
+    renderScorePagination(totalPages);
+}
+
+function renderScorePagination(totalPages) {
+    const container = document.getElementById('scorePagination');
+    if (!container) return;
+    
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    let html = `
+        <button class="score-pagination-btn ${scoreCurrentPage === 1 ? 'disabled opacity-50 cursor-not-allowed' : ''}" ${scoreCurrentPage === 1 ? 'disabled' : ''} onclick="if(${scoreCurrentPage} > 1) { scoreCurrentPage--; renderScores(); }">
+            <i class="fas fa-chevron-left"></i> Trước
+        </button>
+    `;
+    
+    for (let i = 1; i <= totalPages; i++) {
+        html += `<button class="score-pagination-btn ${i === scoreCurrentPage ? 'active bg-yellow-400 text-gray-900' : ''}" onclick="scoreCurrentPage=${i}; renderScores()">${i}</button>`;
+    }
+    
+    html += `
+        <button class="score-pagination-btn ${scoreCurrentPage === totalPages ? 'disabled opacity-50 cursor-not-allowed' : ''}" ${scoreCurrentPage === totalPages ? 'disabled' : ''} onclick="if(${scoreCurrentPage} < ${totalPages}) { scoreCurrentPage++; renderScores(); }">
+            Sau <i class="fas fa-chevron-right"></i>
+        </button>
+        <span class="text-gray-400 ml-4">Trang ${scoreCurrentPage} / ${totalPages}</span>
+    `;
+    
+    container.innerHTML = html;
+}
+
+async function openScoreUploadModal() {
+    if (!isAuthenticated) {
+        pendingUploadAction = 'score';
+        openPasswordModal();
+        return;
+    }
+    document.getElementById('scoreUploadModal').classList.remove('hidden');
+}
+
+function closeScoreUploadModal() {
+    document.getElementById('scoreUploadModal').classList.add('hidden');
+}
+
+async function uploadScoreFile() {
+    if (!isAuthenticated) {
+        alert('Bạn cần xác thực trước khi upload!');
+        return;
+    }
+    
+    const year = document.getElementById('scoreYear').value;
+    const semester = document.getElementById('scoreSemester').value;
+    const file = document.getElementById('scoreFile').files[0];
+    
+    if (!year || !semester || !file) {
+        alert('Vui lòng chọn đủ thông tin!');
+        return;
+    }
+    
+    try {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const base64 = e.target.result;
+            const fileName = file.name;
+            const fileType = file.type || 'application/octet-stream';
+            
+            const response = await fetch('/.netlify/functions/upload-scores', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ year, semester, file: base64, fileName, fileType })
+            });
+            
+            if (response.ok) {
+                alert('Upload bảng điểm thành công!');
+                document.getElementById('scoreUploadForm').reset();
+                document.getElementById('scoreFileName').classList.add('hidden');
+                closeScoreUploadModal();
+                loadScores();
+            } else {
+                const error = await response.json();
+                alert('Lỗi upload: ' + (error.message || 'Unknown error'));
+            }
+        };
+        reader.readAsDataURL(file);
+    } catch (err) {
+        console.error('Upload error:', err);
+        alert('Lỗi upload: ' + err.message);
+    }
+}
+
+async function deleteScore(id) {
+    if (!isAuthenticated) {
+        alert('Bạn cần xác thực!');
+        return;
+    }
+    
+    if (!confirm('Bạn chắc chắn muốn xóa bảng điểm này?')) return;
+    
+    try {
+        const response = await fetch('/.netlify/functions/delete-scores', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+        
+        if (response.ok) {
+            alert('Xóa thành công!');
+            loadScores();
+        } else {
+            alert('Lỗi xóa bảng điểm!');
+        }
+    } catch (err) {
+        console.error('Delete error:', err);
+        alert('Lỗi xóa: ' + err.message);
+    }
+}
+
+function updateScoreUploadButtonUI() {
+    const btn = document.getElementById('uploadScoreBtn');
+    if (btn) {
+        btn.style.display = isAuthenticated ? 'inline-flex' : 'none';
+    }
+}
+
+// ================== SURVEY SCORES FUNCTIONS ==================
+let surveyScoresData = [];
+let surveyScoreCurrentYearFilter = '2024-2025';
+let surveyScoreCurrentSemesterFilter = 'all';
+let surveyScoreCurrentPage = 1;
+const SURVEY_SCORE_ITEMS_PER_PAGE = 6;
+
+async function loadSurveyScores() {
+    try {
+        const response = await fetch('/.netlify/functions/get-survey-scores');
+        if (response.ok) {
+            surveyScoresData = await response.json();
+            // Sort by year descending, then semester descending, then by upload time descending
+            surveyScoresData.sort((a, b) => {
+                const semesterOrder = { 'final2': 4, 'mid2': 3, 'final1': 2, 'mid1': 1 };
+                if (a.year !== b.year) {
+                    return b.year.localeCompare(a.year);
+                }
+                const semA = semesterOrder[a.semester] || 0;
+                const semB = semesterOrder[b.semester] || 0;
+                if (semA !== semB) return semB - semA;
+                return new Date(b.uploadedAt) - new Date(a.uploadedAt);
+            });
+            renderSurveyScores();
+        }
+    } catch (err) {
+        console.error('Error loading survey scores:', err);
+    }
+}
+
+function filterSurveyScoresByYear(year) {
+    surveyScoreCurrentYearFilter = year;
+    surveyScoreCurrentPage = 1;
+    
+    // Update button styles
+    document.querySelectorAll('[data-year]').forEach(btn => {
+        if (!btn.closest('#surveyScorePagination')) {
+            btn.classList.remove('active', 'bg-opacity-20');
+            btn.classList.add('bg-white', 'bg-opacity-10');
+        }
+    });
+    
+    const activeBtn = document.querySelector(`[data-year="${year}"]`);
+    if (activeBtn && !activeBtn.closest('#surveyScorePagination')) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderSurveyScores();
+}
+
+function filterSurveyScoresBySemester(semester) {
+    surveyScoreCurrentSemesterFilter = semester;
+    surveyScoreCurrentPage = 1;
+    
+    // Update button styles
+    document.querySelectorAll('[data-semester]').forEach(btn => {
+        if (!btn.closest('#surveyScorePagination')) {
+            btn.classList.remove('active', 'bg-opacity-20');
+            btn.classList.add('bg-white', 'bg-opacity-10');
+        }
+    });
+    
+    const activeBtn = document.querySelector(`[data-semester="${semester}"]`);
+    if (activeBtn && !activeBtn.closest('#surveyScorePagination')) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderSurveyScores();
+}
+
+function renderSurveyScores() {
+    const container = document.getElementById('surveyScoreCardsList');
+    if (!container) return;
+    
+    // Filter survey scores
+    let filteredScores = surveyScoresData.filter(s => s.year === surveyScoreCurrentYearFilter);
+    if (surveyScoreCurrentSemesterFilter !== 'all') {
+        filteredScores = filteredScores.filter(s => s.semester === surveyScoreCurrentSemesterFilter);
+    }
+    
+    // Empty state
+    if (filteredScores.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-chart-line text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có khảo sát nào. Hãy quay lại sau!</p>
+            </div>
+        `;
+        document.getElementById('surveyScorePagination').innerHTML = '';
+        return;
+    }
+    
+    // Pagination
+    const totalItems = filteredScores.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / SURVEY_SCORE_ITEMS_PER_PAGE));
+    if (surveyScoreCurrentPage > totalPages) surveyScoreCurrentPage = 1;
+    
+    const start = (surveyScoreCurrentPage - 1) * SURVEY_SCORE_ITEMS_PER_PAGE;
+    const end = start + SURVEY_SCORE_ITEMS_PER_PAGE;
+    const paginatedScores = filteredScores.slice(start, end);
+    
+    // Render cards
+    container.innerHTML = paginatedScores.map(score => {
+        const uploadDate = new Date(score.uploadedAt).toLocaleDateString('vi-VN');
+        return `
+            <div class="bg-white bg-opacity-10 rounded-lg p-6 hover:bg-opacity-20 transition transform hover:scale-105" data-aos="fade-up">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-sm text-gray-300">Năm học: ${score.year}</p>
+                        <p class="text-sm font-semibold text-yellow-300">${SEMESTER_LABELS[score.semester] || score.semester}</p>
+                    </div>
+                    ${isAuthenticated ? `<button onclick="deleteSurveyScore('${score.id}')" class="text-red-300 hover:text-red-100 transition" title="Xóa"><i class="fas fa-trash text-xl"></i></button>` : ''}
+                </div>
+                <p class="text-lg font-bold mb-4">${escapeHtml(score.fileName)}</p>
+                <p class="text-xs text-gray-400 mb-4">Tải lên: ${uploadDate}</p>
+                <a href="${score.url}" target="_blank" rel="noopener noreferrer" class="inline-block bg-yellow-400 text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">
+                    <i class="fas fa-download mr-2"></i>Tải xuống
+                </a>
+            </div>
+        `;
+    }).join('');
+    
+    renderSurveyScorePagination(totalPages);
+}
+
+function renderSurveyScorePagination(totalPages) {
+    const container = document.getElementById('surveyScorePagination');
+    if (!container) return;
+    
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    let html = `
+        <button class="survey-score-pagination-btn ${surveyScoreCurrentPage === 1 ? 'disabled opacity-50 cursor-not-allowed' : ''}" ${surveyScoreCurrentPage === 1 ? 'disabled' : ''} onclick="if(${surveyScoreCurrentPage} > 1) { surveyScoreCurrentPage--; renderSurveyScores(); }">
+            <i class="fas fa-chevron-left"></i> Trước
+        </button>
+    `;
+    
+    for (let i = 1; i <= totalPages; i++) {
+        html += `<button class="survey-score-pagination-btn ${i === surveyScoreCurrentPage ? 'active bg-yellow-400 text-gray-900' : ''}" onclick="surveyScoreCurrentPage=${i}; renderSurveyScores()">${i}</button>`;
+    }
+    
+    html += `
+        <button class="survey-score-pagination-btn ${surveyScoreCurrentPage === totalPages ? 'disabled opacity-50 cursor-not-allowed' : ''}" ${surveyScoreCurrentPage === totalPages ? 'disabled' : ''} onclick="if(${surveyScoreCurrentPage} < ${totalPages}) { surveyScoreCurrentPage++; renderSurveyScores(); }">
+            Sau <i class="fas fa-chevron-right"></i>
+        </button>
+        <span class="text-gray-400 ml-4">Trang ${surveyScoreCurrentPage} / ${totalPages}</span>
+    `;
+    
+    container.innerHTML = html;
+}
+
+async function openSurveyScoreUploadModal() {
+    if (!isAuthenticated) {
+        pendingUploadAction = 'survey-score';
+        openPasswordModal();
+        return;
+    }
+    document.getElementById('surveyScoreUploadModal').classList.remove('hidden');
+}
+
+function closeSurveyScoreUploadModal() {
+    document.getElementById('surveyScoreUploadModal').classList.add('hidden');
+}
+
+async function uploadSurveyScoreFile() {
+    if (!isAuthenticated) {
+        alert('Bạn cần xác thực trước khi upload!');
+        return;
+    }
+    
+    const year = document.getElementById('surveyScoreYear').value;
+    const semester = document.getElementById('surveyScoreSemester').value;
+    const file = document.getElementById('surveyScoreFile').files[0];
+    
+    if (!year || !semester || !file) {
+        alert('Vui lòng chọn đủ thông tin!');
+        return;
+    }
+    
+    try {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const base64 = e.target.result;
+            const fileName = file.name;
+            const fileType = file.type || 'application/octet-stream';
+            
+            const response = await fetch('/.netlify/functions/upload-survey-scores', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ year, semester, file: base64, fileName, fileType })
+            });
+            
+            if (response.ok) {
+                alert('Upload khảo sát thành công!');
+                document.getElementById('surveyScoreUploadForm').reset();
+                document.getElementById('surveyScoreFileName').classList.add('hidden');
+                closeSurveyScoreUploadModal();
+                loadSurveyScores();
+            } else {
+                const error = await response.json();
+                alert('Lỗi upload: ' + (error.message || 'Unknown error'));
+            }
+        };
+        reader.readAsDataURL(file);
+    } catch (err) {
+        console.error('Upload error:', err);
+        alert('Lỗi upload: ' + err.message);
+    }
+}
+
+async function deleteSurveyScore(id) {
+    if (!isAuthenticated) {
+        alert('Bạn cần xác thực!');
+        return;
+    }
+    
+    if (!confirm('Bạn chắc chắn muốn xóa khảo sát này?')) return;
+    
+    try {
+        const response = await fetch('/.netlify/functions/delete-survey-scores', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+        
+        if (response.ok) {
+            alert('Xóa thành công!');
+            loadSurveyScores();
+        } else {
+            alert('Lỗi xóa khảo sát!');
+        }
+    } catch (err) {
+        console.error('Delete error:', err);
+        alert('Lỗi xóa: ' + err.message);
+    }
+}
+
+function updateSurveyScoreUploadButtonUI() {
+    const btn = document.getElementById('uploadSurveyScoreBtn');
+    if (btn) {
+        btn.style.display = isAuthenticated ? 'inline-flex' : 'none';
+    }
+}
 
 async function loadTKBFiles() {
     try {
@@ -1302,6 +1840,30 @@ document.getElementById('tkbFile').addEventListener('change', function(e) {
         const file = this.files[0];
         const fileSize = (file.size / 1024 / 1024).toFixed(2);
         document.getElementById('tkbFileNameText').textContent = `${file.name} (${fileSize} MB)`;
+        fileNameElement.classList.remove('hidden');
+    } else {
+        fileNameElement.classList.add('hidden');
+    }
+});
+
+document.getElementById('scoreFile').addEventListener('change', function(e) {
+    const fileNameElement = document.getElementById('scoreFileName');
+    if (this.files.length > 0) {
+        const file = this.files[0];
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        document.getElementById('scoreFileNameText').textContent = `${file.name} (${fileSize} MB)`;
+        fileNameElement.classList.remove('hidden');
+    } else {
+        fileNameElement.classList.add('hidden');
+    }
+});
+
+document.getElementById('surveyScoreFile').addEventListener('change', function(e) {
+    const fileNameElement = document.getElementById('surveyScoreFileName');
+    if (this.files.length > 0) {
+        const file = this.files[0];
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        document.getElementById('surveyScoreFileNameText').textContent = `${file.name} (${fileSize} MB)`;
         fileNameElement.classList.remove('hidden');
     } else {
         fileNameElement.classList.add('hidden');

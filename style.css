@@ -722,3 +722,91 @@ body.dark #globalLoader {
 .tkb-pagination-btn.active { background: #1e40af; color: white; }
 .tkb-pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
 .tkb-page-info { font-weight: 600; }
+
+/* Score Filter Buttons */
+.filter-score-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-score-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.filter-score-btn.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.score-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Score pagination styles */
+#scorePagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.score-pagination-btn {
+  background: rgba(255,255,255,0.95);
+  color: #059669;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.score-pagination-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.score-pagination-btn.active { background: #fbbf24; color: #111; }
+.score-pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* Survey Score Filter Buttons */
+.filter-survey-score-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-survey-score-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.filter-survey-score-btn.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.survey-score-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Survey Score pagination styles */
+#surveyScorePagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.survey-score-pagination-btn {
+  background: rgba(255,255,255,0.95);
+  color: #b45309;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.survey-score-pagination-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.survey-score-pagination-btn.active { background: #fbbf24; color: #111; }
+.survey-score-pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
