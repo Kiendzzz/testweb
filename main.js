@@ -1166,7 +1166,7 @@ const TKB_ITEMS_PER_PAGE = 6;
 
 // ================== SCORES FUNCTIONS ==================
 let scoresData = [];
-let scoreCurrentYearFilter = '2024-2025';
+let scoreCurrentYearFilter = '2025-2026';
 let scoreCurrentSemesterFilter = 'all';
 let scoreCurrentPage = 1;
 const SCORE_ITEMS_PER_PAGE = 6;
@@ -1419,7 +1419,7 @@ function updateScoreUploadButtonUI() {
 
 // ================== SURVEY SCORES FUNCTIONS ==================
 let surveyScoresData = [];
-let surveyScoreCurrentYearFilter = '2024-2025';
+let surveyScoreCurrentYearFilter = '2025-2026';
 let surveyScoreCurrentSemesterFilter = 'all';
 let surveyScoreCurrentPage = 1;
 const SURVEY_SCORE_ITEMS_PER_PAGE = 6;
