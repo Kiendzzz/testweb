@@ -1054,39 +1054,7 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     });
 
-    // Dark mode toggle
-    const darkModeBtn = document.getElementById('darkModeBtn');
-    if (darkModeBtn) {
-        darkModeBtn.addEventListener('click', () => {
-            document.body.classList.toggle('dark');
-            
-            // Lưu trạng thái dark mode
-            if (document.body.classList.contains('dark')) {
-                localStorage.setItem('darkMode', 'true');
-                darkModeBtn.innerHTML = '<i data-feather="sun"></i>';
-            } else {
-                localStorage.setItem('darkMode', 'false');
-                darkModeBtn.innerHTML = '<i data-feather="moon"></i>';
-            }
-
-            // Hiệu ứng nút
-            darkModeBtn.classList.add('animate-pulse');
-            setTimeout(() => {
-                darkModeBtn.classList.remove('animate-pulse');
-            }, 300);
-
-            if (typeof feather !== 'undefined') feather.replace();
-        });
-
-        // Khi load lại trang, áp dụng dark mode nếu có
-        if (localStorage.getItem('darkMode') === 'true') {
-            document.body.classList.add('dark');
-            darkModeBtn.innerHTML = '<i data-feather="sun"></i>';
-        } else {
-            darkModeBtn.innerHTML = '<i data-feather="moon"></i>';
-        }
-        if (typeof feather !== 'undefined') feather.replace();
-    }
+    // Dark mode removed: toggle button and persistence deleted
 
     // Smooth scroll with offset
     document.querySelectorAll('a[href^="#"]').forEach(anchor => {
