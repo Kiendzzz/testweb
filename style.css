@@ -1,14 +1,44 @@
-@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700&display=swap');
-body {
-    font-family: 'Be Vietnam Pro', sans-serif;
-    background-color: #f8f9fa;
+@import url('https://fonts.googleapis.com/css2?family=Be+Vietnam+Pro:wght@300;400;500;600;700;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap');
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
 }
+
 html {
     scroll-behavior: smooth;
+}
+
+body {
+    font-family: 'Be Vietnam Pro', 'Poppins', sans-serif;
+    background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+    background-attachment: fixed;
+    color: #1f2937;
+    overflow-x: hidden;
 }
 /* Restore original motion intensity (still keep smooth scroll) */
 .gradient-bg {
     background: linear-gradient(135deg, #7b2ff7 0%, #f107a3 100%);
+    position: relative;
+    overflow: hidden;
+}
+
+.gradient-bg::before {
+    content: '';
+    position: absolute;
+    top: -50%;
+    left: -50%;
+    width: 200%;
+    height: 200%;
+    background: linear-gradient(45deg, transparent 30%, rgba(255, 255, 255, 0.1) 50%, transparent 70%);
+    animation: shine 3s infinite;
+}
+
+@keyframes shine {
+    0% { transform: translate(-100%, -100%) rotate(45deg); }
+    100% { transform: translate(100%, 100%) rotate(45deg); }
 }
 /* */
 .student-card {
@@ -511,12 +541,12 @@ body.dark .assistant-badge {
     opacity: 1;
     transform: scale(1);
 }
-#uploadBtn, #logoutBtn, #darkModeBtn, #mobileUploadBtn, #mobileLogoutBtn {
-    transition: transform 0.2s, box-shadow 0.2s;
+#uploadBtn, #darkModeBtn, #mobileUploadBtn {
+  transition: transform 0.2s, box-shadow 0.2s;
 }
-#uploadBtn:hover, #logoutBtn:hover, #darkModeBtn:hover, #mobileUploadBtn:hover, #mobileLogoutBtn:hover {
-    transform: scale(1.08) translateY(-2px);
-    box-shadow: 0 6px 18px rgba(123,47,247,0.18);
+#uploadBtn:hover, #darkModeBtn:hover, #mobileUploadBtn:hover {
+  transform: scale(1.08) translateY(-2px);
+  box-shadow: 0 6px 18px rgba(123,47,247,0.18);
 }
 
 body { 
@@ -677,3 +707,136 @@ body {
 body.dark #globalLoader {
   background: linear-gradient(135deg, #4f46e5 0%, #7c3aed 25%, #be185d 50%, #db2777 75%, #06b6d4 100%);
 }
+
+/* TKB Filter Buttons */
+.filter-tkb-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-tkb-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.filter-tkb-btn.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.tkb-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* TKB pagination styles */
+#tkbPagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.tkb-pagination-btn {
+  background: rgba(255,255,255,0.95);
+  color: #1e3a8a;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.tkb-pagination-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.tkb-pagination-btn.active { background: #1e40af; color: white; }
+.tkb-pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+.tkb-page-info { font-weight: 600; }
+
+/* Score Filter Buttons */
+.filter-score-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-score-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.filter-score-btn.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.score-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Score pagination styles */
+#scorePagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.score-pagination-btn {
+  background: rgba(255,255,255,0.95);
+  color: #059669;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.score-pagination-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.score-pagination-btn.active { background: #fbbf24; color: #111; }
+.score-pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; transform: none; }
+
+/* Survey Score Filter Buttons */
+.filter-survey-score-btn {
+  background-color: rgba(255, 255, 255, 0.1);
+  color: white;
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+  cursor: pointer;
+}
+
+.filter-survey-score-btn:hover {
+  background-color: rgba(255, 255, 255, 0.15);
+  transform: translateY(-2px);
+}
+
+.filter-survey-score-btn.active {
+  background-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 4px 12px rgba(255, 255, 255, 0.1);
+}
+
+.survey-score-card {
+  animation: fadeInUp 0.6s ease-out;
+}
+
+/* Survey Score pagination styles */
+#surveyScorePagination {
+  margin-top: 1rem;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+}
+.survey-score-pagination-btn {
+  background: rgba(255,255,255,0.95);
+  color: #b45309;
+  border: none;
+  padding: 0.4rem 0.6rem;
+  border-radius: 6px;
+  cursor: pointer;
+  font-weight: 600;
+}
+.survey-score-pagination-btn:hover { transform: translateY(-2px); box-shadow: 0 6px 16px rgba(0,0,0,0.12); }
+.survey-score-pagination-btn.active { background: #fbbf24; color: #111; }
+.survey-score-pagination-btn.disabled { opacity: 0.5; cursor: not-allowed; transform: none; }

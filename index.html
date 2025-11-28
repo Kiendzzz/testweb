@@ -164,126 +164,226 @@
     </div>
 
     <!-- Navigation -->
-    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50">
-        <div class="max-w-6xl mx-auto px-4">
-            <div class="flex justify-between items-center py-3">
-                <div class="flex items-center space-x-2">
-                    <img src="logo.png" alt="Logo lớp" class="w-10 h-10 rounded-full">
-                    <div>
-                        <span class="font-bold text-xl">10A2 K26</span>
-                        <span class="text-white">THPT Quế Lâm</span>
+    <nav class="gradient-bg text-white shadow-lg sticky top-0 z-50 backdrop-blur-md bg-opacity-95">
+        <div class="max-w-7xl mx-auto px-4 sm:px-6">
+            <div class="flex justify-between items-center py-4">
+                <!-- Logo & Branding -->
+                <a href="#" class="flex items-center space-x-3 group hover:opacity-80 transition duration-300">
+                    <img src="logo.png" alt="Logo lớp" class="w-11 h-11 rounded-full ring-2 ring-white ring-opacity-30 group-hover:ring-opacity-60 transition">
+                    <div class="hidden sm:block">
+                        <span class="font-bold text-lg block leading-tight">10A2 K26</span>
+                        <span class="text-xs text-purple-100">THPT Quế Lâm</span>
                     </div>
-                </div>
-                <div class="hidden md:flex items-center space-x-6">
-                    <a href="#" class="py-2 px-3 font-medium">Trang chủ</a>
-                    <a href="#memories" class="py-2 px-3 hover:text-purple-200 transition">Kỷ niệm</a>
-                    <a href="#teacher" class="py-2 px-3 hover:text-purple-200 transition">Giáo viên</a>
-                    <a href="#students" class="py-2 px-3 hover:text-purple-200 transition">Học sinh</a>
-                    <a href="#social" class="py-2 px-3 hover:text-purple-200 transition">Mạng xã hội</a>
-                    <div class="relative group">
-                        <button id="uploadBtn" onclick="isAuthenticated ? openUploadModal() : openPasswordModal()" 
-                            class="py-2 px-4 bg-white text-purple-600 rounded-lg hover:bg-purple-100 transition duration-300 flex items-center">
-                            <i data-feather="upload" class="mr-2"></i> Upload ảnh
-                        </button>
+                </a>
 
-                        <button id="logoutBtn" onclick="logout()" 
-                            class="absolute -top-2 -right-2 bg-red-500 text-white rounded-full w-5 h-5 flex items-center justify-center text-xs hover:bg-red-600 transition hidden">
-                            <i data-feather="x"></i>
-                        </button>              
-                    </div>
-                <div class="md:hidden flex items-center">
-                    <button class="outline-none mobile-menu-button p-2 hover:bg-white/10 rounded-lg transition">
-                        <i data-feather="menu" class="w-6 h-6"></i>
+                <!-- Desktop Navigation -->
+                <div class="hidden md:flex items-center space-x-1 lg:space-x-2">
+                    <a href="#" class="nav-link">
+                        <i class="fas fa-home text-sm mr-2"></i>Trang chủ
+                    </a>
+                    <a href="#memories" class="nav-link">
+                        <i class="fas fa-images text-sm mr-2"></i>Kỷ niệm
+                    </a>
+                    <a href="#tkb" class="nav-link">
+                        <i class="fas fa-calendar-alt text-sm mr-2"></i>TKB
+                    </a>
+                    <a href="#scores" class="nav-link">
+                        <i class="fas fa-chart-bar text-sm mr-2"></i>Bảng Điểm
+                    </a>
+                    <a href="#teacher" class="nav-link">
+                        <i class="fas fa-chalkboard-user text-sm mr-2"></i>Giáo viên
+                    </a>
+                    <a href="#students" class="nav-link">
+                        <i class="fas fa-users text-sm mr-2"></i>Học sinh
+                    </a>
+                    <a href="#social" class="nav-link">
+                        <i class="fas fa-share-nodes text-sm mr-2"></i>Mạng xã hội
+                    </a>
+                </div>
+
+                <!-- Upload Button & Mobile Menu -->
+                <div class="flex items-center space-x-3">
+                    <button id="uploadBtn" onclick="isAuthenticated ? openUploadModal() : openPasswordModal()" 
+                        class="hidden sm:flex items-center py-2 px-4 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-90 hover:shadow-lg transition duration-300 transform hover:-translate-y-0.5">
+                        <i class="fas fa-cloud-upload-alt mr-2"></i> Upload
                     </button>
                 </div>
+
+                <!-- Mobile Menu Button -->
+                <button id="mobileMenuBtn" class="md:hidden p-2 hover:bg-white/10 rounded-lg transition duration-300 flex items-center justify-center">
+                    <i class="fas fa-bars text-2xl"></i>
+                </button>
             </div>
-            <div id="mobileMenu" class="hidden transition-all duration-300 ease-in-out transform -translate-y-5 opacity-0 pb-4">
-                <div class="flex flex-col space-y-3">
-                    <a href="#" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Trang chủ</a>
-                    <a href="#memories" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Kỷ niệm</a>
-                    <a href="#teacher" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Giáo viên</a>
-                    <a href="#students" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Học sinh</a>
-                    <a href="#social" class="hover:text-purple-200 transition py-2 px-3 rounded-lg hover:bg-white/10">Mạng xã hội</a>
-                    <div class="mt-4 pt-4 border-t border-white/20">
-                        <button id="mobileUploadBtn" 
-                            class="w-full py-2 px-4 bg-white text-purple-600 rounded-lg hover:bg-purple-100 transition duration-300 flex items-center justify-center">
-                            <i data-feather="upload" class="mr-2"></i> Upload ảnh
-                        </button>
-                        <button id="mobileLogoutBtn" onclick="logout()" 
-                            class="hidden w-full py-2 px-4 bg-red-500 text-white rounded-lg hover:bg-red-600 transition duration-300 flex items-center justify-center mt-2">
-                            <i data-feather="log-out" class="mr-2"></i> Logout
-                        </button>
-                    </div>
+
+            <!-- Mobile Navigation Menu -->
+            <div id="mobileMenu" class="hidden md:hidden transition-all duration-300 ease-in-out pb-4 border-t border-white/20 mt-4 pt-4">
+                <div class="flex flex-col space-y-2">
+                    <a href="#" class="py-3 px-4 rounded-lg text-white transition duration-300 flex items-center hover:bg-white/10" style="border-left: 3px solid transparent;">
+                        <i class="fas fa-home text-sm mr-3"></i>Trang chủ
+                    </a>
+                    <a href="#memories" class="py-3 px-4 rounded-lg text-white transition duration-300 flex items-center hover:bg-white/10" style="border-left: 3px solid transparent;">
+                        <i class="fas fa-images text-sm mr-3"></i>Kỷ niệm
+                    </a>
+                    <a href="#tkb" class="py-3 px-4 rounded-lg text-white transition duration-300 flex items-center hover:bg-white/10" style="border-left: 3px solid transparent;">
+                        <i class="fas fa-calendar-alt text-sm mr-3"></i>TKB
+                    </a>
+                    <a href="#scores" class="py-3 px-4 rounded-lg text-white transition duration-300 flex items-center hover:bg-white/10" style="border-left: 3px solid transparent;">
+                        <i class="fas fa-chart-bar text-sm mr-3"></i>Bảng Điểm
+                    </a>
+                    <a href="#teacher" class="py-3 px-4 rounded-lg text-white transition duration-300 flex items-center hover:bg-white/10" style="border-left: 3px solid transparent;">
+                        <i class="fas fa-chalkboard-user text-sm mr-3"></i>Giáo viên
+                    </a>
+                    <a href="#students" class="py-3 px-4 rounded-lg text-white transition duration-300 flex items-center hover:bg-white/10" style="border-left: 3px solid transparent;">
+                        <i class="fas fa-users text-sm mr-3"></i>Học sinh
+                    </a>
+                    <a href="#social" class="py-3 px-4 rounded-lg text-white transition duration-300 flex items-center hover:bg-white/10" style="border-left: 3px solid transparent;">
+                        <i class="fas fa-share-nodes text-sm mr-3"></i>Mạng xã hội
+                    </a>
+                </div>
+                <div class="mt-4 pt-4 border-t border-white/20">
+                    <button id="mobileUploadBtn" onclick="isAuthenticated ? openUploadModal() : openPasswordModal()"
+                        class="w-full py-2 px-4 bg-white text-purple-600 rounded-lg font-semibold hover:bg-opacity-90 transition duration-300 flex items-center justify-center">
+                        <i class="fas fa-cloud-upload-alt mr-2"></i> Upload
+                    </button>
                 </div>
             </div>
         </div>
     </nav>
 
+    <style>
+        .nav-link {
+            padding: 0.5rem 0.75rem;
+            border-radius: 0.5rem;
+            font-weight: 500;
+            color: white;
+            display: flex;
+            align-items: center;
+            white-space: nowrap;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        .nav-link::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 12px;
+            right: 12px;
+            height: 2px;
+            background: linear-gradient(to right, #c084fc, #f472b6);
+            transform: scaleX(0);
+            transform-origin: right;
+            transition: transform 0.3s ease;
+        }
+
+        .nav-link:hover {
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #f3e8ff;
+        }
+
+        .nav-link:hover::after {
+            transform: scaleX(1);
+            transform-origin: left;
+        }
+    </style>
+
     <!-- Hero Section -->
-    <section id="hero" class="relative py-24 flex items-center justify-center text-center md:text-left parallax-bg" style="background-image: url('anhlop.png');" data-aos="fade-up">
-    <!-- Background ảnh + gradient overlay -->
-    <div id="heroParallax" class="absolute inset-0">
-        <img src="anhlop.png" alt="Background lớp 10A2" class="w-full h-full object-cover opacity-30 dark:opacity-20">
-        <div class="absolute inset-0 bg-gradient-to-r from-purple-700/70 via-purple-500/60 to-transparent"></div>
+    <section id="hero" class="relative min-h-screen flex items-center justify-center overflow-hidden" data-aos="fade-up">
+    <!-- Background gradient animated -->
+    <div class="absolute inset-0 bg-gradient-to-br from-purple-600 via-pink-500 to-purple-800 opacity-90"></div>
+    <div class="absolute inset-0">
+        <img src="anhlop.png" alt="Background lớp 10A2" class="w-full h-full object-cover opacity-20 dark:opacity-10">
     </div>
+    <!-- Animated blobs -->
+    <div class="absolute top-0 left-0 w-96 h-96 bg-purple-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation: float 6s ease-in-out infinite;"></div>
+    <div class="absolute bottom-0 right-0 w-80 h-80 bg-pink-400 rounded-full mix-blend-multiply filter blur-3xl opacity-20 animate-pulse" style="animation: float 8s ease-in-out infinite; animation-delay: 2s;"></div>
 
     <!-- Nội dung -->
-    <div class="relative max-w-6xl mx-auto px-6 flex flex-col md:flex-row items-center gap-12">
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-20 flex flex-col md:flex-row items-center gap-12 md:gap-16">
         <!-- Left -->
-        <div class="md:w-1/2" data-aos="fade-right">
-        <h1 class="text-4xl md:text-5xl font-extrabold text-white leading-tight drop-shadow-lg">
-            Lớp 10A2-K26 <br> Trường THPT Quế Lâm
+        <div class="md:w-1/2 text-center md:text-left" data-aos="fade-right" data-aos-delay="100">
+        <div class="mb-6">
+            <span class="inline-block px-4 py-2 bg-white/20 backdrop-blur-md rounded-full text-white text-sm font-semibold border border-white/30">🎓 Chào mừng bạn</span>
+        </div>
+        <h1 class="text-5xl md:text-6xl lg:text-7xl font-black text-white leading-tight drop-shadow-2xl mb-6" style="text-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+            Lớp <span class="bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text text-transparent">10A2-K26</span>
         </h1>
-        <p class="mt-6 text-lg text-gray-100 max-w-lg">
-            Trang web chính thức của lớp 10A2-K26 — nơi lưu giữ <b>kỷ niệm tuổi học trò</b> và kết nối bạn bè.
+        <p class="text-xl md:text-2xl text-gray-100 max-w-2xl leading-relaxed mb-8">
+            Trang web chính thức của lớp 10A2-K26 — <span class="font-bold text-transparent bg-gradient-to-r from-yellow-300 to-pink-300 bg-clip-text">nơi lưu giữ kỷ niệm tuổi học trò</span> và kết nối bạn bè.
         </p>
-        <a href="#memories" class="inline-block mt-8 bg-purple-600 hover:bg-purple-700 text-white font-semibold px-8 py-3 rounded-full shadow-lg transition transform hover:-translate-y-1 hover:shadow-2xl">
-            Xem Bộ Sưu Tập
-        </a>
+        <div class="flex flex-col sm:flex-row gap-4 justify-center md:justify-start">
+            <a href="#memories" class="group px-8 py-4 bg-white text-purple-600 rounded-full font-bold text-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-1 inline-flex items-center gap-2 justify-center">
+                <i class="fas fa-images"></i> Xem Bộ Sưu Tập
+                <i class="fas fa-arrow-right group-hover:translate-x-1 transition"></i>
+            </a>
+            <a href="#students" class="px-8 py-4 bg-white/20 text-white rounded-full font-bold text-lg hover:bg-white/30 transition duration-300 transform hover:-translate-y-1 border border-white/50 backdrop-blur-md inline-flex items-center gap-2 justify-center">
+                <i class="fas fa-users"></i> Danh Sách Lớp
+            </a>
+        </div>
         </div>
 
         <!-- Right -->
-        <div class="md:w-1/2 relative" data-aos="fade-left">
-        <img src="anhlop.png" alt="Ảnh tập thể lớp 10A2-K26" 
-            class="rounded-2xl shadow-2xl max-w-full h-auto transform hover:scale-105 transition duration-500 border-4 border-white/70 dark:border-gray-700">
+        <div class="md:w-1/2 relative" data-aos="fade-left" data-aos-delay="200">
+        <div class="relative group">
+            <div class="absolute inset-0 bg-gradient-to-r from-purple-600 to-pink-600 rounded-3xl blur-3xl opacity-40 group-hover:opacity-60 transition duration-500"></div>
+            <img src="anhlop.png" alt="Ảnh tập thể lớp 10A2-K26" 
+                class="relative rounded-3xl shadow-2xl max-w-full h-auto transform group-hover:scale-105 transition duration-500 border-4 border-white/70 dark:border-gray-700">
+            <div class="absolute -bottom-6 -right-6 bg-white/90 backdrop-blur-md p-6 rounded-2xl shadow-xl border border-white/50">
+                <div class="text-center">
+                    <p class="text-3xl font-black text-purple-600">45</p>
+                    <p class="text-gray-600 font-semibold text-sm">Học sinh xuất sắc</p>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
+    
+    <style>
+        @keyframes float {
+            0%, 100% { transform: translateY(0px); }
+            50% { transform: translateY(-20px); }
+        }
+    </style>
     </section>
 
     <!-- Class Stats -->
-    <div class="bg-white py-8 shadow-md" data-aos="fade-up">
+    <div class="py-16 bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-900 dark:to-gray-800" data-aos="fade-up">
         <div class="max-w-6xl mx-auto px-4">
-            <div class="flex flex-wrap justify-center text-center">
-                <div class="w-full sm:w-1/2 md:w-1/4 px-4 py-4">
-                    <div class="text-4xl font-bold text-purple-600 counter" data-target="45">0</div>
-                    <div class="text-gray-600">Học sinh</div>
+            <div class="grid grid-cols-2 md:grid-cols-4 gap-6">
+                <div class="group bg-gradient-to-br from-blue-500 to-blue-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="0">
+                    <div class="text-4xl font-black counter mb-2" data-target="45">0</div>
+                    <p class="text-blue-100 font-semibold text-lg">Học sinh</p>
+                    <div class="absolute inset-0 bg-white opacity-0 group-hover:opacity-5 transition rounded-2xl"></div>
                 </div>
-                <div class="w-full sm:w-1/2 md:w-1/4 px-4 py-4">
-                    <div class="text-4xl font-bold text-purple-600 counter" data-target="11">0</div>
-                    <div class="text-gray-600">Môn học</div>
+                <div class="group bg-gradient-to-br from-purple-500 to-purple-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="100">
+                    <div class="text-4xl font-black counter mb-2" data-target="11">0</div>
+                    <p class="text-purple-100 font-semibold text-lg">Môn học</p>
                 </div>
-                <div class="w-full sm:w-1/2 md:w-1/4 px-4 py-4">
-                    <div class="text-4xl font-bold text-purple-600 counter" data-target="1">0</div>
-                    <div class="text-gray-600">Giáo viên Chủ Nhiệm</div>
+                <div class="group bg-gradient-to-br from-pink-500 to-pink-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="200">
+                    <div class="text-4xl font-black counter mb-2" data-target="1">0</div>
+                    <p class="text-pink-100 font-semibold text-lg">Giáo viên Chủ Nhiệm</p>
                 </div>
-                <div class="w-full sm:w-1/2 md:w-1/4 px-4 py-4">
-                    <div class="text-4xl font-bold text-purple-600 counter" data-target="11">0</div>
-                    <div class="text-gray-600">Giáo viên Bộ Môn</div>
+                <div class="group bg-gradient-to-br from-green-500 to-green-600 rounded-2xl p-6 text-white shadow-lg hover:shadow-2xl transition duration-300 transform hover:-translate-y-2" data-aos="zoom-in" data-aos-delay="300">
+                    <div class="text-4xl font-black counter mb-2" data-target="11">0</div>
+                    <p class="text-green-100 font-semibold text-lg">Giáo viên Bộ Môn</p>
                 </div>
             </div>
         </div>
     </div>
     
     <!-- Memories Gallery with Search and Sort -->
-    <section id="memories" class="py-16 px-4" data-aos="fade-up">
+    <section id="memories" class="py-20 px-4 bg-white dark:bg-gray-900" data-aos="fade-up">
     <div class="max-w-6xl mx-auto">
         <!-- Tiêu đề -->
-        <h2 class="text-3xl font-bold text-center text-gray-800 mb-8" data-aos="fade-down">
-            Bộ Sưu Tập Kỷ Niệm
-        </h2>
+        <div class="text-center mb-12" data-aos="fade-down">
+            <h2 class="text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-4">
+                <i class="fas fa-images text-purple-600 mr-4"></i>Bộ Sưu Tập Kỷ Niệm
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">Những khoảnh khắc đáng nhớ của lớp 10A2-K26</p>
+        </div>
 
         <!-- 🔍 Thanh tìm kiếm + sắp xếp (ngay dưới tiêu đề) -->
-        <div class="bg-white shadow-md rounded-xl p-4 mb-8 flex flex-col md:flex-row items-center gap-4">
+        <div class="bg-gradient-to-r from-purple-50 to-pink-50 dark:from-gray-800 dark:to-gray-800 shadow-lg rounded-2xl p-6 mb-12 flex flex-col md:flex-row items-center gap-4 border border-purple-200 dark:border-gray-700">
             <div class="flex-1 w-full">
             <input type="text" id="searchMemory" placeholder="🔍 Tìm ảnh theo tiêu đề..." 
                     class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-purple-500">
@@ -403,17 +503,8 @@
             <p class="text-gray-600 dark:text-gray-300">Ấn nút <b>Upload ảnh</b> để lưu kỷ niệm vào bộ sưu tập lớp.</p>
         </div>
         </div>
-
-        <!-- Video hướng dẫn -->
-        <div class="mt-12 flex justify-center" data-aos="fade-up">
-        <video controls class="rounded-lg shadow-lg w-full max-w-3xl aspect-video bg-black">
-            <source src="video.mp4" type="video/mp4">
-            Trình duyệt của bạn không hỗ trợ video.
-        </video>
-        </div>
     </div>
     </section>
-
 
     <!-- Image Modal -->
     <div id="imageModal" class="fixed inset-0 bg-black bg-opacity-80 flex items-center justify-center z-[1000] hidden">
@@ -422,10 +513,15 @@
     </div>
 
     <!-- Homeroom Teacher -->
-    <section id="teacher" class="py-16 bg-gray-50" data-aos="fade-up">
-        <div class="max-w-6xl mx-auto px-4">
-            <h2 class="text-3xl font-bold text-center mb-12 text-gray-800">Giáo viên chủ nhiệm</h2>
-            <div class="flex flex-col md:flex-row items-center bg-white rounded-xl shadow-lg overflow-hidden max-w-4xl mx-auto">
+    <section id="teacher" class="py-20 bg-gradient-to-br from-purple-50 via-white to-pink-50 dark:from-gray-900 dark:to-gray-800" data-aos="fade-up">
+        <div class="max-w-5xl mx-auto px-4">
+            <div class="text-center mb-12" data-aos="fade-down">
+                <h2 class="text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-4">
+                    <i class="fas fa-chalkboard-user text-purple-600 mr-4"></i>Giáo viên Chủ Nhiệm
+                </h2>
+                <p class="text-xl text-gray-600 dark:text-gray-400">Người hướng dẫn tận tâm của lớp</p>
+            </div>
+            <div class="flex flex-col md:flex-row items-center bg-white dark:bg-gray-800 rounded-3xl shadow-2xl overflow-hidden max-w-4xl mx-auto border border-purple-200 dark:border-gray-700" data-aos="zoom-in">
                 <div class="md:w-1/3">
                     <img src="gvcn.jpg" alt="Giáo viên" class="w-full h-full object-cover">
                 </div>
@@ -448,10 +544,14 @@
     </section>
 
     <!-- Students Section -->
-    <section id="students" class="py-16 bg-white" data-aos="fade-up">
+    <section id="students" class="py-20 bg-white dark:bg-gray-900" data-aos="fade-up">
     <div class="max-w-6xl mx-auto px-4 text-center">
-        <h2 class="text-3xl font-bold mb-4 text-gray-800 dark:text-white">Danh sách học sinh lớp 10A2-K26</h2>
-        <p class="mb-8 text-gray-600 dark:text-gray-300">45 thành viên - <span id="studentCount">0</span> Học sinh</p>
+        <div class="mb-12" data-aos="fade-down">
+            <h2 class="text-5xl md:text-6xl font-black text-gray-900 dark:text-white mb-4">
+                <i class="fas fa-users text-purple-600 mr-4"></i>Danh Sách Học Sinh
+            </h2>
+            <p class="text-xl text-gray-600 dark:text-gray-400">45 thành viên xuất sắc của lớp 10A2-K26</p>
+        </div>
 
         <!-- Filter Buttons -->
         <div class="flex justify-center mb-10">
@@ -528,75 +628,239 @@
         </div>
     </section>
 
-    <!-- Class Achievements -->
-    <section class="py-16 bg-gradient-to-br from-purple-600 via-purple-700 to-indigo-800 text-white" data-aos="fade-up">
+    <!-- TKB Section -->
+    <section id="tkb" class="py-16 bg-gradient-to-br from-blue-600 via-blue-700 to-purple-800 text-white" data-aos="fade-up">
     <div class="max-w-6xl mx-auto px-4">
-        <h2 class="text-3xl font-bold text-center mb-12">Thành tích lớp 10A2-K26</h2>
-        <div class="grid md:grid-cols-3 gap-8">
-
-        <!-- Achievement 1 -->
-        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
-            <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-yellow-400 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-trophy text-white text-xl"></i>
-            </div>
-            <div>
-                <h4 class="font-semibold text-lg">Thể Thao & E-Sports</h4>
-                <p class="text-purple-200 text-sm">Bùng cháy đam mê!</p>
-            </div>
-            </div>
-            <p class="text-gray-100"><p class="text-gray-100">Tinh thần chiến đấu luôn bùng cháy – học tập hết mình, thi đấu hết sức!</p>
-        </div>
-
-        <!-- Achievement 2 -->
-        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
-            <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-green-400 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-users text-white text-xl"></i>
-            </div>
-            <div>
-                <h4 class="font-semibold text-lg">Đoàn kết lớp</h4>
-                <p class="text-purple-200 text-sm">Tinh thần tập thể</p>
-            </div>
-            </div>
-            <p class="text-gray-100">Lớp luôn đoàn kết, hỗ trợ lẫn nhau trong học tập và các hoạt động tập thể.</p>
-        </div>
-
-        <!-- Achievement 3 -->
-        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20">
-            <div class="flex items-center mb-4">
-            <div class="w-12 h-12 bg-blue-400 rounded-full flex items-center justify-center mr-4">
-                <i class="fas fa-star text-white text-xl"></i>
-            </div>
-            <div>
-                <h4 class="font-semibold text-lg">Hoạt động nổi bật</h4>
-                <p class="text-purple-200 text-sm">Tham gia tích cực</p>
-            </div>
-            </div>
-            <p class="text-gray-100">Tích cực tham gia các hoạt động của trường, đoàn và các cuộc thi học sinh.</p>
-        </div>
-
+        <h2 class="text-3xl font-bold text-center mb-12">📅 TKB Các Tuần</h2>
+        
+        <!-- Filter by Class -->
+        <div class="mb-8 flex justify-center gap-3 flex-wrap">
+            <button onclick="filterTKBByClass('all')" class="px-6 py-2 rounded-lg font-semibold transition filter-tkb-btn active" data-class="all">
+                <i class="fas fa-th mr-2"></i>Tất Cả
+            </button>
+            <button onclick="filterTKBByClass('10')" class="px-6 py-2 rounded-lg font-semibold transition filter-tkb-btn bg-white bg-opacity-10" data-class="10">
+                <i class="fas fa-book mr-2"></i>Lớp 10
+            </button>
+            <button onclick="filterTKBByClass('11')" class="px-6 py-2 rounded-lg font-semibold transition filter-tkb-btn bg-white bg-opacity-10" data-class="11">
+                <i class="fas fa-book mr-2"></i>Lớp 11
+            </button>
+            <button onclick="filterTKBByClass('12')" class="px-6 py-2 rounded-lg font-semibold transition filter-tkb-btn bg-white bg-opacity-10" data-class="12">
+                <i class="fas fa-book mr-2"></i>Lớp 12
+            </button>
         </div>
         
-        <!-- Additional stats -->
-        <div class="mt-12 grid grid-cols-2 md:grid-cols-4 gap-6 text-center">
-            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
-                <div class="text-2xl font-bold text-yellow-400">45</div>
-                <div class="text-sm text-gray-200">Học sinh</div>
-            </div>
-            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
-                <div class="text-2xl font-bold text-green-400">95%</div>
-                <div class="text-sm text-gray-200">Điểm TB</div>
-            </div>
-            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
-                <div class="text-2xl font-bold text-blue-400">100%</div>
-                <div class="text-sm text-gray-200">Tham gia</div>
-            </div>
-            <div class="bg-white bg-opacity-10 p-4 rounded-lg backdrop-blur-sm">
-                <div class="text-2xl font-bold text-purple-400">A+</div>
-                <div class="text-sm text-gray-200">Đánh giá</div>
+        <!-- Upload TKB Section (Only for authenticated users) -->
+        <div class="mb-12 text-center">
+            <button onclick="openTKBUploadModal()" class="bg-white text-blue-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg inline-flex items-center gap-2" id="uploadTKBBtn">
+                <i class="fas fa-plus"></i>Upload TKB
+            </button>
+        </div>
+
+        <!-- TKB Files List -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="tkbFilesList">
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-calendar-alt text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có file TKB nào. Hãy quay lại sau!</p>
             </div>
         </div>
+        <!-- Pagination for TKB -->
+        <div id="tkbPagination" class="mt-6 flex justify-center items-center gap-2"></div>
+    </div>
+    </section>
+
+    <!-- Score Upload Modal -->
+    <div id="scoreUploadModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full shadow-xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Upload Bảng Điểm</h3>
+                <button onclick="closeScoreUploadModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <form id="scoreUploadForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn Năm Học</label>
+                    <select id="scoreYear" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="">-- Chọn năm học --</option>
+                        <option value="2025-2026">2025-2026</option>
+                        <option value="2026-2027">2026-2027</option>
+                        <option value="2027-2028">2027-2028</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn Kì/Loại Bảng Điểm</label>
+                    <select id="scoreSemester" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="mid1">Giữa HK1</option>
+                        <option value="final1">Cuối HK1</option>
+                        <option value="mid2">Giữa HK2</option>
+                        <option value="final2">Cuối HK2</option>
+                        <option value="survey">Khảo Sát</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn file</label>
+                    <input type="file" id="scoreFile" accept=".pdf,.xlsx,.xls,.jpg,.jpeg,.png" class="w-full px-4 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+                    <p class="text-sm text-gray-500 mt-2">Tối đa 15MB (PDF, Excel, JPG, PNG)</p>
+                </div>
+                <div id="scoreFileName" class="hidden text-sm text-green-600">File: <span id="scoreFileNameText"></span></div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeScoreUploadModal()" class="flex-1 px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">Hủy</button>
+                    <button type="button" onclick="uploadScoreFile()" class="flex-1 px-4 py-2 bg-green-600 text-white rounded-lg hover:bg-green-700 transition font-semibold">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- TKB Upload Modal -->
+    <div id="tkbUploadModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full shadow-xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Upload TKB</h3>
+                <button onclick="closeTKBUploadModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            
+            <form id="tkbUploadForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn Khối Lớp</label>
+                    <select id="tkbClass" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="">-- Chọn khối lớp --</option>
+                        <option value="10">Lớp 10</option>
+                        <option value="11">Lớp 11</option>
+                        <option value="12">Lớp 12</option>
+                    </select>
+                </div>
+
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Số TKB (vd: 1, 2, 3...)</label>
+                    <input type="number" id="tkbNumber" placeholder="Nhập số TKB" min="1" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:bg-gray-700 dark:text-white" required>
+                    <p class="text-xs text-gray-500 mt-1">TKB số cao sẽ hiển thị trước</p>
+                </div>
+                
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn file (.docx, PDF, ảnh)</label>
+                    <input type="file" id="tkbFile" accept=".docx,.pdf,.jpg,.jpeg,.png,.webp" class="w-full px-4 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+                    <p class="text-sm text-gray-500 mt-2">Tối đa 15MB (DOCX, PDF, JPG, PNG, WebP)</p>
+                </div>
+
+                <div id="tkbFileName" class="hidden text-sm text-green-600">File: <span id="tkbFileNameText"></span></div>
+
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeTKBUploadModal()" class="flex-1 px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">Hủy</button>
+                    <button type="button" onclick="uploadTKBFile()" class="flex-1 px-4 py-2 bg-blue-600 text-white rounded-lg hover:bg-blue-700 transition font-semibold">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Survey Score Upload Modal -->
+    <div id="surveyScoreUploadModal" class="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50 hidden">
+        <div class="bg-white dark:bg-gray-800 rounded-lg p-8 max-w-md w-full shadow-xl">
+            <div class="flex justify-between items-center mb-6">
+                <h3 class="text-2xl font-bold text-gray-800 dark:text-white">Upload Khảo Sát</h3>
+                <button onclick="closeSurveyScoreUploadModal()" class="text-gray-500 hover:text-gray-700 text-2xl">&times;</button>
+            </div>
+            <form id="surveyScoreUploadForm" class="space-y-4">
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn Năm Học</label>
+                    <select id="surveyScoreYear" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="">-- Chọn năm học --</option>
+                        <option value="2025-2026">2025-2026</option>
+                        <option value="2026-2027">2026-2027</option>
+                        <option value="2027-2028">2027-2028</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn Kỳ/Loại Khảo Sát</label>
+                    <select id="surveyScoreSemester" class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-orange-500 dark:bg-gray-700 dark:text-white" required>
+                        <option value="">-- Chọn --</option>
+                        <option value="mid1">Giữa HK1</option>
+                        <option value="final1">Cuối HK1</option>
+                        <option value="mid2">Giữa HK2</option>
+                        <option value="final2">Cuối HK2</option>
+                        <option value="survey">Khảo Sát</option>
+                    </select>
+                </div>
+                <div>
+                    <label class="block text-gray-700 dark:text-gray-300 font-semibold mb-2">Chọn file</label>
+                    <input type="file" id="surveyScoreFile" accept=".pdf,.xlsx,.xls,.jpg,.jpeg,.png" class="w-full px-4 py-2 border border-gray-300 rounded-lg dark:bg-gray-700 dark:text-white" required>
+                    <p class="text-sm text-gray-500 mt-2">Tối đa 15MB (PDF, Excel, JPG, PNG)</p>
+                </div>
+                <div id="surveyScoreFileName" class="hidden text-sm text-green-600">File: <span id="surveyScoreFileNameText"></span></div>
+                <div class="flex gap-3 mt-6">
+                    <button type="button" onclick="closeSurveyScoreUploadModal()" class="flex-1 px-4 py-2 bg-gray-300 text-gray-800 rounded-lg hover:bg-gray-400 transition">Hủy</button>
+                    <button type="button" onclick="uploadSurveyScoreFile()" class="flex-1 px-4 py-2 bg-orange-600 text-white rounded-lg hover:bg-orange-700 transition font-semibold">Upload</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- Bảng Điểm Section -->
+    <section id="scores" class="py-20 bg-gradient-to-br from-green-500 via-green-600 to-teal-700 text-white" data-aos="fade-up">
+    <div class="max-w-6xl mx-auto px-4">
+        <div class="text-center mb-12">
+            <h2 class="text-5xl md:text-6xl font-black mb-4">
+                <i class="fas fa-chart-line mr-4"></i>Danh Sách Bảng Điểm
+            </h2>
+            <p class="text-xl text-green-100">Quản lý và theo dõi kết quả học tập</p>
+        </div>
+        
+        <!-- Year Filter -->
+        <div class="mb-4">
+            <h4 class="font-semibold text-lg mb-2">Chọn Năm Học</h4>
+            <div class="flex justify-center gap-3 flex-wrap">
+                <button onclick="filterScoresByYear('2025-2026')" class="px-6 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-year="2025-2026">
+                    <i class="fas fa-calendar mr-2"></i>2025-2026
+                </button>
+                <button onclick="filterScoresByYear('2026-2027')" class="px-6 py-2 rounded-lg font-semibold transition filter-score-btn active" data-year="2026-2027">
+                    <i class="fas fa-calendar mr-2"></i>2026-2027
+                </button>
+                <button onclick="filterScoresByYear('2027-2028')" class="px-6 py-2 rounded-lg font-semibold transition filter-score-btn active" data-year="2027-2028">
+                    <i class="fas fa-calendar mr-2"></i>2027-2028
+                </button>
+            </div>
+        </div>
+        
+        <!-- Semester Filter -->
+        <div class="mb-8">
+            <h4 class="font-semibold text-lg mb-2">Chọn Kì/Loại Bảng Điểm</h4>
+            <div class="flex justify-center gap-3 flex-wrap">
+                <button onclick="filterScoresBySemester('all')" class="px-4 py-2 rounded-lg font-semibold transition filter-score-btn active" data-semester="all">
+                    <i class="fas fa-th mr-2"></i>Tất Cả
+                </button>
+                <button onclick="filterScoresBySemester('mid1')" class="px-4 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-semester="mid1">
+                    <i class="fas fa-list mr-2"></i>Giữa HK1
+                </button>
+                <button onclick="filterScoresBySemester('final1')" class="px-4 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-semester="final1">
+                    <i class="fas fa-list mr-2"></i>Cuối HK1
+                </button>
+                <button onclick="filterScoresBySemester('mid2')" class="px-4 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-semester="mid2">
+                    <i class="fas fa-list mr-2"></i>Giữa HK2
+                </button>
+                <button onclick="filterScoresBySemester('final2')" class="px-4 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-semester="final2">
+                    <i class="fas fa-list mr-2"></i>Cuối HK2
+                </button>
+                <button onclick="filterScoresBySemester('survey')" class="px-4 py-2 rounded-lg font-semibold transition filter-score-btn bg-white bg-opacity-10" data-semester="survey">
+                    <i class="fas fa-list mr-2"></i>Khảo Sát
+                </button>
+            </div>
+        </div>
+        
+        <!-- Upload Button -->
+        <div class="mb-12 text-center">
+            <button onclick="openScoreUploadModal()" class="bg-white text-green-600 px-8 py-3 rounded-lg font-semibold hover:bg-gray-100 transition shadow-lg inline-flex items-center gap-2" id="uploadScoreBtn">
+                <i class="fas fa-plus"></i>Upload Bảng Điểm
+            </button>
+        </div>
+        
+        <!-- Score Cards Grid -->
+        <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6" id="scoreCardsList">
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-chart-bar text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có bảng điểm nào. Hãy quay lại sau!</p>
+            </div>
+        </div>
+        
+        <!-- Pagination -->
+        <div id="scorePagination" class="mt-6 flex justify-center items-center gap-2"></div>
     </div>
     </section>
 
@@ -608,6 +872,13 @@
                     <h3 class="text-xl font-bold mb-4">10A2-K26</h3>
                     <p class="mb-4 text-gray-400">Trường THPT Quế Lâm</p>
                     <p class="text-gray-400">Năm học 2025-2026</p>
+                </div>
+                <div class="mb-8 md:mb-0">
+                    <h4 class="text-lg font-semibold mb-4">TKB & Bảng Điểm</h4>
+                    <ul class="space-y-2">
+                        <li><a href="#tkb" class="text-gray-400 hover:text-white transition">📅 TKB Các Tuần</a></li>
+                        <li><a href="#scores" class="text-gray-400 hover:text-white transition">📊 Danh Sách Bảng Điểm</a></li>
+                    </ul>
                 </div>
                 <div class="mb-8 md:mb-0">
                     <h4 class="text-lg font-semibold mb-4">Liên kết nhanh</h4>
@@ -777,7 +1048,7 @@
     <script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script><script src="https://unpkg.com/aos@2.3.1/dist/aos.js" defer></script>
     <script src="https://cdn.jsdelivr.net/npm/feather-icons/dist/feather.min.js" defer></script>
     <script src="https://identity.netlify.com/v1/netlify-identity.js" defer></script>
-    <script src="main.min.js" defer></script>
+    <script src="main.js" defer></script>
 
     <!-- Removed duplicate logout buttons (IDs already exist in navbar) -->
   

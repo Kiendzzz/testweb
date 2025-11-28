@@ -3,6 +3,7 @@
 // Authentication state
 let isAuthenticated = false;
 let classPassword = null; // populated after server-side auth
+let pendingUploadAction = null; // 'image' or 'tkb' when awaiting password
 
 // Rate limiting for uploads
 let lastUploadTime = 0;
@@ -341,31 +342,26 @@ async function loadMemories() {
 
 function updateUploadButtonUI() {
     const uploadBtn = document.getElementById('uploadBtn');
-    const logoutBtn = document.getElementById('logoutBtn');
     const mobileUploadBtn = document.getElementById('mobileUploadBtn');
-    const mobileLogoutBtn = document.getElementById('mobileLogoutBtn');
+    const uploadTKBBtn = document.getElementById('uploadTKBBtn');
 
-    if (isAuthenticated) {
-        // Desktop
-        uploadBtn.onclick = openUploadModal;
-        uploadBtn.innerHTML = '<i data-feather="upload" class="mr-2"></i> Upload ảnh';
-        logoutBtn.classList.remove('hidden');
-
-        // Mobile
-        mobileUploadBtn.onclick = openUploadModal;
-        mobileUploadBtn.innerHTML = '<i data-feather="upload" class="mr-2"></i> Upload ảnh';
-        mobileLogoutBtn.classList.remove('hidden');
-    } else {
-        // Desktop
-        uploadBtn.onclick = openPasswordModal;
-        uploadBtn.innerHTML = '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
-        logoutBtn.classList.add('hidden');
-
-        // Mobile
-        mobileUploadBtn.onclick = openPasswordModal;
-        mobileUploadBtn.innerHTML = '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
-        mobileLogoutBtn.classList.add('hidden');
+    // Desktop
+    if (uploadBtn) {
+        uploadBtn.onclick = isAuthenticated ? openUploadModal : openPasswordModal;
+        uploadBtn.innerHTML = isAuthenticated ? '<i data-feather="upload" class="mr-2"></i> Upload ảnh' : '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
+        uploadBtn.style.display = 'inline-flex';
     }
+
+    // Mobile
+    if (mobileUploadBtn) {
+        mobileUploadBtn.onclick = isAuthenticated ? openUploadModal : openPasswordModal;
+        mobileUploadBtn.innerHTML = isAuthenticated ? '<i data-feather="upload" class="mr-2"></i> Upload ảnh' : '<i data-feather="lock" class="mr-2"></i> Nhập mật khẩu';
+        mobileUploadBtn.style.display = 'inline-flex';
+    }
+
+    // TKB Upload: visible but will prompt for password when needed
+    if (uploadTKBBtn) uploadTKBBtn.style.display = 'inline-block';
+
     feather.replace();
 }
 
@@ -401,14 +397,30 @@ async function checkPassword() {
         }
         isAuthenticated = true;
         classPassword = enteredPassword;
+        // Persist auth permanently (one-time entry)
         localStorage.setItem('isAuthenticated', 'true');
         localStorage.setItem('classPassword', classPassword);
         closePasswordModal();
-        openUploadModal();
         showMemoryActions();
         updateUploadButtonUI();
         loadMemories();
         showSuccessToast('Đăng nhập thành công!');
+
+        // If user attempted an action before auth, execute it now
+        if (pendingUploadAction === 'image') {
+            // openUploadModal checks isAuthenticated and will open
+            openUploadModal();
+        } else if (pendingUploadAction === 'tkb') {
+            // openTKBUploadModal will respect auth
+            openTKBUploadModal();
+        } else if (pendingUploadAction === 'score') {
+            // openScoreUploadModal will respect auth
+            openScoreUploadModal();
+        } else if (pendingUploadAction === 'survey-score') {
+            // openSurveyScoreUploadModal will respect auth
+            openSurveyScoreUploadModal();
+        }
+        pendingUploadAction = null;
     } catch (e) {
         errorElement.textContent = e.message || 'Mật khẩu không đúng. Vui lòng thử lại.';
         errorElement.classList.remove('hidden');
@@ -420,6 +432,12 @@ async function checkPassword() {
 
 // Upload modal functions
 function openUploadModal() {
+    // If not authenticated, request password first and remember intent
+    if (!isAuthenticated) {
+        pendingUploadAction = 'image';
+        openPasswordModal();
+        return;
+    }
     document.getElementById('uploadModal').classList.remove('hidden');
 }
 
@@ -989,6 +1007,25 @@ window.closeStudentModal = function() {
 
 // Thêm vào DOMContentLoaded để init students với thứ tự order
 document.addEventListener('DOMContentLoaded', function() {
+    // Mobile Menu Toggle
+    const mobileMenuBtn = document.getElementById('mobileMenuBtn');
+    const mobileMenu = document.getElementById('mobileMenu');
+    if (mobileMenuBtn && mobileMenu) {
+        mobileMenuBtn.addEventListener('click', () => {
+            mobileMenu.classList.toggle('hidden');
+            mobileMenuBtn.classList.toggle('rotate-90', !mobileMenu.classList.contains('hidden'));
+            mobileMenuBtn.style.transition = 'transform 0.3s ease';
+        });
+
+        // Close menu when clicking on mobile menu links
+        mobileMenu.querySelectorAll('a').forEach(link => {
+            link.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                if (mobileMenuBtn) mobileMenuBtn.classList.remove('rotate-90');
+            });
+        });
+    }
+
     // Render theo thứ tự order
     renderStudents(students);
 
@@ -1101,4 +1138,837 @@ document.addEventListener('DOMContentLoaded', function() {
         const modal = document.getElementById('studentModal');
         if (modal) modal.classList.add('hidden');
     };
+
+    // Load TKB files
+    loadTKBFiles();
+
+    // Load Scores
+    loadScores();
+
+    // Load Survey Scores
+    loadSurveyScores();
+
+    // Update TKB upload button visibility
+    updateTKBUploadButtonUI();
+    
+    // Update Score upload button visibility
+    updateScoreUploadButtonUI();
+    
+    // Update Survey Score upload button visibility
+    updateSurveyScoreUploadButtonUI();
 });
+
+// ================== TKB FUNCTIONS ==================
+let tkbFiles = [];
+let tkbCurrentFilter = 'all';
+let tkbCurrentPage = 1;
+const TKB_ITEMS_PER_PAGE = 6;
+
+// ================== SCORES FUNCTIONS ==================
+let scoresData = [];
+let scoreCurrentYearFilter = '2025-2026';
+let scoreCurrentSemesterFilter = 'all';
+let scoreCurrentPage = 1;
+const SCORE_ITEMS_PER_PAGE = 6;
+const SEMESTER_LABELS = {
+    "survey":"Điểm khảo sát",
+    'mid1': 'Giữa HK1',
+    'final1': 'Cuối HK1',
+    'mid2': 'Giữa HK2',
+    'final2': 'Cuối HK2',
+    'all': 'Tất Cả'
+};
+
+async function loadScores() {
+    try {
+        const response = await fetch('/.netlify/functions/get-scores');
+        if (response.ok) {
+            scoresData = await response.json();
+            // Sort by year descending, then semester descending, then by upload time descending
+            scoresData.sort((a, b) => {
+                const semesterOrder = { 'survey': 5, 'final2': 4, 'mid2': 3, 'final1': 2, 'mid1': 1 };
+                if (a.year !== b.year) {
+                    return b.year.localeCompare(a.year);
+                }
+                const semA = semesterOrder[a.semester] || 0;
+                const semB = semesterOrder[b.semester] || 0;
+                if (semA !== semB) return semB - semA;
+                return new Date(b.uploadedAt) - new Date(a.uploadedAt);
+            });
+            renderScores();
+        }
+    } catch (err) {
+        console.error('Error loading scores:', err);
+    }
+}
+
+function filterScoresByYear(year) {
+    scoreCurrentYearFilter = year;
+    scoreCurrentPage = 1;
+    
+    // Update button styles
+    document.querySelectorAll('[data-year]').forEach(btn => {
+        btn.classList.remove('active', 'bg-opacity-20');
+        btn.classList.add('bg-white', 'bg-opacity-10');
+    });
+    
+    const activeBtn = document.querySelector(`[data-year="${year}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderScores();
+}
+
+function filterScoresBySemester(semester) {
+    scoreCurrentSemesterFilter = semester;
+    scoreCurrentPage = 1;
+    
+    // Update button styles
+    document.querySelectorAll('[data-semester]').forEach(btn => {
+        btn.classList.remove('active', 'bg-opacity-20');
+        btn.classList.add('bg-white', 'bg-opacity-10');
+    });
+    
+    const activeBtn = document.querySelector(`[data-semester="${semester}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderScores();
+}
+
+function renderScores() {
+    const container = document.getElementById('scoreCardsList');
+    if (!container) return;
+    
+    // Filter scores
+    let filteredScores = scoresData.filter(s => s.year === scoreCurrentYearFilter);
+    if (scoreCurrentSemesterFilter !== 'all') {
+        filteredScores = filteredScores.filter(s => s.semester === scoreCurrentSemesterFilter);
+    }
+    
+    // Empty state
+    if (filteredScores.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-chart-bar text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có bảng điểm nào. Hãy quay lại sau!</p>
+            </div>
+        `;
+        document.getElementById('scorePagination').innerHTML = '';
+        return;
+    }
+    
+    // Pagination
+    const totalItems = filteredScores.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / SCORE_ITEMS_PER_PAGE));
+    if (scoreCurrentPage > totalPages) scoreCurrentPage = 1;
+    
+    const start = (scoreCurrentPage - 1) * SCORE_ITEMS_PER_PAGE;
+    const end = start + SCORE_ITEMS_PER_PAGE;
+    const paginatedScores = filteredScores.slice(start, end);
+    
+    // Render cards
+    container.innerHTML = paginatedScores.map(score => {
+        const uploadDate = new Date(score.uploadedAt).toLocaleDateString('vi-VN');
+        return `
+            <div class="bg-white bg-opacity-10 rounded-lg p-6 hover:bg-opacity-20 transition transform hover:scale-105" data-aos="fade-up">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-sm text-gray-300">Năm học: ${score.year}</p>
+                        <p class="text-sm font-semibold text-yellow-300">${SEMESTER_LABELS[score.semester] || score.semester}</p>
+                    </div>
+                    ${isAuthenticated ? `<button onclick="deleteScore('${score.id}')" class="text-red-300 hover:text-red-100 transition" title="Xóa"><i class="fas fa-trash text-xl"></i></button>` : ''}
+                </div>
+                <p class="text-lg font-bold mb-4">${escapeHtml(score.fileName)}</p>
+                <p class="text-xs text-gray-400 mb-4">Tải lên: ${uploadDate}</p>
+                <a href="${score.url}" target="_blank" rel="noopener noreferrer" class="inline-block bg-yellow-400 text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">
+                    <i class="fas fa-download mr-2"></i>Tải xuống
+                </a>
+            </div>
+        `;
+    }).join('');
+    
+    renderScorePagination(totalPages);
+}
+
+function renderScorePagination(totalPages) {
+    const container = document.getElementById('scorePagination');
+    if (!container) return;
+    
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    let html = `
+        <button class="score-pagination-btn ${scoreCurrentPage === 1 ? 'disabled opacity-50 cursor-not-allowed' : ''}" ${scoreCurrentPage === 1 ? 'disabled' : ''} onclick="if(${scoreCurrentPage} > 1) { scoreCurrentPage--; renderScores(); }">
+            <i class="fas fa-chevron-left"></i> Trước
+        </button>
+    `;
+    
+    for (let i = 1; i <= totalPages; i++) {
+        html += `<button class="score-pagination-btn ${i === scoreCurrentPage ? 'active bg-yellow-400 text-gray-900' : ''}" onclick="scoreCurrentPage=${i}; renderScores()">${i}</button>`;
+    }
+    
+    html += `
+        <button class="score-pagination-btn ${scoreCurrentPage === totalPages ? 'disabled opacity-50 cursor-not-allowed' : ''}" ${scoreCurrentPage === totalPages ? 'disabled' : ''} onclick="if(${scoreCurrentPage} < ${totalPages}) { scoreCurrentPage++; renderScores(); }">
+            Sau <i class="fas fa-chevron-right"></i>
+        </button>
+        <span class="text-gray-400 ml-4">Trang ${scoreCurrentPage} / ${totalPages}</span>
+    `;
+    
+    container.innerHTML = html;
+}
+
+async function openScoreUploadModal() {
+    if (!isAuthenticated) {
+        pendingUploadAction = 'score';
+        openPasswordModal();
+        return;
+    }
+    document.getElementById('scoreUploadModal').classList.remove('hidden');
+}
+
+function closeScoreUploadModal() {
+    document.getElementById('scoreUploadModal').classList.add('hidden');
+}
+
+async function uploadScoreFile() {
+    if (!isAuthenticated) {
+        alert('Bạn cần xác thực trước khi upload!');
+        return;
+    }
+    
+    const year = document.getElementById('scoreYear').value;
+    const semester = document.getElementById('scoreSemester').value;
+    const file = document.getElementById('scoreFile').files[0];
+    
+    if (!year || !semester || !file) {
+        alert('Vui lòng chọn đủ thông tin!');
+        return;
+    }
+    
+    try {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const base64 = e.target.result;
+            const fileName = file.name;
+            const fileType = file.type || 'application/octet-stream';
+            
+            const response = await fetch('/.netlify/functions/upload-scores', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ year, semester, file: base64, fileName, fileType })
+            });
+            
+            if (response.ok) {
+                alert('Upload bảng điểm thành công!');
+                document.getElementById('scoreUploadForm').reset();
+                document.getElementById('scoreFileName').classList.add('hidden');
+                closeScoreUploadModal();
+                loadScores();
+            } else {
+                const error = await response.json();
+                alert('Lỗi upload: ' + (error.message || 'Unknown error'));
+            }
+        };
+        reader.readAsDataURL(file);
+    } catch (err) {
+        console.error('Upload error:', err);
+        alert('Lỗi upload: ' + err.message);
+    }
+}
+
+async function deleteScore(id) {
+    if (!isAuthenticated) {
+        alert('Bạn cần xác thực!');
+        return;
+    }
+    
+    if (!confirm('Bạn chắc chắn muốn xóa bảng điểm này?')) return;
+    
+    try {
+        const response = await fetch('/.netlify/functions/delete-scores', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+        
+        if (response.ok) {
+            alert('Xóa thành công!');
+            loadScores();
+        } else {
+            alert('Lỗi xóa bảng điểm!');
+        }
+    } catch (err) {
+        console.error('Delete error:', err);
+        alert('Lỗi xóa: ' + err.message);
+    }
+}
+
+function updateScoreUploadButtonUI() {
+    const btn = document.getElementById('uploadScoreBtn');
+    if (btn) {
+        btn.style.display = isAuthenticated ? 'inline-flex' : 'none';
+    }
+}
+
+// ================== SURVEY SCORES FUNCTIONS ==================
+let surveyScoresData = [];
+let surveyScoreCurrentYearFilter = '2025-2026';
+let surveyScoreCurrentSemesterFilter = 'all';
+let surveyScoreCurrentPage = 1;
+const SURVEY_SCORE_ITEMS_PER_PAGE = 6;
+
+async function loadSurveyScores() {
+    try {
+        const response = await fetch('/.netlify/functions/get-survey-scores');
+        if (response.ok) {
+            surveyScoresData = await response.json();
+            // Sort by year descending, then semester descending, then by upload time descending
+            surveyScoresData.sort((a, b) => {
+                const semesterOrder = { 'survey': 5, 'final2': 4, 'mid2': 3, 'final1': 2, 'mid1': 1 };
+                if (a.year !== b.year) {
+                    return b.year.localeCompare(a.year);
+                }
+                const semA = semesterOrder[a.semester] || 0;
+                const semB = semesterOrder[b.semester] || 0;
+                if (semA !== semB) return semB - semA;
+                return new Date(b.uploadedAt) - new Date(a.uploadedAt);
+            });
+            renderSurveyScores();
+        }
+    } catch (err) {
+        console.error('Error loading survey scores:', err);
+    }
+}
+
+function filterSurveyScoresByYear(year) {
+    surveyScoreCurrentYearFilter = year;
+    surveyScoreCurrentPage = 1;
+    
+    // Update button styles
+    document.querySelectorAll('[data-year]').forEach(btn => {
+        if (!btn.closest('#surveyScorePagination')) {
+            btn.classList.remove('active', 'bg-opacity-20');
+            btn.classList.add('bg-white', 'bg-opacity-10');
+        }
+    });
+    
+    const activeBtn = document.querySelector(`[data-year="${year}"]`);
+    if (activeBtn && !activeBtn.closest('#surveyScorePagination')) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderSurveyScores();
+}
+
+function filterSurveyScoresBySemester(semester) {
+    surveyScoreCurrentSemesterFilter = semester;
+    surveyScoreCurrentPage = 1;
+    
+    // Update button styles
+    document.querySelectorAll('[data-semester]').forEach(btn => {
+        if (!btn.closest('#surveyScorePagination')) {
+            btn.classList.remove('active', 'bg-opacity-20');
+            btn.classList.add('bg-white', 'bg-opacity-10');
+        }
+    });
+    
+    const activeBtn = document.querySelector(`[data-semester="${semester}"]`);
+    if (activeBtn && !activeBtn.closest('#surveyScorePagination')) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderSurveyScores();
+}
+
+function renderSurveyScores() {
+    const container = document.getElementById('surveyScoreCardsList');
+    if (!container) return;
+    
+    // Filter survey scores
+    let filteredScores = surveyScoresData.filter(s => s.year === surveyScoreCurrentYearFilter);
+    if (surveyScoreCurrentSemesterFilter !== 'all') {
+        filteredScores = filteredScores.filter(s => s.semester === surveyScoreCurrentSemesterFilter);
+    }
+    
+    // Empty state
+    if (filteredScores.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-chart-line text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có khảo sát nào. Hãy quay lại sau!</p>
+            </div>
+        `;
+        document.getElementById('surveyScorePagination').innerHTML = '';
+        return;
+    }
+    
+    // Pagination
+    const totalItems = filteredScores.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / SURVEY_SCORE_ITEMS_PER_PAGE));
+    if (surveyScoreCurrentPage > totalPages) surveyScoreCurrentPage = 1;
+    
+    const start = (surveyScoreCurrentPage - 1) * SURVEY_SCORE_ITEMS_PER_PAGE;
+    const end = start + SURVEY_SCORE_ITEMS_PER_PAGE;
+    const paginatedScores = filteredScores.slice(start, end);
+    
+    // Render cards
+    container.innerHTML = paginatedScores.map(score => {
+        const uploadDate = new Date(score.uploadedAt).toLocaleDateString('vi-VN');
+        return `
+            <div class="bg-white bg-opacity-10 rounded-lg p-6 hover:bg-opacity-20 transition transform hover:scale-105" data-aos="fade-up">
+                <div class="flex justify-between items-start mb-4">
+                    <div>
+                        <p class="text-sm text-gray-300">Năm học: ${score.year}</p>
+                        <p class="text-sm font-semibold text-yellow-300">${SEMESTER_LABELS[score.semester] || score.semester}</p>
+                    </div>
+                    ${isAuthenticated ? `<button onclick="deleteSurveyScore('${score.id}')" class="text-red-300 hover:text-red-100 transition" title="Xóa"><i class="fas fa-trash text-xl"></i></button>` : ''}
+                </div>
+                <p class="text-lg font-bold mb-4">${escapeHtml(score.fileName)}</p>
+                <p class="text-xs text-gray-400 mb-4">Tải lên: ${uploadDate}</p>
+                <a href="${score.url}" target="_blank" rel="noopener noreferrer" class="inline-block bg-yellow-400 text-gray-900 px-6 py-2 rounded-lg font-semibold hover:bg-yellow-300 transition">
+                    <i class="fas fa-download mr-2"></i>Tải xuống
+                </a>
+            </div>
+        `;
+    }).join('');
+    
+    renderSurveyScorePagination(totalPages);
+}
+
+function renderSurveyScorePagination(totalPages) {
+    const container = document.getElementById('surveyScorePagination');
+    if (!container) return;
+    
+    if (totalPages <= 1) {
+        container.innerHTML = '';
+        return;
+    }
+    
+    let html = `
+        <button class="survey-score-pagination-btn ${surveyScoreCurrentPage === 1 ? 'disabled opacity-50 cursor-not-allowed' : ''}" ${surveyScoreCurrentPage === 1 ? 'disabled' : ''} onclick="if(${surveyScoreCurrentPage} > 1) { surveyScoreCurrentPage--; renderSurveyScores(); }">
+            <i class="fas fa-chevron-left"></i> Trước
+        </button>
+    `;
+    
+    for (let i = 1; i <= totalPages; i++) {
+        html += `<button class="survey-score-pagination-btn ${i === surveyScoreCurrentPage ? 'active bg-yellow-400 text-gray-900' : ''}" onclick="surveyScoreCurrentPage=${i}; renderSurveyScores()">${i}</button>`;
+    }
+    
+    html += `
+        <button class="survey-score-pagination-btn ${surveyScoreCurrentPage === totalPages ? 'disabled opacity-50 cursor-not-allowed' : ''}" ${surveyScoreCurrentPage === totalPages ? 'disabled' : ''} onclick="if(${surveyScoreCurrentPage} < ${totalPages}) { surveyScoreCurrentPage++; renderSurveyScores(); }">
+            Sau <i class="fas fa-chevron-right"></i>
+        </button>
+        <span class="text-gray-400 ml-4">Trang ${surveyScoreCurrentPage} / ${totalPages}</span>
+    `;
+    
+    container.innerHTML = html;
+}
+
+async function openSurveyScoreUploadModal() {
+    if (!isAuthenticated) {
+        pendingUploadAction = 'survey-score';
+        openPasswordModal();
+        return;
+    }
+    document.getElementById('surveyScoreUploadModal').classList.remove('hidden');
+}
+
+function closeSurveyScoreUploadModal() {
+    document.getElementById('surveyScoreUploadModal').classList.add('hidden');
+}
+
+async function uploadSurveyScoreFile() {
+    if (!isAuthenticated) {
+        alert('Bạn cần xác thực trước khi upload!');
+        return;
+    }
+    
+    const year = document.getElementById('surveyScoreYear').value;
+    const semester = document.getElementById('surveyScoreSemester').value;
+    const file = document.getElementById('surveyScoreFile').files[0];
+    
+    if (!year || !semester || !file) {
+        alert('Vui lòng chọn đủ thông tin!');
+        return;
+    }
+    
+    try {
+        const reader = new FileReader();
+        reader.onload = async (e) => {
+            const base64 = e.target.result;
+            const fileName = file.name;
+            const fileType = file.type || 'application/octet-stream';
+            
+            const response = await fetch('/.netlify/functions/upload-survey-scores', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ year, semester, file: base64, fileName, fileType })
+            });
+            
+            if (response.ok) {
+                alert('Upload khảo sát thành công!');
+                document.getElementById('surveyScoreUploadForm').reset();
+                document.getElementById('surveyScoreFileName').classList.add('hidden');
+                closeSurveyScoreUploadModal();
+                loadSurveyScores();
+            } else {
+                const error = await response.json();
+                alert('Lỗi upload: ' + (error.message || 'Unknown error'));
+            }
+        };
+        reader.readAsDataURL(file);
+    } catch (err) {
+        console.error('Upload error:', err);
+        alert('Lỗi upload: ' + err.message);
+    }
+}
+
+async function deleteSurveyScore(id) {
+    if (!isAuthenticated) {
+        alert('Bạn cần xác thực!');
+        return;
+    }
+    
+    if (!confirm('Bạn chắc chắn muốn xóa khảo sát này?')) return;
+    
+    try {
+        const response = await fetch('/.netlify/functions/delete-survey-scores', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id })
+        });
+        
+        if (response.ok) {
+            alert('Xóa thành công!');
+            loadSurveyScores();
+        } else {
+            alert('Lỗi xóa khảo sát!');
+        }
+    } catch (err) {
+        console.error('Delete error:', err);
+        alert('Lỗi xóa: ' + err.message);
+    }
+}
+
+function updateSurveyScoreUploadButtonUI() {
+    const btn = document.getElementById('uploadSurveyScoreBtn');
+    if (btn) {
+        btn.style.display = isAuthenticated ? 'inline-flex' : 'none';
+    }
+}
+
+async function loadTKBFiles() {
+    try {
+        showLoadingState(true);
+        const response = await fetch('/.netlify/functions/get-tkb-files');
+        if (response.ok) {
+            tkbFiles = await response.json();
+            // Sort by class (10, 11, 12) then by number descending (12, 11, 10...)
+            tkbFiles.sort((a, b) => {
+                if (a.class !== b.class) {
+                    return parseInt(a.class) - parseInt(b.class);
+                }
+                return parseInt(b.tkbNumber) - parseInt(a.tkbNumber);
+            });
+            renderTKBFiles();
+        }
+    } catch (err) {
+        console.error('Error loading TKB files:', err);
+    } finally {
+        showLoadingState(false);
+    }
+}
+
+function filterTKBByClass(classNum) {
+    tkbCurrentFilter = classNum;
+    tkbCurrentPage = 1; // reset to first page on filter change
+    
+    // Update button styles
+    document.querySelectorAll('.filter-tkb-btn').forEach(btn => {
+        btn.classList.remove('active', 'bg-white', 'bg-opacity-20');
+        btn.classList.add('bg-white', 'bg-opacity-10');
+    });
+    
+    const activeBtn = document.querySelector(`[data-class="${classNum}"]`);
+    if (activeBtn) {
+        activeBtn.classList.add('active', 'bg-opacity-20');
+        activeBtn.classList.remove('bg-opacity-10');
+    }
+    
+    renderTKBFiles();
+}
+
+function renderTKBFiles() {
+    const container = document.getElementById('tkbFilesList');
+    const paginationContainer = document.getElementById('tkbPagination');
+    if (!container) return;
+
+    // Filter files
+    let filteredFiles = tkbFiles;
+    if (tkbCurrentFilter !== 'all') {
+        filteredFiles = tkbFiles.filter(f => f.class === tkbCurrentFilter);
+    }
+
+    if (filteredFiles.length === 0) {
+        container.innerHTML = `
+            <div class="text-center py-12 col-span-full">
+                <i class="fas fa-calendar-alt text-4xl opacity-50 mb-4"></i>
+                <p class="text-gray-200">Chưa có file TKB nào cho khối này. Hãy quay lại sau!</p>
+            </div>
+        `;
+        if (paginationContainer) paginationContainer.innerHTML = '';
+        return;
+    }
+
+    // Pagination
+    const totalItems = filteredFiles.length;
+    const totalPages = Math.max(1, Math.ceil(totalItems / TKB_ITEMS_PER_PAGE));
+    console.debug('TKB pagination:', { totalItems, TKB_ITEMS_PER_PAGE, tkbCurrentPage, totalPages });
+    if (tkbCurrentPage < 1) tkbCurrentPage = 1;
+    if (tkbCurrentPage > totalPages) tkbCurrentPage = totalPages;
+    const start = (tkbCurrentPage - 1) * TKB_ITEMS_PER_PAGE;
+    const end = start + TKB_ITEMS_PER_PAGE;
+    const paginated = filteredFiles.slice(start, end);
+
+    container.innerHTML = paginated.map((file, idx) => `
+        <div class="bg-white bg-opacity-10 p-6 rounded-xl backdrop-blur-sm hover:scale-105 transition border border-white/20 tkb-card" data-aos="zoom-in" data-aos-delay="${idx * 150}">
+            <div class="flex items-start gap-4">
+                <div class="flex-shrink-0">
+                    ${file.type === 'docx' ? 
+                        `<i class="fas fa-file-word text-blue-300 text-3xl"></i>` :
+                        file.type === 'pdf' ? 
+                        `<i class="fas fa-file-pdf text-red-400 text-3xl"></i>` : 
+                        `<i class="fas fa-image text-cyan-400 text-3xl"></i>`
+                    }
+                </div>
+                <div class="flex-grow">
+                    <div class="flex items-center gap-2 mb-2">
+                        <h4 class="font-semibold text-lg text-white">TKB Số ${file.tkbNumber}</h4>
+                        <span class="px-2 py-1 bg-white bg-opacity-20 rounded text-xs font-semibold">Lớp ${file.class}</span>
+                    </div>
+                    <p class="text-sm text-gray-300 mb-4">${new Date(file.uploadedAt).toLocaleDateString('vi-VN')}</p>
+                    <div class="flex gap-2">
+                        <a href="${file.url}" target="_blank" download class="px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition text-sm font-semibold">
+                            <i class="fas fa-download mr-2"></i>Tải
+                        </a>
+                        ${isAuthenticated ? `
+                            <button onclick="deleteTKBFile('${file.id}')" class="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition text-sm font-semibold">
+                                <i class="fas fa-trash mr-2"></i>Xóa
+                            </button>
+                        ` : ''}
+                    </div>
+                </div>
+            </div>
+        </div>
+    `).join('');
+
+    // Render pagination controls
+    if (paginationContainer) renderTKBPagination(totalPages);
+
+    if (typeof feather !== 'undefined') feather.replace();
+}
+
+function renderTKBPagination(totalPages) {
+    const paginationContainer = document.getElementById('tkbPagination');
+    if (!paginationContainer) return;
+    paginationContainer.innerHTML = '';
+
+    // Page info
+    const info = document.createElement('span');
+    info.className = 'text-white text-sm mr-4 tkb-page-info';
+    info.textContent = `Trang ${tkbCurrentPage} / ${totalPages}`;
+    paginationContainer.appendChild(info);
+
+    // Prev button
+    const prevBtn = document.createElement('button');
+    prevBtn.className = `tkb-pagination-btn ${tkbCurrentPage === 1 ? 'disabled' : ''}`;
+    prevBtn.textContent = '«';
+    prevBtn.disabled = tkbCurrentPage === 1;
+    prevBtn.onclick = () => { if (tkbCurrentPage > 1) { tkbCurrentPage--; renderTKBFiles(); } };
+    paginationContainer.appendChild(prevBtn);
+
+    // Page numbers (limit to reasonable range)
+    const maxPageButtons = 7;
+    let startPage = Math.max(1, tkbCurrentPage - Math.floor(maxPageButtons / 2));
+    let endPage = startPage + maxPageButtons - 1;
+    if (endPage > totalPages) { endPage = totalPages; startPage = Math.max(1, endPage - maxPageButtons + 1); }
+
+    for (let p = startPage; p <= endPage; p++) {
+        const btn = document.createElement('button');
+        btn.className = `tkb-pagination-btn ${p === tkbCurrentPage ? 'active' : ''}`;
+        btn.textContent = p;
+        btn.onclick = (() => { const page = p; return () => { if (tkbCurrentPage !== page) { tkbCurrentPage = page; renderTKBFiles(); } }; })();
+        paginationContainer.appendChild(btn);
+    }
+
+    // Next button
+    const nextBtn = document.createElement('button');
+    nextBtn.className = `tkb-pagination-btn ${tkbCurrentPage === totalPages ? 'disabled' : ''}`;
+    nextBtn.textContent = '»';
+    nextBtn.disabled = tkbCurrentPage === totalPages;
+    nextBtn.onclick = () => { if (tkbCurrentPage < totalPages) { tkbCurrentPage++; renderTKBFiles(); } };
+    paginationContainer.appendChild(nextBtn);
+}
+
+function openTKBUploadModal() {
+    // If not authenticated, remember intent then ask for password
+    if (!isAuthenticated) {
+        pendingUploadAction = 'tkb';
+        openPasswordModal();
+        return;
+    }
+    document.getElementById('tkbUploadModal').classList.remove('hidden');
+}
+
+function closeTKBUploadModal() {
+    document.getElementById('tkbUploadModal').classList.add('hidden');
+    document.getElementById('tkbUploadForm').reset();
+    document.getElementById('tkbFileName').classList.add('hidden');
+}
+
+document.getElementById('tkbFile').addEventListener('change', function(e) {
+    const fileNameElement = document.getElementById('tkbFileName');
+    if (this.files.length > 0) {
+        const file = this.files[0];
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        document.getElementById('tkbFileNameText').textContent = `${file.name} (${fileSize} MB)`;
+        fileNameElement.classList.remove('hidden');
+    } else {
+        fileNameElement.classList.add('hidden');
+    }
+});
+
+document.getElementById('scoreFile').addEventListener('change', function(e) {
+    const fileNameElement = document.getElementById('scoreFileName');
+    if (this.files.length > 0) {
+        const file = this.files[0];
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        document.getElementById('scoreFileNameText').textContent = `${file.name} (${fileSize} MB)`;
+        fileNameElement.classList.remove('hidden');
+    } else {
+        fileNameElement.classList.add('hidden');
+    }
+});
+
+document.getElementById('surveyScoreFile').addEventListener('change', function(e) {
+    const fileNameElement = document.getElementById('surveyScoreFileName');
+    if (this.files.length > 0) {
+        const file = this.files[0];
+        const fileSize = (file.size / 1024 / 1024).toFixed(2);
+        document.getElementById('surveyScoreFileNameText').textContent = `${file.name} (${fileSize} MB)`;
+        fileNameElement.classList.remove('hidden');
+    } else {
+        fileNameElement.classList.add('hidden');
+    }
+});
+
+async function uploadTKBFile() {
+    const tkbClass = document.getElementById('tkbClass').value;
+    const tkbNumber = document.getElementById('tkbNumber').value;
+    const file = document.getElementById('tkbFile').files[0];
+
+    if (!tkbClass) {
+        showErrorToast('Vui lòng chọn khối lớp');
+        return;
+    }
+
+    if (!tkbNumber || tkbNumber < 1) {
+        showErrorToast('Vui lòng nhập số TKB (>= 1)');
+        return;
+    }
+
+    if (!file) {
+        showErrorToast('Vui lòng chọn file');
+        return;
+    }
+
+    const allowedTypes = ['application/vnd.openxmlformats-officedocument.wordprocessingml.document', 'application/pdf', 'image/jpeg', 'image/jpg', 'image/png', 'image/webp'];
+    if (!allowedTypes.includes(file.type)) {
+        showErrorToast('Chỉ hỗ trợ file DOCX, PDF, JPG, PNG, WebP');
+        return;
+    }
+
+    if (file.size > 15 * 1024 * 1024) {
+        showErrorToast('File tối đa 15MB');
+        return;
+    }
+
+    const uploadBtn = document.querySelector('#tkbUploadForm button[type="button"]:last-child');
+    uploadBtn.disabled = true;
+    uploadBtn.innerHTML = '<i class="fas fa-spinner fa-spin mr-2"></i>Đang upload...';
+
+    try {
+        const reader = new FileReader();
+        reader.onloadend = async () => {
+            try {
+                const response = await fetch('/.netlify/functions/upload-tkb', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        tkbClass,
+                        tkbNumber: parseInt(tkbNumber),
+                        file: reader.result,
+                        fileName: file.name,
+                        fileType: file.type
+                    })
+                });
+
+                if (response.ok) {
+                    showSuccessToast('Upload TKB thành công!');
+                    closeTKBUploadModal();
+                    loadTKBFiles();
+                } else {
+                    const err = await response.json();
+                    showErrorToast(err.message || 'Lỗi upload');
+                }
+            } catch (e) {
+                showErrorToast('Lỗi upload file: ' + e.message);
+            } finally {
+                uploadBtn.disabled = false;
+                uploadBtn.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload';
+            }
+        };
+        reader.readAsDataURL(file);
+    } catch (e) {
+        showErrorToast('Lỗi: ' + e.message);
+        uploadBtn.disabled = false;
+        uploadBtn.innerHTML = '<i class="fas fa-upload mr-2"></i>Upload';
+    }
+}
+
+async function deleteTKBFile(fileId) {
+    if (!confirm('Bạn chắc chắn muốn xóa file này?')) return;
+
+    try {
+        const response = await fetch('/.netlify/functions/delete-tkb', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({ id: fileId })
+        });
+
+        if (response.ok) {
+            showSuccessToast('Xóa file thành công!');
+            loadTKBFiles();
+        } else {
+            showErrorToast('Lỗi xóa file');
+        }
+    } catch (e) {
+        showErrorToast('Lỗi: ' + e.message);
+    }
+}
+
+function updateTKBUploadButtonUI() {
+    const uploadTKBBtn = document.getElementById('uploadTKBBtn');
+    if (uploadTKBBtn) {
+        uploadTKBBtn.style.display = isAuthenticated ? 'inline-block' : 'none';
+    }
+}

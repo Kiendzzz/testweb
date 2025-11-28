@@ -1,2 +1,6 @@
+[build]
+  publish = "/"
+  command = "npm install"  # Install deps toàn project
+
 [functions]
   directory = "functions"
